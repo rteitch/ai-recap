@@ -71,8 +71,17 @@ export async function POST(req: NextRequest) {
     if (!upstream.ok) {
       const errBody = await upstream.text();
       console.error("AI gateway error:", upstream.status, errBody);
+
+      // Handle Rate Limit (429) or Quota Exhausted
+      if (upstream.status === 429 || errBody.toLowerCase().includes("quota") || errBody.toLowerCase().includes("rate limit")) {
+        return NextResponse.json(
+          { error: "Daily AI quota or rate limit reached. Please try again in a few moments or tomorrow." },
+          { status: 429 }
+        );
+      }
+
       return NextResponse.json(
-        { error: "The AI gateway rejected the request." },
+        { error: "The AI gateway is temporarily unavailable. Please try again." },
         { status: 502 }
       );
     }
