@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ai-recap-dp8ka8dt4dc4.edgeone.dev"),
+  metadataBase: new URL("https://ai-recap.rth.my.id"),
   title: "AI Recap",
   description: "Paste your notes, an article, or a meeting transcript. Get a short summary and four quiz questions to test whether it actually stuck.",
   icons: {

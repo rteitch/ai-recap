@@ -5,9 +5,13 @@ summary and four quiz questions to test whether it actually stuck.
 
 Built with Next.js (App Router) and deployed on **Tencent EdgeOne Makers**.
 
-**🔗 Live demo → https://ai-recap-dp8ka8dt4dc4.edgeone.dev/**
+**🔗 Live demo → https://ai-recap.rth.my.id/**
 
-![AI Recap — demo screenshot](public/ai-recap.jpg)
+### Preview Demo
+
+| Tampilan Awal | Tampilan Saat Digunakan |
+| :---: | :---: |
+| ![AI Recap — Tampilan Awal](public/ai-recap-apps1.jpg) | ![AI Recap — Tampilan Saat Digunakan](public/ai-recap-apps2.jpg) |
 
 ## What this project touches on EdgeOne Makers
 
@@ -48,6 +52,41 @@ allowance, so no other provider key is required to try this out.
    Project Settings -> Environment Variables (use your real API key).
 5. Deploy. Every subsequent push to `main` redeploys automatically; pushes to
    other branches get their own preview URL.
+
+## Tutorial: Pointing Custom Domain (EdgeOne Makers + Cloudflare DNS)
+
+Secara default, EdgeOne Makers memberikan subdomain acak (contoh: `ai-recap-xxxx.edgeone.dev`). Untuk menghubungkannya ke domain sendiri (contoh: `ai-recap.rth.my.id`), ikuti langkah berikut:
+
+### 1. Tambahkan Domain di EdgeOne Makers
+1. Buka console EdgeOne Makers → Pilih project Anda (`ai-recap`).
+2. Masuk ke menu **Domains** (atau **Project Settings → Custom Domain**).
+3. Klik **Add Domain**, masukkan subdomain yang diinginkan (misal: `ai-recap.rth.my.id`).
+
+### 2. Verifikasi Kepemilikan Domain (TXT Record)
+EdgeOne akan menampilkan jendela verifikasi dengan instruksi DNS TXT:
+- Buka dashboard **Cloudflare** → Pilih domain Anda (`rth.my.id`) → menu **DNS** > **Records**.
+- Klik **Add record** dengan data berikut:
+  - **Type**: `TXT`
+  - **Name**: `edgeonereclaim.<subdomain>` (contoh: `edgeonereclaim.ai-recap`)
+  - **Content**: Isi dengan kode verifikasi dari EdgeOne (contoh: `reclaim-xxxx...`)
+  - **TTL**: `Auto`
+  - **Proxy status**: **DNS only** (abu-abu, jangan oranye / jangan di-proxy oleh Cloudflare)
+- Simpan record tersebut, lalu kembali ke EdgeOne Makers dan klik tombol **Verify**.
+
+### 3. Arahkan Traffic Domain (CNAME Record)
+Setelah verifikasi kepemilikan sukses, tambahkan CNAME record di Cloudflare untuk mengarahkan pengunjung ke EdgeOne:
+- Di Cloudflare DNS Records, klik **Add record**:
+  - **Type**: `CNAME`
+  - **Name**: `<subdomain>` (contoh: `ai-recap`)
+  - **Target / Content**: Masukkan domain default EdgeOne Anda (contoh: `ai-recap-dp8ka8dt4dc4.edgeone.dev`)
+  - **TTL**: `Auto`
+  - **Proxy status**: **DNS only** (abu-abu)
+- Simpan record.
+
+### 4. Selesai & SSL Otomatis
+- Tunggu propagasi DNS (sekitar 1–10 menit).
+- Status domain di EdgeOne Makers akan berubah dari `Deploying / Not configured` menjadi **Active**.
+- EdgeOne secara otomatis menerbitkan dan mengelola sertifikat SSL/HTTPS gratis untuk domain Anda.
 
 ## Notes for the write-up
 
