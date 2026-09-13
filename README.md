@@ -289,6 +289,12 @@ In Cloudflare DNS, add:
 
 ---
 
+## 🙏 Acknowledgments
+
+- **Keyboard Sounds** — Cherry MX Black mechanical keyboard sound effects by [KBS (kbs.im)](https://kbs.im/). Used under their sound library license.
+
+---
+
 ## 📄 License
 
 MIT &copy; [RTH Nexus](https://rth.my.id). All rights reserved.
