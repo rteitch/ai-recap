@@ -155,7 +155,7 @@ export const CustomApiModal = memo(function CustomApiModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl bg-[#161722] border border-ink-700 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-5 text-ink-100 max-h-[92vh] overflow-y-auto scrollbar-thin"
+        className="w-full max-w-2xl bg-app-surface border border-ink-700 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-5 text-ink-100 max-h-[92vh] overflow-y-auto scrollbar-thin"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

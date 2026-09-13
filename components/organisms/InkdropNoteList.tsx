@@ -101,13 +101,13 @@ export const InkdropNoteList = memo(function InkdropNoteList({
   return (
     <section
       style={{ width: width ? `${width}px` : undefined }}
-      className={`h-full flex flex-col bg-[#1a1b24] border-r border-ink-800/80 text-ink-200 select-none flex-shrink-0 transition-all duration-75 ${
+      className={`h-full flex flex-col bg-app-surface border-r border-ink-800/80 text-ink-200 select-none flex-shrink-0 transition-all duration-75 ${
         width ? "" : "w-full"
       }`}
     >
       {/* Column 2 Top Header */}
       {!hideHeader && (
-        <div className="h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-[#16171f]">
+        <div className="h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-card">
           <div className="flex items-center gap-2 min-w-0">
             {onToggleSidebar && (
               <button
@@ -147,7 +147,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
       )}
 
       {/* Filter / Search Bar */}
-      <div className="p-2 border-b border-ink-800/60 bg-[#171821]">
+      <div className="p-2 border-b border-ink-800/60 bg-app-card">
         <div className="relative">
           <svg
             className="w-3.5 h-3.5 text-ink-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
@@ -221,8 +221,8 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                 onClick={() => onSelectNote(item)}
                 className={`group relative p-3 cursor-pointer transition-all ${
                   isActive
-                    ? "bg-[#222433] border-l-[3px] border-yellow-400 shadow-xs"
-                    : "hover:bg-[#1f202c] border-l-[3px] border-transparent"
+                    ? "bg-ink-800 border-l-[3px] border-yellow-400 shadow-xs"
+                    : "hover:bg-ink-850 border-l-[3px] border-transparent"
                 }`}
               >
                 {/* Top Row: Title + Pin/Status */}

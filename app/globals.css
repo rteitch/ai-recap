@@ -1,23 +1,237 @@
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html {
+:root,
+[data-theme="inkdrop"] {
   color-scheme: dark;
   scrollbar-gutter: stable;
-  --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", ui-serif,
-    serif;
-  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, ui-sans-serif, sans-serif;
+
+  /* Typography Stacks */
+  --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-editor: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --editor-font-size: 14px;
+
+  /* Surfaces */
+  --bg-app: #14181f;
+  --bg-sidebar: #11141a;
+  --bg-surface: #181924;
+  --bg-card: #1c222c;
+  --bg-card-hover: #242b38;
+
+  /* Inks */
+  --ink-50: #EDEEF0;
+  --ink-100: #E2E4E9;
+  --ink-200: #C4C9D2;
+  --ink-300: #A0A7B5;
+  --ink-400: #8B93A1;
+  --ink-500: #6B7280;
+  --ink-600: #4A5261;
+  --ink-700: #2E3543;
+  --ink-800: #1C222C;
+  --ink-850: #171B24;
+  --ink-900: #14181F;
+  --ink-950: #0D1015;
+
+  /* Highlight / Accent */
+  --highlight: #F5C518;
+  --highlight-hover: #e5b512;
+  --highlight-soft: rgba(245, 197, 24, 0.12);
+  --highlight-text: #0d1015;
+  --border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="catppuccin-mocha"] {
+  color-scheme: dark;
+  --bg-app: #1e1e2e;
+  --bg-sidebar: #181825;
+  --bg-surface: #24253a;
+  --bg-card: #313244;
+  --bg-card-hover: #3b3d52;
+  --ink-50: #f5e0dc;
+  --ink-100: #cdd6f4;
+  --ink-200: #bac2de;
+  --ink-300: #a6adc8;
+  --ink-400: #9399b2;
+  --ink-500: #7f849c;
+  --ink-600: #6c7086;
+  --ink-700: #45475a;
+  --ink-800: #313244;
+  --ink-850: #25263a;
+  --ink-900: #1e1e2e;
+  --ink-950: #11111b;
+  --highlight: #cba6f7;
+  --highlight-hover: #b48bf2;
+  --highlight-soft: rgba(203, 166, 247, 0.15);
+  --highlight-text: #11111b;
+  --border-color: rgba(205, 214, 244, 0.12);
+}
+
+[data-theme="tokyo-night"] {
+  color-scheme: dark;
+  --bg-app: #1a1b26;
+  --bg-sidebar: #16161e;
+  --bg-surface: #1f2335;
+  --bg-card: #24283b;
+  --bg-card-hover: #292e42;
+  --ink-50: #f0f2ff;
+  --ink-100: #c0caf5;
+  --ink-200: #a9b1d6;
+  --ink-300: #9aa5ce;
+  --ink-400: #7aa2f7;
+  --ink-500: #565f89;
+  --ink-600: #414868;
+  --ink-700: #2f3549;
+  --ink-800: #24283b;
+  --ink-850: #1c2030;
+  --ink-900: #1a1b26;
+  --ink-950: #13141c;
+  --highlight: #7aa2f7;
+  --highlight-hover: #6691f0;
+  --highlight-soft: rgba(122, 162, 247, 0.15);
+  --highlight-text: #13141c;
+  --border-color: rgba(192, 202, 245, 0.1);
+}
+
+[data-theme="nord"] {
+  color-scheme: dark;
+  --bg-app: #2e3440;
+  --bg-sidebar: #242933;
+  --bg-surface: #343b49;
+  --bg-card: #3b4252;
+  --bg-card-hover: #434c5e;
+  --ink-50: #eceff4;
+  --ink-100: #e5e9f0;
+  --ink-200: #d8dee9;
+  --ink-300: #c2c9d6;
+  --ink-400: #88c0d0;
+  --ink-500: #81a1c1;
+  --ink-600: #5e81ac;
+  --ink-700: #4c566a;
+  --ink-800: #3b4252;
+  --ink-850: #2e3440;
+  --ink-900: #242933;
+  --ink-950: #1d212a;
+  --highlight: #88c0d0;
+  --highlight-hover: #78b0c0;
+  --highlight-soft: rgba(136, 192, 208, 0.15);
+  --highlight-text: #1d212a;
+  --border-color: rgba(216, 222, 233, 0.1);
+}
+
+[data-theme="dracula"] {
+  color-scheme: dark;
+  --bg-app: #282a36;
+  --bg-sidebar: #21222c;
+  --bg-surface: #2d303e;
+  --bg-card: #383a4c;
+  --bg-card-hover: #44475a;
+  --ink-50: #f8f8f2;
+  --ink-100: #e2e2dc;
+  --ink-200: #bd93f9;
+  --ink-300: #bfbfbf;
+  --ink-400: #8be9fd;
+  --ink-500: #6272a4;
+  --ink-600: #4d5b82;
+  --ink-700: #3d4766;
+  --ink-800: #383a4c;
+  --ink-850: #2d303e;
+  --ink-900: #282a36;
+  --ink-950: #191a21;
+  --highlight: #bd93f9;
+  --highlight-hover: #aa7bf2;
+  --highlight-soft: rgba(189, 147, 249, 0.15);
+  --highlight-text: #191a21;
+  --border-color: rgba(248, 248, 242, 0.1);
+}
+
+[data-theme="github-dark"] {
+  color-scheme: dark;
+  --bg-app: #0d1117;
+  --bg-sidebar: #010409;
+  --bg-surface: #161b22;
+  --bg-card: #21262d;
+  --bg-card-hover: #30363d;
+  --ink-50: #f0f6fc;
+  --ink-100: #e6edf3;
+  --ink-200: #c9d1d9;
+  --ink-300: #b1bac4;
+  --ink-400: #8b949e;
+  --ink-500: #6e7681;
+  --ink-600: #484f58;
+  --ink-700: #30363d;
+  --ink-800: #21262d;
+  --ink-850: #161b22;
+  --ink-900: #0d1117;
+  --ink-950: #010409;
+  --highlight: #58a6ff;
+  --highlight-hover: #438fe6;
+  --highlight-soft: rgba(88, 166, 255, 0.15);
+  --highlight-text: #010409;
+  --border-color: rgba(240, 246, 252, 0.1);
+}
+
+[data-theme="github-light"] {
+  color-scheme: light;
+  --bg-app: #ffffff;
+  --bg-sidebar: #f6f8fa;
+  --bg-surface: #f0f2f5;
+  --bg-card: #ffffff;
+  --bg-card-hover: #eaeef2;
+  --ink-50: #1f2328;
+  --ink-100: #24292f;
+  --ink-200: #32383f;
+  --ink-300: #424a53;
+  --ink-400: #57606a;
+  --ink-500: #6e7781;
+  --ink-600: #8c959f;
+  --ink-700: #d0d7de;
+  --ink-800: #e1e4e8;
+  --ink-850: #eaeef2;
+  --ink-900: #f6f8fa;
+  --ink-950: #ffffff;
+  --highlight: #0969da;
+  --highlight-hover: #0550ae;
+  --highlight-soft: rgba(9, 105, 218, 0.12);
+  --highlight-text: #ffffff;
+  --border-color: rgba(31, 35, 40, 0.12);
+}
+
+[data-theme="solarized-dark"] {
+  color-scheme: dark;
+  --bg-app: #002b36;
+  --bg-sidebar: #073642;
+  --bg-surface: #094452;
+  --bg-card: #0b5263;
+  --bg-card-hover: #0e6175;
+  --ink-50: #fdf6e3;
+  --ink-100: #eee8d5;
+  --ink-200: #93a1a1;
+  --ink-300: #839496;
+  --ink-400: #657b83;
+  --ink-500: #586e75;
+  --ink-600: #47595f;
+  --ink-700: #26484f;
+  --ink-800: #073642;
+  --ink-850: #042c36;
+  --ink-900: #002b36;
+  --ink-950: #001f27;
+  --highlight: #b58900;
+  --highlight-hover: #9a7400;
+  --highlight-soft: rgba(181, 137, 0, 0.18);
+  --highlight-text: #001f27;
+  --border-color: rgba(147, 161, 161, 0.15);
 }
 
 body {
-  background-color: #14181f;
-  background-image: radial-gradient(
-    circle at 50% -10%,
-    rgba(245, 197, 24, 0.04),
-    transparent 55%
-  );
+  background-color: var(--bg-app);
+  color: var(--ink-100);
+  font-family: var(--font-ui);
+  font-size: var(--editor-font-size, 14px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -36,10 +250,10 @@ button,
   -webkit-user-select: none;
 }
 
-/* Custom minimal dark scrollbars */
+/* Custom minimal scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #4a5261 transparent;
+  scrollbar-color: var(--ink-600) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -52,7 +266,7 @@ button,
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4a5261;
+  background: var(--ink-600);
   border-radius: 9999px;
 }
 
@@ -61,13 +275,13 @@ button,
 }
 
 ::selection {
-  background-color: #F5C518;
-  color: #0f172a;
+  background-color: var(--highlight, #F5C518);
+  color: var(--highlight-text, #0d1015);
 }
 
 textarea:focus,
 button:focus-visible {
-  outline: 2px solid #F5C518;
+  outline: 2px solid var(--highlight, #F5C518);
   outline-offset: 2px;
 }
 
@@ -95,64 +309,64 @@ button:focus-visible {
   .mermaid-svg-wrapper svg .labelText,
   .mermaid-svg-wrapper svg .loopText,
   .mermaid-svg-wrapper svg .noteText {
-    fill: #f1f2f6 !important;
-    color: #f1f2f6 !important;
+    fill: var(--ink-50, #f1f2f6) !important;
+    color: var(--ink-50, #f1f2f6) !important;
   }
 
-  /* Sequence diagram: participant / actor boxes (dark background with yellow border) */
+  /* Sequence diagram: participant / actor boxes (theme background with accent border) */
   .mermaid-svg-wrapper svg rect.actor,
   .mermaid-svg-wrapper svg .actor > rect,
   .mermaid-svg-wrapper svg rect[class*="actor"] {
-    fill: #272935 !important;
-    stroke: #F5C518 !important;
+    fill: var(--bg-surface, #272935) !important;
+    stroke: var(--highlight, #F5C518) !important;
     stroke-width: 1.5px !important;
   }
 
   /* Sequence diagram stick-figure actor icon */
   .mermaid-svg-wrapper svg .actor-man line,
   .mermaid-svg-wrapper svg .actor-man circle {
-    stroke: #F5C518 !important;
+    stroke: var(--highlight, #F5C518) !important;
     stroke-width: 1.5px !important;
-    fill: #272935 !important;
+    fill: var(--bg-surface, #272935) !important;
   }
 
   /* Sequence diagram lifelines & message connectors */
   .mermaid-svg-wrapper svg .actor-line {
-    stroke: #6b7280 !important;
+    stroke: var(--ink-600, #6b7280) !important;
     stroke-width: 1px !important;
     stroke-dasharray: 4 4 !important;
   }
 
   .mermaid-svg-wrapper svg .messageLine0,
   .mermaid-svg-wrapper svg .messageLine1 {
-    stroke: #d1d5db !important;
+    stroke: var(--ink-300, #d1d5db) !important;
     stroke-width: 1.5px !important;
   }
 
-  /* Sequence diagram autonumber badges: yellow circle with dark contrast number */
+  /* Sequence diagram autonumber badges: accent circle with contrast number */
   .mermaid-svg-wrapper svg .sequenceNumber {
-    fill: #13141a !important;
-    color: #13141a !important;
+    fill: var(--highlight-text, #13141a) !important;
+    color: var(--highlight-text, #13141a) !important;
     font-weight: 700 !important;
     font-size: 11px !important;
   }
 
-  /* Flowchart nodes: dark fill with crisp yellow border */
+  /* Flowchart nodes: theme surface fill with crisp accent border */
   .mermaid-svg-wrapper svg .node rect,
   .mermaid-svg-wrapper svg .node circle,
   .mermaid-svg-wrapper svg .node ellipse,
   .mermaid-svg-wrapper svg .node polygon,
   .mermaid-svg-wrapper svg .node path {
-    fill: #272935 !important;
-    stroke: #F5C518 !important;
+    fill: var(--bg-surface, #272935) !important;
+    stroke: var(--highlight, #F5C518) !important;
     stroke-width: 1.5px !important;
   }
 
   /* Flowchart edge label pill background */
   .mermaid-svg-wrapper svg .edgeLabel rect,
   .mermaid-svg-wrapper svg .edgeLabel .label-container {
-    fill: #161722 !important;
-    stroke: #374151 !important;
+    fill: var(--bg-card, #161722) !important;
+    stroke: var(--border-color, #374151) !important;
     stroke-width: 1px !important;
     rx: 4px !important;
     ry: 4px !important;
@@ -161,20 +375,20 @@ button:focus-visible {
   /* Flowchart connector lines and arrow markers */
   .mermaid-svg-wrapper svg .edgePath .path,
   .mermaid-svg-wrapper svg .flowchart-link {
-    stroke: #8b8d98 !important;
+    stroke: var(--ink-400, #8b8d98) !important;
     stroke-width: 1.5px !important;
   }
 
   .mermaid-svg-wrapper svg marker path,
   .mermaid-svg-wrapper svg .arrowheadPath {
-    fill: #8b8d98 !important;
-    stroke: #8b8d98 !important;
+    fill: var(--ink-400, #8b8d98) !important;
+    stroke: var(--ink-400, #8b8d98) !important;
   }
 
   /* Note boxes in diagrams */
   .mermaid-svg-wrapper svg .note {
-    fill: #1e1f29 !important;
-    stroke: #F5C518 !important;
+    fill: var(--bg-card, #1e1f29) !important;
+    stroke: var(--highlight, #F5C518) !important;
   }
 }
 

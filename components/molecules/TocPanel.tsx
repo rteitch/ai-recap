@@ -47,7 +47,7 @@ export const TocPanel = memo(function TocPanel({
       />
 
       {/* Floating TOC Card */}
-      <div className="fixed top-24 right-4 sm:right-10 z-50 w-72 max-w-[calc(100vw-32px)] rounded-xl border border-ink-700/90 bg-[#161722]/98 p-3.5 shadow-2xl backdrop-blur-md transition-all animate-fade-in text-xs">
+      <div className="fixed top-24 right-4 sm:right-10 z-50 w-72 max-w-[calc(100vw-32px)] rounded-xl border border-ink-700/90 bg-app-surface/98 p-3.5 shadow-2xl backdrop-blur-md transition-all animate-fade-in text-xs">
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-ink-800">
           <div className="flex items-center gap-2">
             <svg

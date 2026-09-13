@@ -33,9 +33,11 @@ import {
   saveCustomApiConfig,
 } from "@/lib/ai-config";
 import { CustomApiModal } from "@/components/organisms/CustomApiModal";
+import { AppearanceModal } from "@/components/organisms/AppearanceModal";
 import { BackupRestoreModal } from "@/components/organisms/BackupRestoreModal";
 import { FindReplaceModal } from "@/components/organisms/FindReplaceModal";
 import { MergeNotesModal } from "@/components/organisms/MergeNotesModal";
+import { useAppearance } from "@/hooks/useAppearance";
 import { extractHashtags, normalizeTag } from "@/lib/tags";
 
 const SAMPLE_NOTE = `In classical thermodynamics and special relativity, mass-energy equivalence is defined by $E = mc^2$, where $c$ is the speed of light ($c \\approx 3 \\times 10^8\\text{ m/s}$). For quadratic algebra, roots of the polynomial equation $ax^2 + bx + c = 0$ are solved using:
@@ -72,6 +74,22 @@ export default function Home() {
   const [zoomLevel, setZoomLevel] = useState(100);
   const [recapMode, setRecapMode] = useState<'brief' | 'detailed'>('detailed');
   const [quizCount, setQuizCount] = useState<3 | 5 | 10>(5);
+  const [showAppearanceModal, setShowAppearanceModal] = useState(false);
+  const showAppearanceModalRef = useRef(showAppearanceModal);
+  showAppearanceModalRef.current = showAppearanceModal;
+
+  // Appearance & Typography engine
+  const {
+    appearance,
+    activeColors,
+    setTheme,
+    setCustomTheme,
+    setEditorFont,
+    setUIFont,
+    setCustomSystemFont,
+    setFontSize,
+    resetAppearance,
+  } = useAppearance();
 
   // Inkdrop Workstation State
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
@@ -319,6 +337,7 @@ const notesInputRef = useRef<NotesInputHandle>(null);
   useEffect(() => {
     const isOverlayOpen =
       isCommandPaletteOpen ||
+      showAppearanceModal ||
       showHistory ||
       showShortcuts ||
       isMobileNavOpen ||
@@ -332,7 +351,7 @@ const notesInputRef = useRef<NotesInputHandle>(null);
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isCommandPaletteOpen, showHistory, showShortcuts, isMobileNavOpen, isCompanionOpen]);
+  }, [isCommandPaletteOpen, showAppearanceModal, showHistory, showShortcuts, isMobileNavOpen, isCompanionOpen]);
 
   useEffect(() => {
     function handleGlobalKeyDown(e: KeyboardEvent) {
@@ -393,6 +412,8 @@ const notesInputRef = useRef<NotesInputHandle>(null);
       if (e.key === "Escape") {
         if (isCommandPaletteOpenRef.current) {
           setIsCommandPaletteOpen(false);
+        } else if (showAppearanceModalRef.current) {
+          setShowAppearanceModal(false);
         } else if (showShortcutsRef.current) {
           setShowShortcuts(false);
         } else if (showHistoryRef.current) {
@@ -1632,6 +1653,7 @@ function updateStorage(
   const handleCloseCompanion = useCallback(() => setIsCompanionOpen(false), []);
   const handleOpenShortcuts = useCallback(() => setShowShortcuts(true), []);
   const handleOpenSettings = useCallback(() => setShowCustomApiModal(true), []);
+  const handleOpenAppearance = useCallback(() => setShowAppearanceModal(true), []);
   const handleOpenCommandPalette = useCallback(() => setIsCommandPaletteOpen(true), []);
   const handleLoadSample = useCallback(() => { setNotes(SAMPLE_NOTE); setError(null); }, []);
   const handleOpenHistory = useCallback(() => setIsMobileNavOpen(true), []);
@@ -1683,6 +1705,10 @@ function updateStorage(
     setIsMobileNavOpen(false);
     setShowCustomApiModal(true);
   }, []);
+  const handleMobileOpenAppearance = useCallback(() => {
+    setIsMobileNavOpen(false);
+    setShowAppearanceModal(true);
+  }, []);
   const handleMobileAddTag = useCallback((tag: string) => {
     handleCreateTagFromSidebar(tag);
     setIsMobileNavOpen(false);
@@ -1692,10 +1718,10 @@ function updateStorage(
   const [srMessage, setSrMessage] = useState("");
 
   return (
-    <div className="h-[100dvh] w-screen flex flex-col bg-[#13141a] text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
+    <div className="h-[100dvh] w-screen flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{srMessage}</div>
       {/* Mobile Top App Bar (< lg) */}
-      <header className="lg:hidden h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-[#16171f] flex-shrink-0 select-none print:hidden">
+      <header className="lg:hidden h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-sidebar flex-shrink-0 select-none print:hidden">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -1783,6 +1809,7 @@ function updateStorage(
             onClearAll={handleClearAllHistory}
             onOpenShortcuts={handleOpenShortcuts}
             onOpenSettings={handleOpenSettings}
+            onOpenAppearance={handleOpenAppearance}
             customApiConfig={customApiConfig}
             onAddTag={handleCreateTagFromSidebar}
           />
@@ -1808,11 +1835,11 @@ function updateStorage(
             onClick={() => setIsMobileNavOpen(false)}
           >
             <div
-              className="flex flex-col sm:flex-row h-full w-[88vw] max-w-sm sm:max-w-none sm:w-[560px] shadow-2xl animate-slide-right overflow-hidden bg-[#16171f] border-r border-ink-800"
+              className="flex flex-col sm:flex-row h-full w-[88vw] max-w-sm sm:max-w-none sm:w-[560px] shadow-2xl animate-slide-right overflow-hidden bg-app-sidebar border-r border-ink-800"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Phone Tab Switcher (< sm) with SVG Icons */}
-              <div className="sm:hidden h-11 px-2.5 bg-[#13141a] border-b border-ink-800/80 flex items-center justify-between gap-2 flex-shrink-0">
+              <div className="sm:hidden h-11 px-2.5 bg-app-bg border-b border-ink-800/80 flex items-center justify-between gap-2 flex-shrink-0">
                 <div className="inline-flex rounded-md bg-ink-900 p-0.5 border border-ink-700/60 text-xs">
                   <button
                     type="button"
@@ -1898,6 +1925,7 @@ function updateStorage(
                   onClearAll={handleClearAllHistory}
                   onOpenShortcuts={handleMobileOpenShortcuts}
                   onOpenSettings={handleMobileOpenSettings}
+                  onOpenAppearance={handleMobileOpenAppearance}
                   customApiConfig={customApiConfig}
                   onCloseMobile={handleCloseMobileNav}
                   onAddTag={handleMobileAddTag}
@@ -1964,7 +1992,7 @@ function updateStorage(
         </div>
 
         {/* Column 3: Center Editor Canvas */}
-        <main className="flex-1 h-full flex flex-col min-w-[280px] bg-[#13141a] overflow-hidden select-text">
+        <main className="flex-1 h-full flex flex-col min-w-[280px] bg-app-bg overflow-hidden select-text">
           <NotesInput
             ref={notesInputRef}
             notes={notes}
@@ -1988,6 +2016,7 @@ function updateStorage(
             onMoveNotebook={handleNotesInputMoveNotebook}
             onExportPdf={handlePrint}
             onOpenSettings={handleOpenSettings}
+            onOpenAppearance={handleOpenAppearance}
             customApiConfig={customApiConfig}
             tags={activeNote?.tags || []}
             allTags={Object.keys(tagCounts)}
@@ -2053,7 +2082,7 @@ function updateStorage(
             onClick={() => setIsCompanionOpen(false)}
           >
             <div
-              className="w-full sm:w-[420px] h-full shadow-2xl animate-slide-left overflow-hidden flex flex-col bg-[#161720]"
+              className="w-full sm:w-[420px] h-full shadow-2xl animate-slide-left overflow-hidden flex flex-col bg-app-sidebar"
               onClick={(e) => e.stopPropagation()}
             >
               <StudyCompanionPane
@@ -2199,6 +2228,7 @@ function updateStorage(
         onApplyTemplate={handleApplyTemplate}
         onSelectFilter={(f) => setActiveFilter(f)}
         onOpenSettings={() => setShowCustomApiModal(true)}
+        onOpenAppearance={() => setShowAppearanceModal(true)}
         onOpenShortcuts={() => setShowShortcuts(true)}
         onOpenBackupRestore={() => setShowBackupRestoreModal(true)}
         onClearNotes={handleClearAllHistory}
@@ -2230,6 +2260,21 @@ function updateStorage(
         onClose={() => setShowCustomApiModal(false)}
         config={customApiConfig}
         onSave={handleSaveCustomApiConfig}
+      />
+
+      {/* Theme & Typography Appearance Modal */}
+      <AppearanceModal
+        isOpen={showAppearanceModal}
+        onClose={() => setShowAppearanceModal(false)}
+        appearance={appearance}
+        activeColors={activeColors}
+        onSelectTheme={setTheme}
+        onUpdateCustomTheme={setCustomTheme}
+        onSelectEditorFont={setEditorFont}
+        onSelectUIFont={setUIFont}
+        onSetCustomSystemFont={setCustomSystemFont}
+        onSelectFontSize={setFontSize}
+        onReset={resetAppearance}
       />
 
       {/* Backup & Restore Modal */}

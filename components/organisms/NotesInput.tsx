@@ -41,6 +41,7 @@ type NotesInputProps = {
   onMoveNotebook?: (notebookId: string) => void;
   onExportPdf?: () => void;
   onOpenSettings?: () => void;
+  onOpenAppearance?: () => void;
   customApiConfig?: CustomApiConfig;
   tags?: string[];
   allTags?: string[];
@@ -124,6 +125,7 @@ const NotesInputInner = forwardRef<NotesInputHandle, NotesInputProps>(function N
   onMoveNotebook,
   onExportPdf,
   onOpenSettings,
+  onOpenAppearance,
   customApiConfig,
   tags,
   allTags,
@@ -1238,7 +1240,7 @@ flowchart TD
   }, [notes]);
 
   return (
-    <div className="inkdrop-editor-root flex-1 h-full flex flex-col min-w-0 bg-[#13141a] select-text">
+    <div className="inkdrop-editor-root flex-1 h-full flex flex-col min-w-0 bg-app-bg select-text">
       {/* Hidden File Input */}
       <input
         type="file"
@@ -1256,7 +1258,7 @@ flowchart TD
       />
 
       {/* SINGLE UNIFIED WORKSTATION TOOLBAR */}
-      <div className="h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-[#16171f] text-xs select-none flex-shrink-0 gap-2">
+      <div className="h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-card text-xs select-none flex-shrink-0 gap-2">
         {/* Left: View Mode Segmented Switcher & Tool Dropdowns */}
         <div className="flex items-center gap-1 sm:gap-1.5 min-w-0 overflow-x-auto scrollbar-none py-1 flex-1">
           {/* Segmented View Mode (Inkdrop SVG Icon-Only Switcher) */}
@@ -1572,7 +1574,7 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-72 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700 bg-[#161722]/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1"
+                    className="fixed z-50 w-72 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700 bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1"
                   >
                     <div className="px-2 py-1 text-[11px] font-semibold text-yellow-400 border-b border-ink-800 mb-1 flex items-center justify-between">
                       <span>Study Note Templates</span>
@@ -1636,7 +1638,7 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-80 sm:w-96 max-w-[calc(100vw-24px)] max-h-[75vh] overflow-y-auto rounded-xl border border-ink-700 bg-[#161722]/98 p-3 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
+                    className="fixed z-50 w-80 sm:w-96 max-w-[calc(100vw-24px)] max-h-[75vh] overflow-y-auto rounded-xl border border-ink-700 bg-app-surface/98 p-3 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
                   >
                     <div className="flex items-center justify-between pb-1.5 border-b border-ink-800">
                       <span className="text-xs font-semibold text-ink-100 flex items-center gap-1.5">
@@ -1738,7 +1740,7 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-96 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700/90 bg-[#161722]/98 p-2.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
+                    className="fixed z-50 w-96 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700/90 bg-app-surface/98 p-2.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
                   >
                     <div className="flex items-center justify-between pb-1.5 border-b border-ink-800">
                       <div className="flex items-center gap-1.5">
@@ -1980,6 +1982,21 @@ flowchart TD
             </button>
           )}
 
+          {/* Theme & Typography Settings */}
+          {onOpenAppearance && (
+            <button
+              type="button"
+              onClick={onOpenAppearance}
+              className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
+              title="Theme & Typography Settings"
+              aria-label="Theme & Typography"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 21a4 4 0 01-4-4 4 4 0 014-4c.72 0 1.39.19 1.97.52l5.74-5.74A4.002 4.002 0 0118 6.5a4 4 0 014 4 4 4 0 01-1.28 2.97l-5.74 5.74c.33.58.52 1.25.52 1.97 0 2.21-1.79 4-4 4H7z" />
+              </svg>
+            </button>
+          )}
+
           {/* Toggle Right Companion Panel */}
           {onToggleCompanion && (
             <button
@@ -2001,7 +2018,7 @@ flowchart TD
       </div>
 
       {/* SUB-HEADER / NOTE METADATA STRIP WITH NOTEBOOK, STUDY STATUS & TAGS */}
-      <div className="px-3.5 py-1.5 border-b border-ink-800/60 bg-[#14151c] text-[11px] text-ink-500 flex items-center justify-between select-none flex-shrink-0 gap-3">
+      <div className="px-3.5 py-1.5 border-b border-ink-800/60 bg-app-card text-[11px] text-ink-500 flex items-center justify-between select-none flex-shrink-0 gap-3">
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-0.5 min-w-0 flex-1">
           {/* Notebook Dropdown */}
           {notebooks && notebooks.length > 0 && onMoveNotebook && (
@@ -2129,7 +2146,7 @@ flowchart TD
       {/* FULL-HEIGHT EDITOR CANVAS */}
       <div
         className={`flex-1 min-h-0 flex flex-col overflow-hidden transition-all ${
-          isDragging ? "bg-ink-850/95 ring-2 ring-highlight/40" : "bg-[#13141a]"
+          isDragging ? "bg-ink-850/95 ring-2 ring-highlight/40" : "bg-app-bg"
         }`}
       >
         {/* Onboarding Guide for Beginners when Notes are Empty */}
@@ -2145,7 +2162,7 @@ flowchart TD
           <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-ink-800/80 overflow-hidden">
             {/* Left: Textarea with Line Numbers */}
             <div className="flex-1 min-h-0 flex overflow-hidden">
-              <div ref={lineNumbersRef} className="hidden sm:block w-10 py-3 pr-2 select-none text-right font-mono text-xs text-ink-600 bg-[#111217] border-r border-ink-850 overflow-hidden flex-shrink-0">
+              <div ref={lineNumbersRef} className="hidden sm:block w-10 py-3 pr-2 select-none text-right font-mono text-xs text-ink-600 bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0">
                 {Array.from({ length: lineCount }).map((_, i) => (
                   <div key={i} className="leading-relaxed">
                     {i + 1}
@@ -2195,7 +2212,7 @@ flowchart TD
             </div>
 
             {/* Right: Live KaTeX Preview */}
-            <div className="flex-1 min-h-0 p-4 overflow-y-auto scrollbar-thin bg-[#15161f]/50 select-text">
+            <div className="flex-1 min-h-0 p-4 overflow-y-auto scrollbar-thin bg-app-surface/50 select-text">
               <div className="text-[10px] font-mono text-ink-400 uppercase tracking-wider mb-2 border-b border-ink-800/60 pb-1 flex items-center justify-between">
                 <span>Live KaTeX Preview</span>
                 <span className="text-emerald-400 flex items-center gap-1 font-sans text-[10px]">
@@ -2213,7 +2230,7 @@ flowchart TD
           </div>
         ) : effectiveMode === "edit" ? (
           <div className="flex-1 min-h-0 flex overflow-hidden">
-            <div className="hidden sm:block w-10 py-3 pr-2 select-none text-right font-mono text-xs text-ink-600 bg-[#111217] border-r border-ink-850 overflow-hidden flex-shrink-0">
+            <div className="hidden sm:block w-10 py-3 pr-2 select-none text-right font-mono text-xs text-ink-600 bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0">
               {Array.from({ length: lineCount }).map((_, i) => (
                 <div key={i} className="leading-relaxed">
                   {i + 1}
@@ -2256,7 +2273,7 @@ flowchart TD
             />
           </div>
         ) : (
-          <div className="flex-1 min-h-0 p-5 overflow-y-auto scrollbar-thin bg-[#15161f]/50 select-text">
+          <div className="flex-1 min-h-0 p-5 overflow-y-auto scrollbar-thin bg-app-surface/50 select-text">
             <FormattedText
               text={
                 notes ||
@@ -2268,7 +2285,7 @@ flowchart TD
       </div>
 
       {/* BOTTOM STATUS BAR */}
-      <div className="h-7 px-3.5 border-t border-ink-800/80 bg-[#14151c] text-[10px] text-ink-400 flex items-center justify-between select-none flex-shrink-0 font-mono">
+      <div className="h-7 px-3.5 border-t border-ink-800/80 bg-app-card text-[10px] text-ink-400 flex items-center justify-between select-none flex-shrink-0 font-mono">
         <div className="flex items-center gap-1.5">
           <span
             className={`w-1.5 h-1.5 rounded-full ${

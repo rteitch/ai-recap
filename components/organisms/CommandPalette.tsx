@@ -26,6 +26,7 @@ type CommandPaletteProps = {
   onSelectFilter: (filter: NavFilterType) => void;
   onOpenSettings?: () => void;
   onOpenShortcuts?: () => void;
+  onOpenAppearance?: () => void;
   onOpenBackupRestore?: () => void;
   onClearNotes?: () => void;
 };
@@ -60,6 +61,7 @@ export const CommandPalette = memo(function CommandPalette({
   onSelectFilter,
   onOpenSettings,
   onOpenShortcuts,
+  onOpenAppearance,
   onOpenBackupRestore,
   onClearNotes,
 }: CommandPaletteProps) {
@@ -238,6 +240,19 @@ export const CommandPalette = memo(function CommandPalette({
         subtitle: "Configure API Key, custom endpoint, and model",
         onSelect: () => {
           onOpenSettings();
+          onClose();
+        },
+      });
+    }
+
+    if (onOpenAppearance) {
+      items.push({
+        id: "act-appearance",
+        category: "actions",
+        title: "Appearance & Typography",
+        subtitle: "Customize color themes, coding fonts, and reading text size",
+        onSelect: () => {
+          onOpenAppearance();
           onClose();
         },
       });
@@ -437,11 +452,11 @@ export const CommandPalette = memo(function CommandPalette({
       }}
     >
       <div
-        className="w-full max-w-xl rounded-xl border border-ink-700 bg-[#161722] shadow-2xl overflow-hidden animate-fade-up flex flex-col max-h-[80vh]"
+        className="w-full max-w-xl rounded-xl border border-ink-700 bg-app-surface shadow-2xl overflow-hidden animate-fade-up flex flex-col max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Header */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-ink-800 bg-[#191a27]">
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-ink-800 bg-app-card">
           <svg className="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -543,7 +558,7 @@ export const CommandPalette = memo(function CommandPalette({
         </div>
 
         {/* Footer Navigation Hints */}
-        <div className="px-4 py-2 border-t border-ink-800/80 bg-[#191a27] flex items-center justify-between text-[10px] text-ink-400 font-mono">
+        <div className="px-4 py-2 border-t border-ink-800/80 bg-app-card flex items-center justify-between text-[10px] text-ink-400 font-mono">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <kbd className="px-1 py-0.2 bg-ink-800 rounded border border-ink-700">↑</kbd>

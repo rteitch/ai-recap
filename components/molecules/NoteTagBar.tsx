@@ -174,7 +174,7 @@ export const NoteTagBar = memo(function NoteTagBar({
               top: `${popoverPos.top}px`,
               left: `${popoverPos.left}px`,
             }}
-            className="fixed z-50 w-56 max-w-[calc(100vw-24px)] rounded-lg border border-ink-700 bg-[#161722]/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1.5"
+            className="fixed z-50 w-56 max-w-[calc(100vw-24px)] rounded-lg border border-ink-700 bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1.5"
           >
             <div className="flex items-center justify-between pb-1 border-b border-ink-800 text-[11px] font-semibold text-ink-300">
               <span>Add or Create Tag</span>
