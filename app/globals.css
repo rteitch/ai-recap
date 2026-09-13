@@ -82,6 +82,8 @@ button:focus-visible {
   body {
     background: #ffffff !important;
     color: #111827 !important;
+    font-size: 11pt;
+    line-height: 1.5;
   }
 
   .no-print {
@@ -95,7 +97,34 @@ button:focus-visible {
     min-height: auto !important;
   }
 
-  /* Ensure sharp black KaTeX math formulas on paper/PDF */
+  h1, h2, h3, h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  pre, code {
+    background: #f3f4f6 !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 4px !important;
+    padding: 2px 4px !important;
+    font-size: 10pt !important;
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+  }
+
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  th, td {
+    border: 1px solid #6b7280 !important;
+    padding: 4px 8px !important;
+  }
+
   .katex {
     color: #000000 !important;
     text-rendering: geometricPrecision !important;
@@ -105,12 +134,54 @@ button:focus-visible {
     color: #000000 !important;
   }
 
-  /* Prevent individual cards and items from splitting across printed pages */
-  li,
-  article,
-  .print-card,
-  .print-avoid-break {
+  li, article, .print-card, .print-avoid-break {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
+  }
+
+  blockquote {
+    border-left: 3px solid #9ca3af !important;
+    padding-left: 12px !important;
+    margin-left: 0 !important;
+    color: #374151 !important;
+  }
+
+  a {
+    text-decoration: underline !important;
+    color: #111827 !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")" !important;
+    font-size: 9pt !important;
+    color: #6b7280 !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-beip: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .inkdrop-editor-root button,
+  .inkdrop-editor-root [role="button"] {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  .inkdrop-editor-root select {
+    min-height: 36px !important;
   }
 }

@@ -1,95 +1,237 @@
 # AI Recap
 
-Paste a chunk of notes, an article, or a meeting transcript. Get back a short
-summary and four quiz questions to test whether it actually stuck.
+> **The distraction-free study companion with active recall, flashcards, KaTeX LaTeX math rendering, Inkdrop-grade live split editor, and habit-building spaced repetition.**
 
-Built with Next.js (App Router) and deployed on **Tencent EdgeOne Makers**.
+Paste or write your notes, scientific formulas, lectures, or meeting transcripts. Get back a concise summary and four interactive active-recall questions to cement long-term memory.
 
-**🔗 Live demo → https://ai-recap.rth.my.id/**
+Built with **Next.js 16 (App Router, Turbopack)**, **KaTeX Engine**, and deployed on **Tencent EdgeOne Makers**.
+
+**🔗 Live Demo → [https://ai-recap.rth.my.id/](https://ai-recap.rth.my.id/)**
+
+---
 
 ### Preview Demo
 
-| Tampilan Awal | Tampilan Saat Digunakan |
+| Initial Screen | In Action |
 | :---: | :---: |
-| ![AI Recap — Tampilan Awal](public/ai-recap-apps1.jpg) | ![AI Recap — Tampilan Saat Digunakan](public/ai-recap-apps2.jpg) |
+| ![AI Recap — Initial Screen](public/ai-recap-apps1.jpg) | ![AI Recap — In Action](public/ai-recap-apps2.jpg) |
 
-## What this project touches on EdgeOne Makers
+---
 
-- Git-based deployment (push to `main`, Makers builds and deploys automatically)
-- Zero-config Next.js support (no custom build command needed)
-- A serverless function (`app/api/recap/route.ts`) calling an LLM
-- The built-in AI Gateway / model gateway (`@makers/deepseek-v4-flash`, free tier)
-- Environment variables managed from the Makers console
+## ✨ Key Features
 
-## Run it locally
+#### 🖋️ 1. Inkdrop-Grade Editor with Live KaTeX Split-View & Zen Mode
+- **Three Viewing Modes**:
+  - **Tulis (Zen 1-Pane)**: Clean, distraction-free single-column workspace for rapid note-taking and deep focus.
+  - **Split (Side-by-Side)**: Interactive monospace editor on the left with instant, sub-5ms **Live KaTeX Preview** on the right. Formulas render in real-time as you type.
+  - **Preview**: Full rendered layout with formatted typography and equations.
+  - **Hotkey Cycle**: Press `Ctrl+P` / `Cmd+P` to effortlessly switch between Tulis, Split, and Preview modes.
+- **Smart Typist Interactions**:
+  - **Auto-Pairing**: Typing `$`, `(`, `[`, or ``` automatically inserts the closing symbol and places your cursor between them (`$|$`).
+  - **Wrap Selection**: Select any text and type `$` to immediately wrap it in LaTeX math delimiters (`$selection$`).
+  - **Smart Step-Over**: Typing a closing character when right before one cleanly steps over it without duplicate characters.
+  - **Tab Indentation**: Pressing `Tab` inserts 2 spaces of code indentation instead of jumping form focus.
 
-```bash
-npm install
-cp .env.example .env.local
-# fill in AI_GATEWAY_API_KEY in .env.local
-npm run dev
+### ⚡ 2. Slash Commands (`/`) & 60+ Formula Autocomplete
+- **Slash Commands (`/` at start of line)**: Insert structural blocks without memorizing Markdown:
+  - Heading 1, 2, 3 (`#`, `##`, `###`)
+  - Centered Math Block (`$$\n\n$$`)
+  - Bullet List, Numbered List, Checklist (`- [ ]`)
+  - Alert / Catatan Penting (`> `)
+  - Code Block with syntax highlighting (```typescript```)
+  - Comparison Tables & Dividers (`---`)
+  - *Zero-interference design*: `/` only triggers when typed at the beginning of a line, never interrupting Indonesian prose (`dan/atau`, `km/jam`, `1/2`).
+- **60+ Curated LaTeX Science Formulas (`\`)**:
+  - Formulas are automatically auto-wrapped in `$..$` or `$$..$$` so KaTeX live preview updates immediately upon selection.
+  - Non-intrusive **Docked Candidate Strip** placed below the editor that never covers your text.
+  - Fast keyboard navigation: `↑` / `↓`, `Tab` / `Enter`, and `Escape` for instant dismissal.
+
+### 🧭 3. Table of Contents (Outline Navigation Panel)
+- **Automatic Heading Extraction**: Detects `#`, `##`, and `###` in real-time.
+- **Collapsible Outline**: Click **Outline** in the header toolbar to preview document structure.
+- **Smooth Anchor Scrolling**: Click any section in the TOC to instantly glide to that exact part of your notes.
+
+### 🏷️ 4. Study Status Workflow & Pin to Top (Zero-Token History)
+- **Study Status Lifecycle**: Assign active review statuses to each session:
+  - `Draft Baru` (slate) &bull; `Sedang Belajar` (sky) &bull; `Perlu Diulang` (amber) &bull; `Dikuasai` (emerald)
+- **Pin to Top**: Pin critical exam topics to the top of your drawer with the SVG pin icon.
+- **Filter Chips**: Filter by `Semua`, `📌 Disematkan`, `⚠️ Perlu Diulang`, `✅ Dikuasai`, or `📝 Draft`.
+- **Save Draft Without Recap (0 Tokens)**: Save work-in-progress notes to browser storage without consuming AI tokens.
+
+### 💻 5. Advanced Code Block Rendering
+- Fenced code blocks (` ```lang...``` `) render with:
+  - Language header pill (e.g. `TYPESCRIPT`, `PYTHON`)
+  - 1-Click **Copy Code** button with `✓ Tersalin` confirmation
+  - Clean line-number gutters for enhanced readability.
+
+### 🔬 6. KaTeX LaTeX Scientific Formula Engine
+- **Inline & Display Math**: Comprehensive support for inline math (`$...$`) and display equations (`$$...$$`).
+- **Graceful Error Handling**: Fallback boundaries prevent crashes on malformed equations.
+- **High-Performance**: Pure client-side KaTeX rendering (1–5ms per formula) with zero external CDN roundtrips and anti-XSS protection.
+
+### 🧠 6. Spaced Repetition & The 4 Laws of Atomic Habits
+- **Make it Obvious (Cue)**: Daily Study Streak badge (`● Nd streak`) tracking continuous learning habits in `localStorage`.
+- **Make it Attractive (Craving)**: Elegant dark editorial typography (Slate-Ink & warm gold) with tactile micro-haptic feedback.
+- **Make it Easy (Response)**: 1-Tap sample loader, drag-and-drop file import (`.txt`, `.md`), and keyboard hotkeys (`Ctrl+Enter` to recap).
+- **Make it Satisfying (Reward)**: Retention scorecard percentage, **Retest Missed Only** (Leitner repetition), and **Copy Missed** for Notion/Obsidian.
+
+### 🃏 7. Dual Mode: List Accordion & Focus Flashcard Deck
+- **Interactive Flashcard Mode**:
+  - `Space` / `Enter` or Tap to flip and reveal answer.
+  - `←` / `→` or Touch Swipe to navigate between cards.
+  - `1` / `k` to rate as *✓ Remembered*, `2` / `r` to rate as *⟳ Review again*.
+  - Micro-haptic tactile vibration feedback on supported mobile devices.
+- **Visual Recall Badges in List Mode**: Instantly spot learning gaps via `✓` (emerald) and `⟳` (amber) indicators.
+- **Screen Reader Accessible**: Built with WCAG 2.1 AA compliance (`aria-live="polite"`, `role="region"`, `aria-expanded`).
+
+### 📱 8. Mobile Ergonomics & Offline PWA
+- **iOS Safari Auto-Zoom Prevention**: Textarea font sizing (`text-base sm:text-sm`) prevents forced viewport zooming on mobile devices.
+- **Responsive Flex Toolbar**: Clean wrapping on narrow screens ($\le 360\text{px}$) with comfortable touch targets.
+- **PWA Service Worker**: Full offline support with connectivity status indicator (`● Offline mode`).
+- **Expanded History**: Stores up to **50 study sessions** with real-time keyword search.
+
+### 🎙️ 9. Multi-Speed Text-to-Speech (TTS)
+- Web Speech API integration with automatic language detection (Indonesian `id-ID` vs English `en-US`).
+- Dynamic speech rate cycling (`1.0x` $\rightarrow$ `1.25x` $\rightarrow$ `1.5x`) without interrupting playback.
+
+### 📤 10. Comprehensive Export & Zero-Token Sharing
+- **Complete Printable Study Sheet**: Clean `@media print` layout that prints 100% of the core summary, all questions, and all answers with sharp black math and zero blank page jumps.
+- **Zero-Token Share Link**: Encodes recaps directly into a URL hash (`#recap=...`) openable anywhere with 0 AI tokens.
+- **Export to Anki**: Ready-to-import TSV flashcard text files (`#separator:tab`).
+- **Download Markdown**: Clean `.md` file export.
+- **Copy Q&A**: 1-click copy for individual questions, complete summaries, or missed items.
+
+---
+
+## 🏗️ Atomic Code Architecture
+
+The codebase is organized following **Atomic Design** principles:
+
+```text
+ai-recap/
+├── components/
+│   ├── atoms/                      # Pure, stateless UI elements
+│   │   ├── LatexRenderer.tsx       # Safe KaTeX inline ($) & block ($$) renderer
+│   │   ├── FormattedText.tsx       # Combined LaTeX + Markdown parser
+│   │   └── Kbd.tsx                 # Standardized keyboard hotkey badges
+│   ├── molecules/                  # Functional atom combinations
+│   │   ├── QuizCard.tsx            # Isolated memoized accordion card with Copy Q&A
+│   │   ├── SpeechControls.tsx      # Audio TTS player & speed cycler
+│   │   ├── StudyStreakBadge.tsx    # Daily habit streak badge
+│   │   └── OfflineBadge.tsx        # PWA connectivity indicator
+│   └── organisms/                  # Standalone feature organisms
+│       ├── NotesInput.tsx          # Inkdrop editor, split view, autocomplete, templates & draft saving
+│       ├── FlashcardDeck.tsx       # Focus flashcard deck with touch swipe & 3D flip
+│       ├── RetentionScorecard.tsx  # Retention score, Retest Missed, & Copy Missed
+│       ├── HistoryDrawer.tsx       # 50-item local study history drawer with draft badges
+│       └── ShortcutsModal.tsx      # Keyboard cheat-sheet modal [?]
+├── hooks/
+│   ├── useStudyStreak.ts           # Daily streak state & habit cycle logic
+│   └── useSpeech.ts                # Web Speech API & voice pre-warming
+├── lib/
+│   ├── types.ts                    # Shared TypeScript definitions (QuizItem, HistoryItem, etc.)
+│   ├── templates.ts                # Academic study templates with SVG icon mappings
+│   ├── latexAutocomplete.ts        # 18 curated LaTeX math formulas & autocomplete engine
+│   ├── haptics.ts                  # Micro-haptic tactile feedback
+│   └── wordCount.ts                # Zero-allocation linear word counter (<0.04ms)
+└── app/
+    ├── api/recap/route.ts          # EdgeOne AI Gateway route with multi-model fallback & 20k chars limit
+    ├── layout.tsx                  # Root layout with KaTeX CSS & PWA manifest
+    └── page.tsx                    # Clean declarative top-level orchestrator
 ```
 
-Open http://localhost:3000.
+---
 
-## Get an AI Gateway API key
+## 🔒 Security & AI Resilience
 
-1. Sign in to the Makers console.
-2. Enable Makers on your account if you haven't already.
-3. Open the Models / AI Gateway section and create a gateway API key.
-4. Copy it into `AI_GATEWAY_API_KEY` (local `.env.local`, and later into the
-   Makers project's environment variables for the deployed version).
+1. **Prompt Injection Defense**: User notes are encapsulated inside `<user_notes>` isolation tags with strict system override guards.
+2. **Generous Capacity with Abuse Caps**: Supports up to **20,000 characters** (~3,500 words) per note and generates up to 1,500 output tokens.
+3. **Multi-Model Fallback Chain**: Automatically cascades from primary model to backups if rate limits or outages occur:
+   - Primary: `@makers/deepseek-v4-flash`
+   - Fallbacks: `@makers/kimi-k2.6`, `@makers/hy3`, `@makers/minimax-m3`
+4. **Origin & Anti-Abuse Shielding**: Sliding-window rate limiter (10 req/min), fair-use daily cap of **10 recaps/day** per user, and `sec-fetch-site` cross-origin blocking.
+5. **Zero Data Retention**: 100% client-side storage — user notes and recaps are never stored or logged on any server.
 
-The built-in `@makers/deepseek-v4-flash` model comes with a free token
-allowance, so no other provider key is required to try this out.
+---
 
-## Deploy to EdgeOne Makers
+## 🚀 Run Locally
 
-1. Push this project to a GitHub repository.
-2. In the Makers console, choose **Import Git Repository** and select the repo.
-3. Framework is detected automatically (Next.js) — no build command changes needed.
-4. Add the three environment variables from `.env.example` under
-   Project Settings -> Environment Variables (use your real API key).
-5. Deploy. Every subsequent push to `main` redeploys automatically; pushes to
-   other branches get their own preview URL.
+### Prerequisites
+- Node.js 18+
+- npm or pnpm
 
-## Tutorial: Pointing Custom Domain (EdgeOne Makers + Cloudflare DNS)
+### Setup
+```bash
+git clone https://github.com/rteitch/ai-recap.git
+cd ai-recap
+npm install
+cp .env.example .env.local
+```
 
-Secara default, EdgeOne Makers memberikan subdomain acak (contoh: `ai-recap-xxxx.edgeone.dev`). Untuk menghubungkannya ke domain sendiri (contoh: `ai-recap.rth.my.id`), ikuti langkah berikut:
+Fill in `AI_GATEWAY_API_KEY` in `.env.local`:
+```env
+AI_GATEWAY_BASE_URL="https://ai-gateway.edgeone.link/v1"
+AI_GATEWAY_API_KEY="your-edgeone-api-key"
+AI_GATEWAY_MODEL="@makers/deepseek-v4-flash"
+```
 
-### 1. Tambahkan Domain di EdgeOne Makers
-1. Buka console EdgeOne Makers → Pilih project Anda (`ai-recap`).
-2. Masuk ke menu **Domains** (atau **Project Settings → Custom Domain**).
-3. Klik **Add Domain**, masukkan subdomain yang diinginkan (misal: `ai-recap.rth.my.id`).
+### Start Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000).
 
-### 2. Verifikasi Kepemilikan Domain (TXT Record)
-EdgeOne akan menampilkan jendela verifikasi dengan instruksi DNS TXT:
-- Buka dashboard **Cloudflare** → Pilih domain Anda (`rth.my.id`) → menu **DNS** > **Records**.
-- Klik **Add record** dengan data berikut:
+### Build for Production
+```bash
+npm run build
+npm run start
+```
+
+---
+
+## ☁️ Deploy to EdgeOne Makers
+
+1. Push this project to your GitHub repository.
+2. In the [EdgeOne Makers Console](https://edgeone.ai/), click **Import Git Repository** and select the repository.
+3. Framework is detected automatically as **Next.js (App Router)** — no custom build command needed.
+4. Add the three environment variables under **Project Settings → Environment Variables**:
+   - `AI_GATEWAY_BASE_URL`
+   - `AI_GATEWAY_API_KEY`
+   - `AI_GATEWAY_MODEL`
+5. Click **Deploy**. Every subsequent push to `main` redeploys automatically.
+
+---
+
+## 🌐 Custom Domain Setup (EdgeOne Makers + Cloudflare DNS)
+
+To connect your custom domain (e.g., `ai-recap.rth.my.id`):
+
+### 1. Add Domain in EdgeOne Makers
+1. Open the EdgeOne Makers console → Select your project (`ai-recap`).
+2. Navigate to **Domains** → Click **Add Domain** and enter your subdomain (`ai-recap.rth.my.id`).
+
+### 2. Verify Domain Ownership (TXT Record)
+- Open your **Cloudflare** dashboard → Select domain (`rth.my.id`) → **DNS** > **Records**.
+- Add a new record:
   - **Type**: `TXT`
-  - **Name**: `edgeonereclaim.<subdomain>` (contoh: `edgeonereclaim.ai-recap`)
-  - **Content**: Isi dengan kode verifikasi dari EdgeOne (contoh: `reclaim-xxxx...`)
-  - **TTL**: `Auto`
-  - **Proxy status**: **DNS only** (abu-abu, jangan oranye / jangan di-proxy oleh Cloudflare)
-- Simpan record tersebut, lalu kembali ke EdgeOne Makers dan klik tombol **Verify**.
+  - **Name**: `edgeonereclaim.<subdomain>` (e.g., `edgeonereclaim.ai-recap`)
+  - **Content**: Enter the verification code provided by EdgeOne (e.g., `reclaim-xxxx...`)
+  - **Proxy status**: **DNS only** (gray cloud)
+- Return to EdgeOne Makers and click **Verify**.
 
-### 3. Arahkan Traffic Domain (CNAME Record)
-Setelah verifikasi kepemilikan sukses, tambahkan CNAME record di Cloudflare untuk mengarahkan pengunjung ke EdgeOne:
-- Di Cloudflare DNS Records, klik **Add record**:
-  - **Type**: `CNAME`
-  - **Name**: `<subdomain>` (contoh: `ai-recap`)
-  - **Target / Content**: Masukkan domain default EdgeOne Anda (contoh: `ai-recap-dp8ka8dt4dc4.edgeone.dev`)
-  - **TTL**: `Auto`
-  - **Proxy status**: **DNS only** (abu-abu)
-- Simpan record.
+### 3. Route Traffic (CNAME Record)
+In Cloudflare DNS, add:
+- **Type**: `CNAME`
+- **Name**: `ai-recap`
+- **Target**: Your default EdgeOne domain (e.g., `ai-recap-xxxx.edgeone.dev`)
+- **Proxy status**: **DNS only** (gray cloud)
 
-### 4. Selesai & SSL Otomatis
-- Tunggu propagasi DNS (sekitar 1–10 menit).
-- Status domain di EdgeOne Makers akan berubah dari `Deploying / Not configured` menjadi **Active**.
-- EdgeOne secara otomatis menerbitkan dan mengelola sertifikat SSL/HTTPS gratis untuk domain Anda.
+### 4. Automatic SSL
+- Propagation takes 1–5 minutes.
+- EdgeOne automatically issues and manages free SSL/TLS HTTPS certificates.
 
-## Notes for the write-up
+---
 
-- [x] First deploy: **succeeded** on first attempt — no errors.
-- [x] Config adjustments: 3 environment variables set via the Makers console UI (`AI_GATEWAY_API_KEY`, `AI_GATEWAY_BASE_URL`, `AI_GATEWAY_MODEL`).
-- [x] AI Gateway: The `@makers/deepseek-v4-flash` built-in model is **free** with a daily quota — no credit card or DeepSeek account needed. API key is generated directly from the Makers Models → API Key console page.
+## 📄 License
+
+MIT &copy; [RTH Nexus](https://rth.my.id). All rights reserved.

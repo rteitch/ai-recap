@@ -25,6 +25,8 @@ export type HistoryItem = {
   notebook?: string;
   tags?: string[];
   title?: string;
+  recapMode?: "brief" | "detailed"; // User-selected recap mode per note
+  quizCount?: number; // Number of quiz questions generated for this note
 };
 
 export type RatingType = "known" | "learning";
