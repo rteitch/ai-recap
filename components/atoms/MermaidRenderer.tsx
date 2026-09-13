@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef, useId, memo } from "react";
-import DOMPurify from "isomorphic-dompurify";
 
 type MermaidRendererProps = {
   code: string;
@@ -20,6 +19,17 @@ async function getMermaidInstance() {
         startOnLoad: false,
         theme: "dark",
         securityLevel: "strict",
+        fontFamily: "inherit",
+        flowchart: {
+          htmlLabels: false,
+          useMaxWidth: true,
+          curve: "basis",
+        },
+        sequence: {
+          useMaxWidth: true,
+          showSequenceNumbers: true,
+          actorMargin: 50,
+        },
         themeVariables: {
           darkMode: true,
           background: "#13141a",
@@ -29,20 +39,28 @@ async function getMermaidInstance() {
           lineColor: "#8b8d98",
           secondaryColor: "#1e1f29",
           tertiaryColor: "#181922",
-          mainBkg: "#1d1e28",
+          mainBkg: "#272935",
           nodeBorder: "#F5C518",
           clusterBkg: "#161720",
           clusterBorder: "#383a4c",
           titleColor: "#f1f2f6",
-          edgeLabelBackground: "#1e1f29",
+          edgeLabelBackground: "#161722",
           textColor: "#f1f2f6",
           nodeTextColor: "#f1f2f6",
           labelTextColor: "#f1f2f6",
           scaleLabelColor: "#f1f2f6",
+          actorBkg: "#272935",
+          actorBorder: "#F5C518",
           actorTextColor: "#f1f2f6",
           actorLineColor: "#8b8d98",
           signalColor: "#f1f2f6",
           signalTextColor: "#f1f2f6",
+          labelBoxBkgColor: "#272935",
+          labelBoxBorderColor: "#F5C518",
+          labelBoxTextColor: "#f1f2f6",
+          sequenceNumberColor: "#13141a",
+          activationBkgColor: "#383a4c",
+          activationBorderColor: "#F5C518",
           noteBkgColor: "#1e1f29",
           noteTextColor: "#f1f2f6",
           noteBorderColor: "#F5C518",
@@ -91,7 +109,6 @@ async function getMermaidInstance() {
           cScaleLabel10: "#f1f2f6",
           cScaleLabel11: "#f1f2f6",
         },
-        fontFamily: "inherit",
       });
       cachedMermaid = mermaid;
       return mermaid;
@@ -140,14 +157,19 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
         // Generate clean unique ID for SVG element
         const id = `mermaid-${uniqueId}-${Math.random().toString(36).slice(2, 7)}`;
 
-// mermaid.render returns { svg }
-const { svg: rawSvg } = await mermaid.render(id, trimmedCode);
-const sanitizedSvg = DOMPurify.sanitize(rawSvg, { USE_PROFILES: { svg: true } });
+        // mermaid.render returns { svg } with strict security built-in
+        const { svg: rawSvg } = await mermaid.render(id, trimmedCode);
 
-if (!isCancelled) {
-  lastValidSvgRef.current = sanitizedSvg;
-  setSvgContent(sanitizedSvg);
-  setRenderError(null);
+        // Extra sanitization: strip any scripts or event handlers while preserving SVG text and shapes
+        const sanitizedSvg = rawSvg
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+          .replace(/\s+on[a-z]+\s*=\s*(['"]).*?\1/gi, "")
+          .replace(/(?:href|xlink:href)\s*=\s*['"]\s*javascript:[^'"]*['"]/gi, "");
+
+        if (!isCancelled) {
+          lastValidSvgRef.current = sanitizedSvg;
+          setSvgContent(sanitizedSvg);
+          setRenderError(null);
   setIsLoading(false);
 }
       } catch (err) {

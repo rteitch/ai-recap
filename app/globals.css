@@ -71,9 +71,11 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-/* Mermaid Diagram High Contrast Overrides */
+/* Mermaid Diagram Screen Styling & Contrast */
 .mermaid-svg-wrapper svg text,
 .mermaid-svg-wrapper svg tspan,
+.mermaid-svg-wrapper svg text.actor,
+.mermaid-svg-wrapper svg text.actor tspan,
 .mermaid-svg-wrapper svg .mindmap-node text,
 .mermaid-svg-wrapper svg .mindmap-node span,
 .mermaid-svg-wrapper svg .mindmap-node-label,
@@ -81,14 +83,97 @@ button:focus-visible {
 .mermaid-svg-wrapper svg .section-root span,
 .mermaid-svg-wrapper svg [class*="section-"] text,
 .mermaid-svg-wrapper svg [class*="section-"] span,
+.mermaid-svg-wrapper svg .node text,
+.mermaid-svg-wrapper svg .node span,
+.mermaid-svg-wrapper svg .node tspan,
 .mermaid-svg-wrapper svg .nodeLabel,
 .mermaid-svg-wrapper svg .edgeLabel text,
 .mermaid-svg-wrapper svg .edgeLabel span,
-.mermaid-svg-wrapper svg .actor,
+.mermaid-svg-wrapper svg .edgeLabel tspan,
 .mermaid-svg-wrapper svg .messageText,
-.mermaid-svg-wrapper svg .labelText {
+.mermaid-svg-wrapper svg .labelText,
+.mermaid-svg-wrapper svg .loopText,
+.mermaid-svg-wrapper svg .noteText {
   fill: #f1f2f6 !important;
   color: #f1f2f6 !important;
+}
+
+/* Sequence diagram: participant / actor boxes (dark background with yellow border) */
+.mermaid-svg-wrapper svg rect.actor,
+.mermaid-svg-wrapper svg .actor > rect,
+.mermaid-svg-wrapper svg rect[class*="actor"] {
+  fill: #272935 !important;
+  stroke: #F5C518 !important;
+  stroke-width: 1.5px !important;
+}
+
+/* Sequence diagram stick-figure actor icon */
+.mermaid-svg-wrapper svg .actor-man line,
+.mermaid-svg-wrapper svg .actor-man circle {
+  stroke: #F5C518 !important;
+  stroke-width: 1.5px !important;
+  fill: #272935 !important;
+}
+
+/* Sequence diagram lifelines & message connectors */
+.mermaid-svg-wrapper svg .actor-line {
+  stroke: #6b7280 !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 4 4 !important;
+}
+
+.mermaid-svg-wrapper svg .messageLine0,
+.mermaid-svg-wrapper svg .messageLine1 {
+  stroke: #d1d5db !important;
+  stroke-width: 1.5px !important;
+}
+
+/* Sequence diagram autonumber badges: yellow circle with dark contrast number */
+.mermaid-svg-wrapper svg .sequenceNumber {
+  fill: #13141a !important;
+  color: #13141a !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+}
+
+/* Flowchart nodes: dark fill with crisp yellow border */
+.mermaid-svg-wrapper svg .node rect,
+.mermaid-svg-wrapper svg .node circle,
+.mermaid-svg-wrapper svg .node ellipse,
+.mermaid-svg-wrapper svg .node polygon,
+.mermaid-svg-wrapper svg .node path {
+  fill: #272935 !important;
+  stroke: #F5C518 !important;
+  stroke-width: 1.5px !important;
+}
+
+/* Flowchart edge label pill background */
+.mermaid-svg-wrapper svg .edgeLabel rect,
+.mermaid-svg-wrapper svg .edgeLabel .label-container {
+  fill: #161722 !important;
+  stroke: #374151 !important;
+  stroke-width: 1px !important;
+  rx: 4px !important;
+  ry: 4px !important;
+}
+
+/* Flowchart connector lines and arrow markers */
+.mermaid-svg-wrapper svg .edgePath .path,
+.mermaid-svg-wrapper svg .flowchart-link {
+  stroke: #8b8d98 !important;
+  stroke-width: 1.5px !important;
+}
+
+.mermaid-svg-wrapper svg marker path,
+.mermaid-svg-wrapper svg .arrowheadPath {
+  fill: #8b8d98 !important;
+  stroke: #8b8d98 !important;
+}
+
+/* Note boxes in diagrams */
+.mermaid-svg-wrapper svg .note {
+  fill: #1e1f29 !important;
+  stroke: #F5C518 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
