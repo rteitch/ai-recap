@@ -276,7 +276,7 @@ const notesInputRef = useRef<NotesInputHandle>(null);
               );
             }
             toast.success("Loaded shared study recap (0 AI tokens used)");
-        setSrMessage("Recap shared berhasil dimuat");
+        setSrMessage("Shared recap loaded successfully");
 
             try {
               window.history.replaceState(null, "", window.location.pathname);
@@ -480,10 +480,10 @@ const notesInputRef = useRef<NotesInputHandle>(null);
         const totalMB = (quota / 1024 / 1024).toFixed(0);
         if (pct > 95) {
           warnedRef.current = true;
-          toast.error(`Penyimpanan nyaris penuh! (${usedMB}MB/${totalMB}MB). Hapus catatan lama sekarang.`, { duration: 10000 });
+          toast.error(`Storage critically full! (${usedMB}MB/${totalMB}MB). Delete old notes now.`, { duration: 10000 });
         } else if (pct > 80) {
           warnedRef.current = true;
-          toast.warning(`Penyimpanan hampir penuh (${usedMB}MB/${totalMB}MB). Pertimbangkan hapus catatan lama.`, { duration: 8000 });
+          toast.warning(`Storage almost full (${usedMB}MB/${totalMB}MB). Consider deleting old notes.`, { duration: 8000 });
         }
       } catch { /* ignore */ }
     }, 60000);
@@ -1502,7 +1502,7 @@ function updateStorage(
       };
       const shareNotes = notes
         .slice(0, 500)
-        .replace(/!\[[^\]]*\]\(image:\d+\)/g, "[gambar]")
+        .replace(/!\[[^\]]*\]\(image:\d+\)/g, "[image]")
         .trim();
       const payload = {
         notes: shareNotes,
@@ -1740,8 +1740,8 @@ function updateStorage(
             title="Recap Mode"
             aria-label="Recap Mode"
           >
-            <option value="detailed">Detail</option>
-            <option value="brief">Ringkas</option>
+            <option value="detailed">Detailed</option>
+            <option value="brief">Brief</option>
           </select>
           {/* Quiz Count Selector */}
           <select
@@ -2264,7 +2264,7 @@ function updateStorage(
           localStorage.setItem("ai_recap_history", JSON.stringify(newHistory));
           setActiveNoteId(targetId);
           updateStorage(merged, target.result, {});
-          toast.success("Catatan berhasil digabung!");
+          toast.success("Notes merged successfully!");
         }}
       />
     </div>

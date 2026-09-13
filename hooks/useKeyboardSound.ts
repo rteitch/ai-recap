@@ -48,6 +48,16 @@ export function useKeyboardSound() {
   });
   const isLoadingRef = useRef(false);
   const isLoadedRef = useRef(false);
+  const pressedKeysRef = useRef<Set<string>>(new Set());
+
+  // Clear pressed keys if window loses focus so keys never get stuck
+  useEffect(() => {
+    function handleBlur() {
+      pressedKeysRef.current.clear();
+    }
+    window.addEventListener("blur", handleBlur);
+    return () => window.removeEventListener("blur", handleBlur);
+  }, []);
 
   // Restore user preference from localStorage
   useEffect(() => {
@@ -184,11 +194,15 @@ export function useKeyboardSound() {
   const playKeyPress = useCallback(
     (eKey: string) => {
       if (!isEnabled) return;
+      const key = eKey.toLowerCase();
+      // Physical Cherry MX switch only strikes once on downstroke; ignore repeat until release
+      if (pressedKeysRef.current.has(key)) return;
+      pressedKeysRef.current.add(key);
+
       if (!isLoadedRef.current) {
         initAudio();
       }
 
-      const key = eKey.toLowerCase();
       const b = buffersRef.current.press;
 
       if (key === " " || key === "spacebar") {
@@ -209,6 +223,8 @@ export function useKeyboardSound() {
     (eKey: string) => {
       if (!isEnabled) return;
       const key = eKey.toLowerCase();
+      pressedKeysRef.current.delete(key);
+
       const b = buffersRef.current.release;
 
       if (key === " " || key === "spacebar") {

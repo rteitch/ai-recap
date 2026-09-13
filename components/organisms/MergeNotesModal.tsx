@@ -60,7 +60,7 @@ export const MergeNotesModal = memo(function MergeNotesModal({
             <svg className="w-4 h-4 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
             </svg>
-            <span>Gabung Catatan</span>
+            <span>Merge Notes</span>
           </h2>
           <button
             type="button"
@@ -77,12 +77,12 @@ export const MergeNotesModal = memo(function MergeNotesModal({
         <div className="py-4 space-y-4">
           {availableNotes.length === 0 ? (
             <p className="text-xs text-ink-400 text-center py-4">
-              Tidak ada catatan lain untuk digabung.
+              No other notes available to merge.
             </p>
           ) : (
             <>
               <div>
-                <label className="block text-xs text-ink-300 mb-1">Gabungkan ke catatan:</label>
+                <label className="block text-xs text-ink-300 mb-1">Merge into note:</label>
                 <select
                   value={targetId}
                   onChange={(e) => setTargetId(e.target.value)}
@@ -97,7 +97,7 @@ export const MergeNotesModal = memo(function MergeNotesModal({
               </div>
 
               <div>
-                <label className="block text-xs text-ink-300 mb-1">Pemisah:</label>
+                <label className="block text-xs text-ink-300 mb-1">Separator:</label>
                 <div className="flex gap-2">
                   <button
                     type="button"
@@ -108,7 +108,7 @@ export const MergeNotesModal = memo(function MergeNotesModal({
                         : "bg-ink-800 border-ink-600 text-ink-300 hover:bg-ink-700"
                     }`}
                   >
-                    Baris Kosong
+                    Blank Line
                   </button>
                   <button
                     type="button"
@@ -119,14 +119,14 @@ export const MergeNotesModal = memo(function MergeNotesModal({
                         : "bg-ink-800 border-ink-600 text-ink-300 hover:bg-ink-700"
                     }`}
                   >
-                    Garis Pisah
+                    Divider Line
                   </button>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <div className="p-2 rounded bg-ink-800/50 border border-ink-700">
-                  <p className="text-[10px] text-ink-400 mb-1">Sumber:</p>
+                  <p className="text-[10px] text-ink-400 mb-1">Source:</p>
                   <p className="text-xs text-ink-200 line-clamp-3">
                     {(currentNote?.notes || "").slice(0, 200) || "Empty"}
                   </p>
@@ -149,7 +149,7 @@ export const MergeNotesModal = memo(function MergeNotesModal({
             onClick={onClose}
             className="px-3 py-1.5 text-xs text-ink-300 hover:text-ink-100 hover:bg-ink-800 rounded transition-colors"
           >
-            Batal
+            Cancel
           </button>
           <button
             type="button"
@@ -157,7 +157,7 @@ export const MergeNotesModal = memo(function MergeNotesModal({
             disabled={!targetId || availableNotes.length === 0}
             className="px-3 py-1.5 text-xs bg-highlight/10 hover:bg-highlight/20 border border-highlight/30 text-highlight rounded transition-colors disabled:opacity-50"
           >
-            Gabung
+            Merge
           </button>
         </div>
       </div>

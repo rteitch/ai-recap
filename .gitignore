@@ -31,3 +31,5 @@ bun.lockb
 Thumbs.db
 .vscode/
 .idea/
+.omop/
+.playwright-mcp/

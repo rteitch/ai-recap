@@ -44,7 +44,7 @@ function getStatusBadge(status?: StudyStatus) {
     case "perlu-diulang":
       return {
         label: "Needs Review",
-        cls: "bg-amber-400/15 text-amber-300 border-amber-400/30",
+        cls: "bg-yellow-400/15 text-yellow-300 border-yellow-400/30",
       };
     case "sedang-dipelajari":
       return {
@@ -334,7 +334,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
         <div
           ref={listRef}
           role="listbox"
-          aria-label="Catatan"
+          aria-label="Notes"
           tabIndex={0}
           onKeyDown={handleListKeyDown}
           className="flex-1 overflow-y-auto py-2 space-y-2.5 pr-0.5 outline-none"

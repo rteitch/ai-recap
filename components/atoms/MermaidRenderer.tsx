@@ -35,6 +35,61 @@ async function getMermaidInstance() {
           clusterBorder: "#383a4c",
           titleColor: "#f1f2f6",
           edgeLabelBackground: "#1e1f29",
+          textColor: "#f1f2f6",
+          nodeTextColor: "#f1f2f6",
+          labelTextColor: "#f1f2f6",
+          scaleLabelColor: "#f1f2f6",
+          actorTextColor: "#f1f2f6",
+          actorLineColor: "#8b8d98",
+          signalColor: "#f1f2f6",
+          signalTextColor: "#f1f2f6",
+          noteBkgColor: "#1e1f29",
+          noteTextColor: "#f1f2f6",
+          noteBorderColor: "#F5C518",
+          classText: "#f1f2f6",
+          stateLabelColor: "#f1f2f6",
+          taskTextColor: "#f1f2f6",
+          taskTextDarkColor: "#f1f2f6",
+          taskTextClickableColor: "#F5C518",
+          pieLegendTextColor: "#f1f2f6",
+          pieSectionTextColor: "#f1f2f6",
+          pieTitleTextColor: "#f1f2f6",
+          git0: "#272935",
+          git1: "#1e3a5f",
+          git2: "#3b2a59",
+          git3: "#1c4436",
+          gitBranchLabel0: "#f1f2f6",
+          gitBranchLabel1: "#f1f2f6",
+          gitBranchLabel2: "#f1f2f6",
+          gitBranchLabel3: "#f1f2f6",
+          gitBranchLabel4: "#f1f2f6",
+          gitBranchLabel5: "#f1f2f6",
+          gitBranchLabel6: "#f1f2f6",
+          gitBranchLabel7: "#f1f2f6",
+          cScale0: "#2d3345",
+          cScale1: "#243647",
+          cScale2: "#3b2f47",
+          cScale3: "#233d37",
+          cScale4: "#423828",
+          cScale5: "#3f2837",
+          cScale6: "#253447",
+          cScale7: "#323742",
+          cScale8: "#303e30",
+          cScale9: "#3f3037",
+          cScale10: "#28323f",
+          cScale11: "#372f44",
+          cScaleLabel0: "#f1f2f6",
+          cScaleLabel1: "#f1f2f6",
+          cScaleLabel2: "#f1f2f6",
+          cScaleLabel3: "#f1f2f6",
+          cScaleLabel4: "#f1f2f6",
+          cScaleLabel5: "#f1f2f6",
+          cScaleLabel6: "#f1f2f6",
+          cScaleLabel7: "#f1f2f6",
+          cScaleLabel8: "#f1f2f6",
+          cScaleLabel9: "#f1f2f6",
+          cScaleLabel10: "#f1f2f6",
+          cScaleLabel11: "#f1f2f6",
         },
         fontFamily: "inherit",
       });
@@ -155,9 +210,9 @@ if (!isCancelled) {
   }
 
   return (
-    <div className="my-4 rounded-xl border border-ink-700/80 bg-[#14151e] overflow-hidden shadow-lg group">
+    <div className="my-4 rounded-xl border border-ink-700/80 bg-[#14151e] overflow-hidden shadow-lg group print:bg-white print:border-gray-200 print:shadow-none print:my-3 print:break-inside-avoid print:page-break-inside-avoid">
       {/* Header bar */}
-      <div className="flex items-center justify-between px-3 py-1.5 bg-[#181924] border-b border-ink-800/80 text-ink-400">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-[#181924] border-b border-ink-800/80 text-ink-400 print:hidden">
         <div className="flex items-center gap-2">
           <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
@@ -194,7 +249,7 @@ if (!isCancelled) {
       {/* Diagram Canvas */}
       <div
         ref={containerRef}
-        className="p-4 overflow-x-auto flex items-center justify-center min-h-[120px] bg-[#12131b] scrollbar-thin print:bg-white print:p-2"
+        className="p-4 overflow-x-auto flex items-center justify-center min-h-[120px] bg-[#12131b] scrollbar-thin print:bg-white print:p-2 print:min-h-0 print:overflow-visible"
       >
         {isLoading && !svgContent ? (
           <div className="flex items-center gap-2 text-xs text-ink-400 animate-pulse py-8">

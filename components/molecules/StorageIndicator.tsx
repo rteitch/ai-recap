@@ -23,7 +23,7 @@ export const StorageIndicator = memo(function StorageIndicator() {
     usagePercent > 80
       ? "bg-red-500"
       : usagePercent > 60
-      ? "bg-amber-500"
+      ? "bg-yellow-400"
       : "bg-emerald-500";
 
   async function handleClear() {
@@ -31,9 +31,9 @@ export const StorageIndicator = memo(function StorageIndicator() {
     try {
       await clearAllImages();
       await refresh();
-      toast.success("Semua gambar telah dihapus");
+      toast.success("All images deleted");
     } catch {
-      toast.error("Gagal menghapus gambar");
+      toast.error("Failed to delete images");
     }
     setShowDetails(false);
   }
@@ -64,17 +64,17 @@ export const StorageIndicator = memo(function StorageIndicator() {
             <div className="text-xs font-semibold text-ink-200 mb-2">Storage</div>
             <div className="space-y-1.5 text-[11px] text-ink-400">
               <div className="flex justify-between">
-                <span>Gambar</span>
-                <span className="text-ink-200">{imageCount} file</span>
+                <span>Images</span>
+                <span className="text-ink-200">{imageCount} files</span>
               </div>
               <div className="flex justify-between">
-                <span>Terpakai</span>
+                <span>Used</span>
                 <span className="text-ink-200">{formatBytes(usage)}</span>
               </div>
               {quota > 0 && (
                 <>
                   <div className="flex justify-between">
-                    <span>Kuota</span>
+                    <span>Quota</span>
                     <span className="text-ink-200">{formatBytes(quota)}</span>
                   </div>
                   <div className="w-full h-1.5 bg-ink-800 rounded-full overflow-hidden">
@@ -89,7 +89,7 @@ export const StorageIndicator = memo(function StorageIndicator() {
                 onClick={handleClear}
                 className="mt-2 w-full text-[11px] text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded py-1 transition-colors"
               >
-                Hapus Semua Gambar
+                Clear All Images
               </button>
             )}
           </div>

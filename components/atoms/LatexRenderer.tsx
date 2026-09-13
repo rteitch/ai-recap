@@ -21,9 +21,10 @@ export const LatexRenderer = memo(function LatexRenderer({
         output: "htmlAndMathml",
       });
       return DOMPurify.sanitize(raw, {
-        USE_PROFILES: { html: true, mathMl: true },
-        ADD_TAGS: ["semantics", "annotation"],
-        FORBID_TAGS: ["style", "script"],
+        USE_PROFILES: { html: true, mathMl: true, svg: true },
+        ADD_TAGS: ["semantics", "annotation", "svg", "path"],
+        ADD_ATTR: ["aria-hidden", "style", "viewBox", "preserveAspectRatio", "d"],
+        FORBID_TAGS: ["script"],
         FORBID_ATTR: ["onerror", "onclick", "onload", "onmouseover"],
       });
     } catch {
@@ -33,7 +34,7 @@ export const LatexRenderer = memo(function LatexRenderer({
 
   if (!html) {
     return (
-      <span className="font-mono text-xs text-amber-400/90" title="Formula display fallback">
+      <span className="font-mono text-xs text-yellow-400/90" title="Formula display fallback">
         {block ? `$$${math}$$` : `$${math}$`}
       </span>
     );

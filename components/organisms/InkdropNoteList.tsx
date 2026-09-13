@@ -267,7 +267,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                           <span className="w-2 h-2 block rounded-full bg-sky-400 ring-2 ring-sky-400/20" />
                         )}
                         {item.status === "perlu-diulang" && (
-                          <span className="w-2 h-2 block rounded-full bg-amber-400 ring-2 ring-amber-400/20" />
+                          <span className="w-2 h-2 block rounded-full bg-yellow-400 ring-2 ring-yellow-400/20" />
                         )}
                         {item.status === "dikuasai" && (
                           <span className="w-2 h-2 block rounded-full bg-emerald-400 ring-2 ring-emerald-400/20" />
@@ -282,7 +282,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                           <span className="w-2 h-2 rounded-full bg-sky-400 flex-shrink-0" title="In Progress" />
                         )}
                         {item.status === "perlu-diulang" && (
-                          <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" title="Needs Review" />
+                          <span className="w-2 h-2 rounded-full bg-yellow-400 flex-shrink-0" title="Needs Review" />
                         )}
                         {item.status === "dikuasai" && (
                           <span className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" title="Mastered" />

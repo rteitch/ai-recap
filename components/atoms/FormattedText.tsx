@@ -22,15 +22,15 @@ function CodeBlockView({ language, code }: { language: string; code: string }) {
   const lines = code.split("\n");
 
   return (
-    <div className="my-3 rounded-lg border border-ink-700 bg-ink-950 overflow-hidden shadow-md text-xs font-mono">
-      <div className="flex items-center justify-between px-3 py-1.5 bg-ink-900 border-b border-ink-800 text-ink-400">
-        <span className="text-[11px] font-medium uppercase tracking-wider text-highlight">
+    <div className="my-3 rounded-lg border border-ink-700 bg-ink-950 overflow-hidden shadow-md text-xs font-mono print:bg-white print:border-gray-300 print:text-black print:shadow-none print:break-inside-avoid print:page-break-inside-avoid">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-ink-900 border-b border-ink-800 text-ink-400 print:bg-gray-100 print:border-gray-200 print:text-gray-700">
+        <span className="text-[11px] font-medium uppercase tracking-wider text-highlight print:text-gray-900">
           {language || "code"}
         </span>
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1 text-[11px] hover:text-ink-100 transition-colors px-1.5 py-0.5 rounded hover:bg-ink-800"
+          className="flex items-center gap-1 text-[11px] hover:text-ink-100 transition-colors px-1.5 py-0.5 rounded hover:bg-ink-800 print:hidden"
           title="Copy code"
         >
           {copied ? (
@@ -55,8 +55,8 @@ function CodeBlockView({ language, code }: { language: string; code: string }) {
           )}
         </button>
       </div>
-      <div className="overflow-x-auto p-3 text-ink-200 flex">
-        <div className="select-none pr-3 text-right text-ink-600 border-r border-ink-800/80 mr-3 text-[11px]">
+      <div className="overflow-x-auto p-3 text-ink-200 flex print:text-black print:bg-white">
+        <div className="select-none pr-3 text-right text-ink-600 border-r border-ink-800/80 mr-3 text-[11px] print:border-gray-200 print:text-gray-400">
           {lines.map((_, i) => (
             <div key={i}>{i + 1}</div>
           ))}
@@ -103,7 +103,7 @@ function ImageBlock({ id, alt }: { id: number; alt: string }) {
   if (error) {
     return (
       <div className="my-2 px-3 py-2 rounded border border-red-500/30 bg-red-500/10 text-red-400 text-xs">
-        Gambar tidak ditemukan (ID: {id})
+        Image not found (ID: {id})
       </div>
     );
   }
@@ -111,7 +111,7 @@ function ImageBlock({ id, alt }: { id: number; alt: string }) {
   if (!src) {
     return (
       <div className="my-2 px-3 py-2 rounded border border-ink-700 bg-ink-900 text-ink-400 text-xs animate-pulse">
-        Memuat gambar...
+        Loading image...
       </div>
     );
   }
@@ -136,11 +136,17 @@ function ImageBlock({ id, alt }: { id: number; alt: string }) {
 function parseInlineTokens(segment: string) {
   if (!segment) return null;
 
-  const tokenRegex = /(\$[^$\n]+\$|\\\([^\)]+\\\)|\*\*[^*]+\*\*|`[^`]+`|!\[[^\]]*\]\(image:\d+\))/g;
+  const tokenRegex = /(\$\$[^$\n]+\$\$|\$[^$\n]+\$|\\\([^\)]+\\\)|\*\*[^*]+\*\*|`[^`]+`|!\[[^\]]*\]\(image:\d+\))/g;
   const parts = segment.split(tokenRegex);
 
   return parts.map((part, index) => {
     if (!part) return null;
+
+    // Inline math: $$...$$
+    if (part.startsWith("$$") && part.endsWith("$$") && part.length > 4) {
+      const math = part.slice(2, -2).trim();
+      return <LatexRenderer key={index} math={math} block={false} />;
+    }
 
     // Inline math: $...$
     if (part.startsWith("$") && part.endsWith("$") && part.length > 2) {

@@ -53,7 +53,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                   : ratings[dotIdx] === "known"
                   ? "w-2 bg-emerald-400/80"
                   : ratings[dotIdx] === "learning"
-                  ? "w-2 bg-amber-400/80"
+                  ? "w-2 bg-yellow-400/80"
                   : "w-2 bg-ink-600"
               }`}
               aria-label={`Go to card ${dotIdx + 1}`}

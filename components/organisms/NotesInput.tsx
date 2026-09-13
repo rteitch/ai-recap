@@ -543,16 +543,16 @@ flowchart TD
 
   async function handleImageUpload(file: File) {
     if (!file.type.startsWith("image/")) {
-      toast.error("Hanya file gambar yang didukung (PNG, JPG, GIF, WebP)");
+      toast.error("Only image files are supported (PNG, JPG, GIF, WebP)");
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
-      toast.error("Ukuran gambar maksimal 10 MB");
+      toast.error("Maximum image size is 10 MB");
       return;
     }
     const hasSpace = await hasStorageSpace(file.size);
     if (!hasSpace) {
-      toast.error("Storage hampir penuh. Hapus beberapa gambar terlebih dahulu.");
+      toast.error("Storage is almost full. Please delete some images first.");
       return;
     }
     try {
@@ -570,9 +570,9 @@ flowchart TD
       } else {
         onNotesChange(notes ? `${notes}\n\n${markdown}` : markdown);
       }
-      toast.success(`Gambar "${file.name}" berhasil diunggah`);
+      toast.success(`Image "${file.name}" uploaded successfully`);
     } catch {
-      toast.error("Gagal menyimpan gambar");
+      toast.error("Failed to save image");
     }
   }
 
@@ -621,7 +621,7 @@ flowchart TD
     } else {
       onNotesChange(template.content);
       const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
-      setViewMode(isMobile ? "edit" : "split");
+      setViewMode(isMobile ? "preview" : "split");
     }
   }
 
@@ -629,7 +629,8 @@ flowchart TD
     closeMenu();
     const textarea = activeTextareaRef.current;
     if (!textarea) {
-      onNotesChange(notes ? `${notes}\n\n${snippet}` : snippet);
+      const formattedSnippet = snippet.startsWith("$") ? snippet : `$${snippet}$`;
+      onNotesChange(notes ? `${notes}\n\n${formattedSnippet}` : formattedSnippet);
       return;
     }
 
@@ -638,12 +639,29 @@ flowchart TD
     const before = notes.slice(0, start);
     const after = notes.slice(end);
 
+    // Check if cursor is already inside math delimiters ($...$ or $$...$$)
+    const dollarsBefore = (before.match(/(?<!\\)\$/g) || []).length;
+    const isInsideMath = dollarsBefore % 2 === 1;
+
+    // Check if block snippet (e.g. matrix or piecewise cases)
+    const isBlockSnippet = snippet.includes("\\begin{matrix}") || snippet.includes("\\begin{cases}");
+    const formattedSnippet = isInsideMath
+      ? snippet
+      : isBlockSnippet
+      ? `$$${snippet}$$`
+      : `$${snippet}$`;
+
     const needsSpaceBefore = before.length > 0 && !/[\s\n$]$/.test(before);
     const prefix = needsSpaceBefore ? " " : "";
-    const insertion = `${prefix}${snippet} `;
+    const insertion = `${prefix}${formattedSnippet} `;
     const newNotes = before + insertion + after;
 
     onNotesChange(newNotes);
+
+    // If on desktop/tablet and in edit mode, switch to split mode so user immediately sees live KaTeX render
+    if (typeof window !== "undefined" && window.innerWidth >= 640 && viewMode === "edit") {
+      setViewMode("split");
+    }
 
     setTimeout(() => {
       textarea.focus();
@@ -681,14 +699,25 @@ flowchart TD
     if (!latexTrigger) return;
     const before = notes.slice(0, latexTrigger.matchStart);
     const after = notes.slice(latexTrigger.matchEnd);
-    const newNotes = before + sugg.snippet + after;
+
+    // Check if trigger was already inside math delimiters ($...$)
+    const dollarsBefore = (before.match(/(?<!\\)\$/g) || []).length;
+    const isInsideMath = dollarsBefore % 2 === 1;
+
+    const formattedSnippet = isInsideMath ? sugg.snippet : `$${sugg.snippet}$`;
+    const newNotes = before + formattedSnippet + after;
     onNotesChange(newNotes);
+
+    // If on desktop/tablet and in edit mode, switch to split mode so user sees live KaTeX render
+    if (typeof window !== "undefined" && window.innerWidth >= 640 && viewMode === "edit") {
+      setViewMode("split");
+    }
 
     setTimeout(() => {
       const ta = activeTextareaRef.current;
       if (ta) {
         ta.focus();
-        const newPos = latexTrigger.matchStart + sugg.snippet.length;
+        const newPos = latexTrigger.matchStart + formattedSnippet.length;
         ta.setSelectionRange(newPos, newPos);
         setCursorPosition(newPos);
       }
@@ -760,7 +789,9 @@ flowchart TD
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    playKeyPress(e.key);
+    if (!e.repeat) {
+      playKeyPress(e.key);
+    }
 
     if (slashCommandState && filteredSlashCommands.length > 0) {
       if (e.key === "ArrowDown") {
@@ -1500,7 +1531,7 @@ flowchart TD
               type="button"
               onClick={() => imageInputRef.current?.click()}
               className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60 flex-shrink-0"
-              title="Upload gambar (PNG, JPG, GIF, WebP)"
+              title="Upload image (PNG, JPG, GIF, WebP)"
               aria-label="Upload Image"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2245,11 +2276,11 @@ flowchart TD
             }`}
           />
           <span>
-            {saveStatus === "saved" ? "Tersimpan" : saveStatus === "saving" ? "Menyimpan..." : "Draft"}
+            {saveStatus === "saved" ? "Saved" : saveStatus === "saving" ? "Saving..." : "Draft"}
           </span>
           {lastEdited && (
             <span className="text-ink-600">
-              · {lastEdited.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+              · {lastEdited.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
             </span>
           )}
         </div>
@@ -2290,7 +2321,7 @@ flowchart TD
                   onNotesChange(pendingTemplate.content);
                   setPendingTemplate(null);
                   const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
-                  setViewMode(isMobile ? "edit" : "split");
+                  setViewMode(isMobile ? "preview" : "split");
                 }}
                 className="px-3 py-1.5 rounded-md text-xs bg-highlight text-ink-900 font-semibold hover:bg-highlight/90 transition-colors"
               >

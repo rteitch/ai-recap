@@ -88,7 +88,7 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
 
   const processFile = useCallback((file: File) => {
     if (!file.name.endsWith(".json")) {
-      toast.error("Pilih file .json backup.");
+      toast.error("Please select a .json backup file.");
       return;
     }
 
@@ -97,7 +97,7 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
       try {
         const parsed = JSON.parse(e.target?.result as string) as BackupData;
         if (!parsed.version || !parsed.data || typeof parsed.data !== "object") {
-          toast.error("Format backup tidak valid.");
+          toast.error("Invalid backup format.");
           return;
         }
 
@@ -117,17 +117,17 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
         }
 
         if (Object.keys(validKeys).length === 0) {
-          toast.error("Tidak ada data valid dalam file backup.");
+          toast.error("No valid data found in backup file.");
           return;
         }
 
         if (invalidCount > 0) {
-          toast.warning(`${invalidCount} item dilewati karena format tidak valid.`);
+          toast.warning(`${invalidCount} items skipped due to invalid format.`);
         }
 
         setPreview({ ...parsed, data: validKeys });
       } catch {
-        toast.error("File bukan JSON yang valid.");
+        toast.error("File is not valid JSON.");
       }
     };
     reader.readAsText(file);
@@ -335,10 +335,12 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
                   </p>
                 </div>
 
-                <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-                  <p className="text-xs text-amber-400">
-                    ⚠️ This will replace all current data. The page will reload
-                    after import.
+                <div className="p-3 rounded-lg bg-yellow-400/10 border border-yellow-400/30 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <p className="text-xs text-yellow-400">
+                    This will replace all current data. The page will reload after import.
                   </p>
                 </div>
 
@@ -346,7 +348,7 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
                   type="button"
                   onClick={handleImport}
                   disabled={importing}
-                  className="w-full px-4 py-2.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 text-sm font-medium transition-colors touch-manipulation flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full px-4 py-2.5 rounded-lg bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/30 text-yellow-400 text-sm font-medium transition-colors touch-manipulation flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {importing ? (
                     <>

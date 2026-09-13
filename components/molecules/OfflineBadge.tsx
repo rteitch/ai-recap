@@ -13,10 +13,10 @@ export const OfflineBadge = memo(function OfflineBadge({
 
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-medium text-amber-300"
+      className="inline-flex items-center gap-1.5 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2.5 py-0.5 text-[11px] font-medium text-yellow-300"
       title="Working offline. Saved recaps and flashcards are available."
     >
-      <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+      <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
       <span>Offline mode</span>
     </span>
   );
