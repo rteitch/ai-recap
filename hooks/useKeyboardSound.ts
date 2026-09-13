@@ -154,6 +154,27 @@ export function useKeyboardSound() {
     }
   }, []);
 
+  // Auto-unlock Web Audio context on the first user touch or click (crucial for mobile browsers)
+  useEffect(() => {
+    function unlockAudio() {
+      if (audioCtxRef.current && audioCtxRef.current.state === "suspended") {
+        audioCtxRef.current.resume();
+      }
+      if (isEnabled && !isLoadedRef.current && !isLoadingRef.current) {
+        initAudio();
+      }
+    }
+
+    window.addEventListener("touchstart", unlockAudio, { passive: true });
+    window.addEventListener("touchend", unlockAudio, { passive: true });
+    window.addEventListener("click", unlockAudio, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", unlockAudio);
+      window.removeEventListener("touchend", unlockAudio);
+      window.removeEventListener("click", unlockAudio);
+    };
+  }, [isEnabled, initAudio]);
+
   // Pre-load audio when enabled
   useEffect(() => {
     if (isEnabled) {
@@ -191,13 +212,39 @@ export function useKeyboardSound() {
     }
   }, []);
 
+  const playKeyRelease = useCallback(
+    (eKey: string) => {
+      if (!isEnabled) return;
+      const key = eKey ? eKey.toLowerCase() : "generic";
+      pressedKeysRef.current.delete(key);
+
+      const b = buffersRef.current.release;
+
+      if (key === " " || key === "spacebar") {
+        playBuffer(b.SPACE);
+      } else if (key === "enter") {
+        playBuffer(b.ENTER);
+      } else if (key === "backspace" || key === "delete") {
+        playBuffer(b.BACKSPACE);
+      } else {
+        playBuffer(b.GENERIC);
+      }
+    },
+    [isEnabled, playBuffer]
+  );
+
   const playKeyPress = useCallback(
     (eKey: string) => {
       if (!isEnabled) return;
-      const key = eKey.toLowerCase();
-      // Physical Cherry MX switch only strikes once on downstroke; ignore repeat until release
-      if (pressedKeysRef.current.has(key)) return;
-      pressedKeysRef.current.add(key);
+      const key = eKey ? eKey.toLowerCase() : "generic";
+      const isUnidentified = !key || key === "unidentified" || key === "generic";
+
+      // On physical keyboards, Cherry MX switch only strikes once on downstroke until release
+      // On mobile / virtual keyboards, keys should never be stuck in pressedKeysRef
+      if (!isUnidentified) {
+        if (pressedKeysRef.current.has(key)) return;
+        pressedKeysRef.current.add(key);
+      }
 
       if (!isLoadedRef.current) {
         initAudio();
@@ -215,29 +262,22 @@ export function useKeyboardSound() {
         const randIndex = Math.floor(Math.random() * b.GENERIC.length);
         playBuffer(b.GENERIC[randIndex]);
       }
-    },
-    [isEnabled, initAudio, playBuffer]
-  );
 
-  const playKeyRelease = useCallback(
-    (eKey: string) => {
-      if (!isEnabled) return;
-      const key = eKey.toLowerCase();
-      pressedKeysRef.current.delete(key);
+      // Detect touch/mobile devices or virtual keyboard input
+      const isTouch =
+        typeof window !== "undefined" &&
+        ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
-      const b = buffersRef.current.release;
-
-      if (key === " " || key === "spacebar") {
-        playBuffer(b.SPACE);
-      } else if (key === "enter") {
-        playBuffer(b.ENTER);
-      } else if (key === "backspace" || key === "delete") {
-        playBuffer(b.BACKSPACE);
-      } else {
-        playBuffer(b.GENERIC);
+      // On mobile virtual keyboards, browsers do not fire keyup events.
+      // To reproduce the EXACT rich, satisfying dual-action mechanical switch sound (downstroke press + upstroke clack)
+      // identical to desktop, schedule the mechanical switch release sound after authentic switch travel time (65ms).
+      if (isTouch || isUnidentified) {
+        setTimeout(() => {
+          playKeyRelease(key);
+        }, 65);
       }
     },
-    [isEnabled, playBuffer]
+    [isEnabled, initAudio, playBuffer, playKeyRelease]
   );
 
   return {

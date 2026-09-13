@@ -93,7 +93,7 @@ export const NoteTagBar = memo(function NoteTagBar({
   }
 
   return (
-    <div ref={containerRef} className="relative flex items-center gap-1.5 flex-wrap min-w-0">
+    <div ref={containerRef} className="relative flex items-center gap-1.5 flex-nowrap flex-shrink-0">
       {/* Tag Icon */}
       <div className="flex items-center gap-1 text-[11px] text-ink-400 flex-shrink-0">
         <svg className="w-3 h-3 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -107,7 +107,7 @@ export const NoteTagBar = memo(function NoteTagBar({
         return (
           <span
             key={tag}
-            className="group/chip inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-ink-850 border border-ink-700/80 text-[10px] text-ink-200 hover:border-yellow-400/40 transition-all select-none"
+            className="group/chip inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-ink-850 border border-ink-700/80 text-[10px] text-ink-200 hover:border-yellow-400/40 transition-all select-none flex-shrink-0 whitespace-nowrap"
           >
             <span className={`w-1.5 h-1.5 rounded-full ${dotColor} flex-shrink-0`} />
             <button
@@ -141,7 +141,7 @@ export const NoteTagBar = memo(function NoteTagBar({
         ref={addTagButtonRef}
         type="button"
         onClick={togglePopover}
-        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all border ${
+        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all border flex-shrink-0 whitespace-nowrap ${
           isOpen
             ? "bg-yellow-400/20 text-yellow-300 border-yellow-400/50"
             : "text-ink-400 hover:text-ink-100 bg-ink-850/60 hover:bg-ink-800 border-ink-700/60"

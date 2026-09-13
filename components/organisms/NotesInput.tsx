@@ -790,8 +790,46 @@ flowchart TD
     setShowToc(false);
   }
 
+  const lastKeySoundTimeRef = useRef(0);
+
+  function handleBeforeInput(e: React.FormEvent<HTMLTextAreaElement>) {
+    const inputEvent = e.nativeEvent as InputEvent;
+    if (!inputEvent) return;
+
+    const now = Date.now();
+    // Throttle to avoid double-playing if desktop keydown already played within the last 45ms
+    if (now - lastKeySoundTimeRef.current < 45) return;
+
+    const inputType = inputEvent.inputType;
+    const data = inputEvent.data;
+
+    let key = "";
+    if (inputType === "insertLineBreak" || inputType === "insertParagraph" || data === "\n") {
+      key = "enter";
+    } else if (
+      inputType === "deleteContentBackward" ||
+      inputType === "deleteContentForward" ||
+      inputType === "deleteWordBackward" ||
+      inputType === "deleteByCut"
+    ) {
+      key = "backspace";
+    } else if (data === " ") {
+      key = " ";
+    } else if (data && data.length > 0) {
+      key = data[0];
+    } else if (inputType === "insertText" || inputType === "insertCompositionText") {
+      key = "generic";
+    }
+
+    if (key) {
+      lastKeySoundTimeRef.current = now;
+      playKeyPress(key);
+    }
+  }
+
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (!e.repeat) {
+    if (!e.repeat && e.key && e.key !== "Unidentified") {
+      lastKeySoundTimeRef.current = Date.now();
       playKeyPress(e.key);
     }
 
@@ -2018,8 +2056,8 @@ flowchart TD
       </div>
 
       {/* SUB-HEADER / NOTE METADATA STRIP WITH NOTEBOOK, STUDY STATUS & TAGS */}
-      <div className="px-3.5 py-1.5 border-b border-ink-800/60 bg-app-card text-[11px] text-ink-500 flex items-center justify-between select-none flex-shrink-0 gap-3">
-        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-0.5 min-w-0 flex-1">
+      <div className="h-9 px-3 border-b border-ink-800/60 bg-app-card text-[11px] text-ink-500 flex items-center justify-between select-none flex-shrink-0 gap-2 overflow-hidden">
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 min-w-0 flex-1 flex-nowrap">
           {/* Notebook Dropdown */}
           {notebooks && notebooks.length > 0 && onMoveNotebook && (
             <>
@@ -2028,7 +2066,7 @@ flowchart TD
                 notebooks={notebooks}
                 onSelectNotebook={onMoveNotebook}
               />
-              <span className="text-ink-700">&bull;</span>
+              <span className="text-ink-700 flex-shrink-0">&bull;</span>
             </>
           )}
 
@@ -2038,32 +2076,30 @@ flowchart TD
                 status={studyStatus}
                 onChangeStatus={onChangeStatus}
               />
-              <span className="text-ink-700">&bull;</span>
+              <span className="text-ink-700 flex-shrink-0">&bull;</span>
             </>
           )}
 
           {/* Interactive Note Tag Bar */}
           {onAddTag && onRemoveTag && (
-            <>
-              <NoteTagBar
-                tags={tags || []}
-                allTags={allTags || []}
-                onAddTag={onAddTag}
-                onRemoveTag={onRemoveTag}
-                onSelectTag={onSelectTag}
-              />
-              <span className="text-ink-700 hidden sm:inline">&bull;</span>
-            </>
+            <NoteTagBar
+              tags={tags || []}
+              allTags={allTags || []}
+              onAddTag={onAddTag}
+              onRemoveTag={onRemoveTag}
+              onSelectTag={onSelectTag}
+            />
           )}
 
-          <span className="hidden sm:inline" suppressHydrationWarning>{new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
-          <span className="hidden sm:inline text-ink-700">&bull;</span>
-          <span className="font-mono text-ink-400 whitespace-nowrap">{estimatedReadMins}m read</span>
-          <span className="text-ink-700 hidden sm:inline">&bull;</span>
-          <span className="font-mono text-ink-400 whitespace-nowrap">{wordCount} words</span>
+          <span className="text-ink-700 hidden sm:inline flex-shrink-0">&bull;</span>
+          <span className="hidden sm:inline flex-shrink-0" suppressHydrationWarning>{new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+          <span className="hidden sm:inline text-ink-700 flex-shrink-0">&bull;</span>
+          <span className="font-mono text-ink-400 whitespace-nowrap hidden sm:inline flex-shrink-0">{estimatedReadMins}m read</span>
+          <span className="text-ink-700 hidden sm:inline flex-shrink-0">&bull;</span>
+          <span className="font-mono text-ink-400 whitespace-nowrap hidden sm:inline flex-shrink-0">{wordCount} words</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-2 text-[10px] font-mono text-ink-500 flex-shrink-0">
+        <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono text-ink-500 flex-shrink-0">
           <span>Type <code className="text-yellow-400/80">/</code> blocks</span>
           <span className="text-ink-700">&bull;</span>
           <span><code className="text-yellow-400/80">\</code> LaTeX</span>
@@ -2174,6 +2210,7 @@ flowchart TD
                 ref={activeTextareaRef}
                 value={notes}
                 onChange={handleTextareaChange}
+                onBeforeInput={handleBeforeInput}
                 onKeyUp={handleKeyUp}
                 onClick={handleCursorMove}
                 onPaste={handlePaste}
@@ -2242,6 +2279,7 @@ flowchart TD
               ref={activeTextareaRef}
               value={notes}
               onChange={handleTextareaChange}
+              onBeforeInput={handleBeforeInput}
               onKeyUp={handleKeyUp}
               onClick={handleCursorMove}
               onPaste={handlePaste}

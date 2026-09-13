@@ -119,14 +119,14 @@ export const StudyStatusDropdown = memo(function StudyStatusDropdown({
   }, [isOpen]);
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left flex-shrink-0">
       {/* Trigger Button */}
       <button
         ref={triggerRef}
         type="button"
         disabled={disabled}
         onClick={toggleDropdown}
-        className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border text-[11px] font-medium transition-all ${
+        className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border text-[11px] font-medium transition-all flex-shrink-0 whitespace-nowrap ${
           currentOption.badgeBg
         } ${currentOption.badgeBorder} ${currentOption.textColor} hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed`}
         title={`Study Status: ${currentOption.label} (Click to change)`}

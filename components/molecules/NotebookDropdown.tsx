@@ -89,14 +89,14 @@ export const NotebookDropdown = memo(function NotebookDropdown({
         type="button"
         disabled={disabled}
         onClick={handleOpen}
-        className={`inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded border transition-all ${
+        className={`inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded border transition-all flex-shrink-0 whitespace-nowrap ${
           isOpen
             ? "bg-ink-800 border-yellow-400/50 text-yellow-300 shadow-xs"
             : "bg-ink-850 border-ink-750 text-ink-300 hover:text-ink-100 hover:border-ink-600 hover:bg-ink-800"
         }`}
         title={`Notebook: ${currentNb.label} (Click to change)`}
       >
-        <span className="truncate max-w-[100px]">{currentNb.label}</span>
+        <span className="truncate max-w-[85px] sm:max-w-[120px]">{currentNb.label}</span>
         <svg
           className={`w-2.5 h-2.5 text-ink-400 transition-transform flex-shrink-0 ${
             isOpen ? "rotate-180 text-yellow-400" : ""
