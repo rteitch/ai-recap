@@ -34,6 +34,7 @@ import {
 } from "@/lib/ai-config";
 import { CustomApiModal } from "@/components/organisms/CustomApiModal";
 import { AppearanceModal } from "@/components/organisms/AppearanceModal";
+import { MenuBar } from "@/components/organisms/MenuBar";
 import { BackupRestoreModal } from "@/components/organisms/BackupRestoreModal";
 import { FindReplaceModal } from "@/components/organisms/FindReplaceModal";
 import { MergeNotesModal } from "@/components/organisms/MergeNotesModal";
@@ -107,6 +108,13 @@ export default function Home() {
   const isCommandPaletteOpenRef = useRef(isCommandPaletteOpen);
   isCommandPaletteOpenRef.current = isCommandPaletteOpen;
 
+  // MenuBar editor state (synced from notesInputRef on each menu action)
+  const [menuBarEditorState, setMenuBarEditorState] = useState({
+    canUndo: false, canRedo: false, wordWrap: false,
+    viewMode: "edit" as "edit" | "split" | "preview",
+    showToc: false, isSoundEnabled: false, charCount: 0,
+  });
+
   const {
     sidebarWidth,
     noteListWidth,
@@ -125,7 +133,12 @@ export default function Home() {
   const activeNoteIdRef = useRef(activeNoteId);
   activeNoteIdRef.current = activeNoteId;
   const historySyncTimerRef = useRef<NodeJS.Timeout | null>(null);
-const notesInputRef = useRef<NotesInputHandle>(null);
+  const notesInputRef = useRef<NotesInputHandle>(null);
+  const syncMenuBarState = useCallback(() => {
+    const s = notesInputRef.current?.getState();
+    if (s) setMenuBarEditorState(s);
+  }, []);
+
 
   const { studyStreak, recordStudyActivity } = useStudyStreak();
   const { isSpeaking, speechRate, toggleSpeech, cycleSpeechRate, stopSpeech } =
@@ -1758,29 +1771,42 @@ function updateStorage(
           <StudyStreakBadge streak={studyStreak} />
           <OfflineBadge isOnline={isOnline} />
           <StorageIndicator />
-          {/* Recap Mode Selector */}
-          <select
-            value={recapMode}
-            onChange={(e) => setRecapMode(e.target.value as 'brief' | 'detailed')}
-            className="ml-2 text-xs bg-ink-800 text-ink-200 border border-ink-700 rounded px-1 py-0.5"
-            title="Recap Mode"
-            aria-label="Recap Mode"
-          >
-            <option value="detailed">Detailed</option>
-            <option value="brief">Brief</option>
-          </select>
-          {/* Quiz Count Selector */}
-          <select
-            value={quizCount}
-            onChange={(e) => setQuizCount(Number(e.target.value) as 3 | 5 | 10)}
-            className="ml-2 text-xs bg-ink-800 text-ink-200 border border-ink-700 rounded px-1 py-0.5"
-            title="Quiz Count"
-            aria-label="Quiz Count"
-          >
-            <option value={3}>3</option>
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-          </select>
+          {/* Recap Mode — pill toggle */}
+          <div className="flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
+            {(["detailed", "brief"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setRecapMode(mode)}
+                className={`px-2 py-0.5 text-[10px] font-semibold transition-colors capitalize ${
+                  recapMode === mode
+                    ? "bg-yellow-400/20 text-yellow-300"
+                    : "text-ink-400 hover:text-ink-200 bg-ink-900"
+                }`}
+                title={`Recap Mode: ${mode}`}
+              >
+                {mode === "detailed" ? "Detail" : "Brief"}
+              </button>
+            ))}
+          </div>
+          {/* Quiz Count — pill toggle */}
+          <div className="flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
+            {([3, 5, 10] as const).map((count) => (
+              <button
+                key={count}
+                type="button"
+                onClick={() => setQuizCount(count)}
+                className={`px-1.5 py-0.5 text-[10px] font-semibold font-mono transition-colors ${
+                  quizCount === count
+                    ? "bg-yellow-400/20 text-yellow-300"
+                    : "text-ink-400 hover:text-ink-200 bg-ink-900"
+                }`}
+                title={`Quiz Questions: ${count}`}
+              >
+                {count}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
@@ -1993,6 +2019,59 @@ function updateStorage(
 
         {/* Column 3: Center Editor Canvas */}
         <main className="flex-1 h-full flex flex-col min-w-[280px] bg-app-bg overflow-hidden select-text">
+          {/* Desktop MenuBar — File | Edit | Insert | View | AI | Settings */}
+          <MenuBar
+            hasNotes={notes.trim().length > 0}
+            charCount={notes.length}
+            dailyRemaining={dailyRemaining}
+            loading={loading}
+            customApiConfig={customApiConfig}
+            canUndo={menuBarEditorState.canUndo}
+            canRedo={menuBarEditorState.canRedo}
+            wordWrap={menuBarEditorState.wordWrap}
+            viewMode={menuBarEditorState.viewMode}
+            showToc={menuBarEditorState.showToc}
+            isCompanionOpen={isCompanionOpen}
+            isSidebarOpen={isSidebarOpen}
+            isSoundEnabled={menuBarEditorState.isSoundEnabled}
+            historyCount={history.length}
+            // File
+            onNewNote={handleNewNote}
+            onSaveDraft={handleSaveDraft}
+            onImportFile={() => { syncMenuBarState(); notesInputRef.current?.openFilePicker(); }}
+            onExportPdf={handlePrint}
+            onClearNote={handleClear}
+            // Edit
+            onUndo={() => { syncMenuBarState(); notesInputRef.current?.undo(); }}
+            onRedo={() => { syncMenuBarState(); notesInputRef.current?.redo(); }}
+            onSelectAll={() => { syncMenuBarState(); notesInputRef.current?.selectAll(); }}
+            onCopyAll={() => { syncMenuBarState(); notesInputRef.current?.copyAll(); }}
+            onToggleWordWrap={() => { notesInputRef.current?.toggleWordWrap(); syncMenuBarState(); }}
+            // Insert
+            onBold={() => { syncMenuBarState(); notesInputRef.current?.bold(); }}
+            onItalic={() => { syncMenuBarState(); notesInputRef.current?.italic(); }}
+            onCode={() => { syncMenuBarState(); notesInputRef.current?.code(); }}
+            onBulletList={() => { syncMenuBarState(); notesInputRef.current?.bulletList(); }}
+            onInsertLink={() => { syncMenuBarState(); notesInputRef.current?.insertLink(); }}
+            onInsertImage={() => { syncMenuBarState(); notesInputRef.current?.openImagePicker(); }}
+            onOpenTemplates={() => { syncMenuBarState(); notesInputRef.current?.openTemplates(); }}
+            onOpenFormulas={() => { syncMenuBarState(); notesInputRef.current?.openFormulas(); }}
+            onOpenMermaid={() => { syncMenuBarState(); notesInputRef.current?.openMermaid(); }}
+            onLoadSample={handleLoadSample}
+            // View
+            onSetViewMode={(mode) => { notesInputRef.current?.setViewMode(mode); syncMenuBarState(); }}
+            onToggleToc={() => { notesInputRef.current?.toggleToc(); syncMenuBarState(); }}
+            onToggleCompanion={handleToggleCompanion}
+            onToggleSidebar={handleToggleSidebar}
+            onToggleSound={() => { notesInputRef.current?.toggleSound(); syncMenuBarState(); }}
+            // AI
+            onRecap={handleRecap}
+            onOpenHistory={handleOpenHistory}
+            // Settings
+            onOpenSettings={handleOpenSettings}
+            onOpenAppearance={handleOpenAppearance}
+            onOpenShortcuts={handleOpenShortcuts}
+          />
           <NotesInput
             ref={notesInputRef}
             notes={notes}

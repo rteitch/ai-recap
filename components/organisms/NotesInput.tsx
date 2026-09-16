@@ -101,6 +101,33 @@ const CATEGORY_TABS: { id: string; label: string }[] = [
 export type NotesInputHandle = {
   undo: () => void;
   redo: () => void;
+  // MenuBar integration
+  bold: () => void;
+  italic: () => void;
+  code: () => void;
+  bulletList: () => void;
+  insertLink: () => void;
+  openImagePicker: () => void;
+  openFilePicker: () => void;
+  openTemplates: () => void;
+  openFormulas: () => void;
+  openMermaid: () => void;
+  selectAll: () => void;
+  copyAll: () => void;
+  toggleWordWrap: () => void;
+  setViewMode: (mode: "edit" | "split" | "preview") => void;
+  toggleToc: () => void;
+  toggleSound: () => void;
+  // State readers
+  getState: () => {
+    canUndo: boolean;
+    canRedo: boolean;
+    wordWrap: boolean;
+    viewMode: "edit" | "split" | "preview";
+    showToc: boolean;
+    isSoundEnabled: boolean;
+    charCount: number;
+  };
 };
 
 const NotesInputInner = forwardRef<NotesInputHandle, NotesInputProps>(function NotesInput({
@@ -174,6 +201,59 @@ const NotesInputInner = forwardRef<NotesInputHandle, NotesInputProps>(function N
   useImperativeHandle(ref, () => ({
     undo: handleUndo,
     redo: handleRedo,
+    // Formatting
+    bold: () => wrapSelection("**", "**"),
+    italic: () => wrapSelection("*", "*"),
+    code: () => wrapSelection("`", "`"),
+    bulletList: () => {
+      const TA = activeTextareaRef.current;
+      if (!TA) return;
+      const pos = TA.selectionStart ?? 0;
+      const before = notes.slice(0, pos);
+      const after = notes.slice(pos);
+      const prefix = before.endsWith("\n") || before.length === 0 ? "" : "\n";
+      const newNotes = before + prefix + "- " + after;
+      onNotesChange(newNotes);
+      recordUndo(newNotes);
+      const newPos = pos + prefix.length + 2;
+      setTimeout(() => { TA.focus(); TA.setSelectionRange(newPos, newPos); setCursorPosition(newPos); }, 0);
+    },
+    insertLink: () => {
+      const TA = activeTextareaRef.current;
+      if (!TA) return;
+      const pos = TA.selectionStart ?? 0;
+      const end = TA.selectionEnd ?? 0;
+      const selected = notes.slice(pos, end);
+      const before = notes.slice(0, pos);
+      const after = notes.slice(end);
+      const linkText = selected || "link text";
+      const newNotes = before + `[${linkText}](url)` + after;
+      onNotesChange(newNotes);
+      recordUndo(newNotes);
+      const urlStart = pos + linkText.length + 3;
+      setTimeout(() => { TA.focus(); TA.setSelectionRange(urlStart, urlStart + 3); setCursorPosition(urlStart); }, 0);
+    },
+    openImagePicker: () => imageInputRef.current?.click(),
+    openFilePicker: () => fileInputRef.current?.click(),
+    openTemplates: () => toggleMenu("template"),
+    openFormulas: () => toggleMenu("formula"),
+    openMermaid: () => toggleMenu("mermaid"),
+    selectAll: handleSelectAll,
+    copyAll: handleCopyAll,
+    toggleWordWrap: () => setWordWrap((w) => !w),
+    setViewMode: (mode: "edit" | "split" | "preview") => setViewMode(mode),
+    toggleToc: () => setShowToc((v) => !v),
+    toggleSound,
+    // State readers
+    getState: () => ({
+      canUndo: undoStack.length > 0,
+      canRedo: redoStack.length > 0,
+      wordWrap,
+      viewMode,
+      showToc,
+      isSoundEnabled,
+      charCount: notes.length,
+    }),
   }));
 
   // --- 6. Editor Cursor & Autocomplete State ---
@@ -1460,7 +1540,7 @@ flowchart TD
               aria-label="Toggle Word Wrap"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6h16M4 12h10M4 18h14" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6h16M4 12h10a3 3 0 010 6h-1m0 0l2-2m-2 2l2 2M4 18h4" />
               </svg>
             </button>
           </div>
@@ -1859,16 +1939,16 @@ flowchart TD
               )}
             </div>
 
-            {/* Load Sample Note Button (Sparkles SVG Icon - DISTINCT from document/templates!) */}
+            {/* Load Demo Note Button */}
             <button
               type="button"
               onClick={onLoadSample}
               className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border text-ink-300 hover:text-yellow-400 bg-ink-850 hover:bg-ink-800 border-ink-700/60 flex-shrink-0"
-              title="Load sample study note ($E=mc^2$)"
-              aria-label="Load Sample Note"
+              title="Load Demo Note (E=mc² physics example)"
+              aria-label="Load Demo Note"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
               </svg>
             </button>
           </div>
@@ -1996,12 +2076,12 @@ flowchart TD
             )}
           </button>
 
-          {/* AI Settings / Custom API Configuration */}
+          {/* AI Settings / Custom API — hidden on desktop (covered by MenuBar > Settings) */}
           {onOpenSettings && (
             <button
               type="button"
               onClick={onOpenSettings}
-              className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
+              className={`lg:hidden w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
                 customApiConfig?.enabled
                   ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
                   : "text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
@@ -2020,12 +2100,12 @@ flowchart TD
             </button>
           )}
 
-          {/* Theme & Typography Settings */}
+          {/* Theme & Typography — hidden on desktop (covered by MenuBar > Settings) */}
           {onOpenAppearance && (
             <button
               type="button"
               onClick={onOpenAppearance}
-              className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
+              className="lg:hidden w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
               title="Theme & Typography Settings"
               aria-label="Theme & Typography"
             >
@@ -2035,7 +2115,7 @@ flowchart TD
             </button>
           )}
 
-          {/* Toggle Right Companion Panel */}
+          {/* Toggle Right Companion Panel — chat bubble icon (not lightning) */}
           {onToggleCompanion && (
             <button
               type="button"
@@ -2045,10 +2125,11 @@ flowchart TD
                   ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
                   : "text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
               }`}
-              title={isCompanionOpen ? "Collapse AI Companion" : "Open AI Companion"}
+              title={isCompanionOpen ? "Collapse AI Companion Panel" : "Open AI Companion Panel"}
+              aria-label="Toggle AI Companion"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
             </button>
           )}

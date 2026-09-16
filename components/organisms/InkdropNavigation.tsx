@@ -674,11 +674,17 @@ export const InkdropNavigation = memo(function InkdropNavigation({
           type="button"
           onClick={handleClearClick}
           className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs text-ink-400 hover:text-rose-400 hover:bg-ink-800/60 transition-colors"
+          title="Permanently delete all notes and history"
         >
           <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
-          <span className="truncate">Clear History</span>
+          <span className="truncate">Clear All History</span>
+          {totalNotes > 0 && (
+            <span className="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-900/40 text-rose-400 border border-rose-800/60 flex-shrink-0">
+              {totalNotes}
+            </span>
+          )}
         </button>
       </div>
 
