@@ -1624,7 +1624,7 @@ flowchart TD
                 onClick={() => toggleMenu("template")}
                 className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border ${
                   activeMenu === "template"
-                    ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
+                    ? "bg-highlight/15 text-highlight border-highlight/40"
                     : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
                 }`}
                 title="Study Note Templates"
@@ -1649,7 +1649,7 @@ flowchart TD
                     }}
                     className="fixed z-50 w-72 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700 bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1"
                   >
-                    <div className="px-2 py-1 text-[11px] font-semibold text-yellow-400 border-b border-ink-800 mb-1 flex items-center justify-between">
+                    <div className="px-2 py-1 text-[11px] font-semibold text-highlight border-b border-ink-800 mb-1 flex items-center justify-between">
                       <span>Study Note Templates</span>
                       <button
                         type="button"
@@ -1668,7 +1668,7 @@ flowchart TD
                       >
                         <span className="mt-0.5 flex-shrink-0">{renderTemplateIcon(tmpl.iconType)}</span>
                         <div className="min-w-0 flex-1">
-                          <div className="font-semibold text-xs text-ink-100 group-hover:text-yellow-400">
+                          <div className="font-semibold text-xs text-ink-100 group-hover:text-highlight">
                             {tmpl.name}
                           </div>
                           <div className="text-[10px] text-ink-400 line-clamp-1">{tmpl.description}</div>
@@ -1688,13 +1688,13 @@ flowchart TD
                 onClick={() => toggleMenu("formula")}
                 className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border ${
                   activeMenu === "formula"
-                    ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
+                    ? "bg-highlight/15 text-highlight border-highlight/40"
                     : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
                 }`}
                 title="LaTeX Math Formulas (\)"
                 aria-label="LaTeX Math Formulas"
               >
-                <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12h2l3 9 4-18 3 9h4" />
                 </svg>
               </button>
@@ -1715,7 +1715,7 @@ flowchart TD
                   >
                     <div className="flex items-center justify-between pb-1.5 border-b border-ink-800">
                       <span className="text-xs font-semibold text-ink-100 flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12h2l3 9 4-18 3 9h4" />
                         </svg>
                         LaTeX Math Formulas
@@ -1737,7 +1737,7 @@ flowchart TD
                       value={formulaSearch}
                       onChange={(e) => setFormulaSearch(e.target.value)}
                       placeholder="Search formula (e.g. integral, square root, matrix)..."
-                      className="w-full bg-ink-850 border border-ink-700/80 rounded-md px-2.5 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-yellow-400"
+                      className="w-full bg-ink-850 border border-ink-700/80 rounded-md px-2.5 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight"
                     />
 
                     <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-thin">
@@ -1748,7 +1748,7 @@ flowchart TD
                           onClick={() => setSelectedCategory(tab.id)}
                           className={`flex-shrink-0 px-2 py-0.5 rounded text-[10px] transition-colors ${
                             selectedCategory === tab.id
-                              ? "bg-yellow-400 text-stone-950 font-bold"
+                              ? "bg-highlight text-highlight-text font-bold"
                               : "bg-ink-800 text-ink-400 hover:text-ink-200"
                           }`}
                         >
@@ -1766,7 +1766,7 @@ flowchart TD
                           className="w-full text-left p-1.5 rounded-md hover:bg-ink-800 transition-colors flex items-center justify-between gap-2 group"
                         >
                           <div className="min-w-0">
-                            <code className="text-xs font-mono text-yellow-400 group-hover:underline">
+                            <code className="text-xs font-mono text-highlight group-hover:underline">
                               {item.command}
                             </code>
                             <div className="text-[11px] text-ink-300 truncate">{item.label}</div>
@@ -1790,8 +1790,8 @@ flowchart TD
                 onClick={() => toggleMenu("mermaid")}
                 className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
                   activeMenu === "mermaid"
-                    ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
-                    : "text-ink-300 hover:text-yellow-400 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
+                    ? "bg-highlight/15 text-highlight border-highlight/40"
+                    : "text-ink-300 hover:text-highlight bg-ink-850 hover:bg-ink-800 border-ink-700/60"
                 }`}
                 title="Mermaid Diagram Templates (Flowchart, Sequence, Mindmap, ERD, Class, Gantt, etc.)"
                 aria-label="Mermaid Diagram Templates"
@@ -1817,10 +1817,10 @@ flowchart TD
                   >
                     <div className="flex items-center justify-between pb-1.5 border-b border-ink-800">
                       <div className="flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
                         </svg>
-                        <span className="text-xs font-semibold text-yellow-400">Mermaid Diagram Gallery</span>
+                        <span className="text-xs font-semibold text-highlight">Mermaid Diagram Gallery</span>
                         <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-ink-800 text-ink-400 border border-ink-750">
                           {MERMAID_TEMPLATES.length} templates
                         </span>
@@ -1840,7 +1840,7 @@ flowchart TD
                       placeholder="Search diagram templates (flowchart, mindmap, erd...)"
                       value={mermaidSearch}
                       onChange={(e) => setMermaidSearch(e.target.value)}
-                      className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-ink-900 border border-ink-700 text-ink-100 placeholder-ink-500 focus:outline-none focus:border-yellow-400"
+                      className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-ink-900 border border-ink-700 text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight"
                     />
 
                     {/* Category Filter Tabs */}
@@ -1852,7 +1852,7 @@ flowchart TD
                           onClick={() => setMermaidCategory(cat)}
                           className={`px-2 py-0.5 rounded-md font-mono whitespace-nowrap transition-colors ${
                             mermaidCategory === cat
-                              ? "bg-yellow-400 text-stone-950 font-bold"
+                              ? "bg-highlight text-highlight-text font-bold"
                               : "bg-ink-850 text-ink-300 hover:bg-ink-800 hover:text-ink-100 border border-ink-750"
                           }`}
                         >
@@ -1871,7 +1871,7 @@ flowchart TD
                           className="w-full text-left p-2 rounded-lg hover:bg-ink-800 transition-colors group flex items-start justify-between gap-2 border border-transparent hover:border-ink-700"
                         >
                           <div className="min-w-0 flex-1">
-                            <div className="font-semibold text-xs text-ink-100 group-hover:text-yellow-400 truncate">
+                            <div className="font-semibold text-xs text-ink-100 group-hover:text-highlight truncate">
                               {tmpl.name}
                             </div>
                             <div className="text-[10px] text-ink-400 line-clamp-1 mt-0.5">
@@ -1907,7 +1907,7 @@ flowchart TD
               onClick={() => setShowToc((v) => !v)}
               className={`relative w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
                 showToc
-                  ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
+                  ? "bg-highlight/15 text-highlight border-highlight/40"
                   : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
               }`}
               title="Table of Contents"
@@ -1916,7 +1916,7 @@ flowchart TD
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h10M4 18h14" />
               </svg>
               {tocEntries.length > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[14px] h-3.5 px-0.5 bg-yellow-400 text-stone-950 text-[9px] font-bold rounded-full flex items-center justify-center font-mono shadow-xs">
+                <span className="absolute -top-1 -right-1 min-w-[14px] h-3.5 px-0.5 bg-highlight text-highlight-text text-[9px] font-bold rounded-full flex items-center justify-center font-mono shadow-xs">
                   {tocEntries.length}
                 </span>
               )}
@@ -1934,7 +1934,7 @@ flowchart TD
             suppressHydrationWarning
             className={`relative w-7 h-7 flex items-center justify-center rounded-md transition-all border flex-shrink-0 ${
               isSoundEnabled
-                ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
+                ? "bg-highlight/15 text-highlight border-highlight/40"
                 : "text-ink-400 hover:text-ink-200 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
             }`}
             title={isSoundEnabled ? "Cherry MX Black Sound Active (Click to Mute)" : "Enable Cherry MX Black Sound"}
@@ -1944,41 +1944,41 @@ flowchart TD
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7zM7 9h.01M11 9h.01M15 9h.01M7 12h.01M11 12h.01M15 12h.01M9 15h6" />
             </svg>
             {isSoundEnabled && (
-              <span className="absolute -bottom-0.5 w-1.5 h-1.5 rounded-full bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.9)]" />
+              <span className="absolute -bottom-0.5 w-1.5 h-1.5 rounded-full bg-highlight shadow-[0_0_6px_var(--highlight)]" />
             )}
           </button>
 
-          {/* AI Recap Action Button (Logo Yellow, Never Cut Off) */}
+          {/* AI Recap Action Button (Theme Highlight, Never Cut Off) */}
           <button
             type="button"
             onClick={onSubmit}
             disabled={loading || charCount < 40}
-            className="h-7 px-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-bold text-xs transition-all flex items-center gap-1.5 shadow-xs disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation flex-shrink-0"
+            className="h-7 px-2.5 rounded-md bg-highlight hover:bg-highlight-hover text-highlight-text font-bold text-xs transition-all flex items-center gap-1.5 shadow-xs disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation flex-shrink-0"
             title="Generate AI Recap & Self-Test (Ctrl+Enter)"
           >
             <span className="flex items-center gap-1.5">
               {!loading && (
-                <svg className="w-3.5 h-3.5 fill-current text-stone-950 flex-shrink-0" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 fill-current text-highlight-text flex-shrink-0" viewBox="0 0 24 24">
                   <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
                 </svg>
               )}
               <span>{loading ? "Recapping…" : "AI Recap"}</span>
             </span>
             {dailyRemaining !== null && (
-              <span className="text-[10px] font-mono px-1 py-0.2 rounded bg-stone-950/20 text-stone-950 font-bold">
+              <span className="text-[10px] font-mono px-1 py-0.2 rounded bg-black/20 text-highlight-text font-bold">
                 {dailyRemaining}/10
               </span>
             )}
           </button>
 
-          {/* Toggle Right Companion Panel — chat bubble icon (not lightning) */}
+          {/* Toggle Right Companion Panel — chat bubble icon */}
           {onToggleCompanion && (
             <button
               type="button"
               onClick={onToggleCompanion}
               className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
                 isCompanionOpen
-                  ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
+                  ? "bg-highlight/15 text-highlight border-highlight/40"
                   : "text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
               }`}
               title={isCompanionOpen ? "Collapse AI Companion Panel" : "Open AI Companion Panel"}
@@ -2254,53 +2254,113 @@ flowchart TD
         )}
       </div>
 
-      {/* BOTTOM STATUS BAR */}
-      <div className="h-7 px-3.5 border-t border-ink-800/80 bg-app-card text-[10px] text-ink-400 flex items-center justify-between select-none flex-shrink-0 font-mono">
-        <div className="flex items-center gap-1.5">
-          <span
-            className={`w-1.5 h-1.5 rounded-full ${
-              saveStatus === "saved" ? "bg-emerald-400" : saveStatus === "saving" ? "bg-yellow-400 animate-pulse" : "bg-ink-500"
-            }`}
-          />
-          <span>
-            {saveStatus === "saved" ? "Saved" : saveStatus === "saving" ? "Saving..." : "Draft"}
-          </span>
-          {lastEdited && (
-            <span className="text-ink-600">
-              · {lastEdited.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+      {/* IDE-STYLE BOTTOM WORKSTATION STATUS BAR */}
+      <footer className="h-6 px-3 border-t border-ink-800/80 bg-app-card text-[10px] font-mono text-ink-400 flex items-center justify-between select-none flex-shrink-0">
+        <div className="flex items-center gap-2">
+          {/* Live Auto-save indicator */}
+          <span className="flex items-center gap-1.5 pr-1 border-r border-ink-800">
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                saveStatus === "saved"
+                  ? "bg-emerald-400"
+                  : saveStatus === "saving"
+                  ? "bg-highlight animate-pulse"
+                  : "bg-ink-500"
+              }`}
+            />
+            <span className="text-ink-300">
+              {saveStatus === "saved" ? "Saved" : saveStatus === "saving" ? "Saving…" : "Draft"}
             </span>
-          )}
+          </span>
+
+          <span className="text-ink-300">
+            Ln {cursorLine}, Col {cursorCol}
+          </span>
+          <span className="text-ink-700">&bull;</span>
+          <span className="text-ink-400">UTF-8</span>
+          <span className="text-ink-700">&bull;</span>
+          <span className="text-highlight font-semibold">Markdown</span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-2 text-ink-500">
+          <span>Type <code className="text-highlight">/</code> blocks</span>
+          <span className="text-ink-700">&bull;</span>
+          <span><code className="text-highlight">\</code> LaTeX</span>
+          <span className="text-ink-700">&bull;</span>
+          <span className="text-highlight">```mermaid</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span>{wordCount} words · {estimatedReadMins}m read</span>
-          <span className={isOverLimit ? "text-yellow-400 font-bold" : ""}>
-            {charCount}/20,000 characters
+          <span>{wordCount} words</span>
+          <span className="text-ink-700">&bull;</span>
+          <span>{estimatedReadMins}m read</span>
+          <span className="text-ink-700">&bull;</span>
+          <span className={isOverLimit ? "text-highlight font-bold" : ""}>
+            {charCount}/20k chars
           </span>
-          {needsMoreChars && (
-            <span className="text-yellow-400/90">(min. 40)</span>
-          )}
         </div>
-      </div>
+      </footer>
 
-      {/* Template Confirmation Modal */}
+      {/* Safe Template Insertion Modal (Append to Bottom vs Replace Note) */}
       {pendingTemplate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4 animate-fade-in">
-          <div className="bg-ink-900 border border-ink-700 rounded-xl p-5 max-w-sm w-full shadow-2xl space-y-3">
-            <h3 className="text-sm font-semibold text-ink-100 flex items-center gap-2">
-              <span className="flex-shrink-0">{renderTemplateIcon(pendingTemplate.iconType)}</span>
-              <span>Use Template {pendingTemplate.name}?</span>
-            </h3>
-            <p className="text-xs text-ink-400 leading-relaxed">
-              Your current note ({wordCount} words) will be replaced with this template structure.
-            </p>
-            <div className="flex items-center justify-end gap-2 pt-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-fade-in">
+          <div className="bg-app-surface border border-ink-700 rounded-2xl p-5 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="p-2 rounded-lg bg-highlight/15 border border-highlight/30 flex-shrink-0">
+                  {renderTemplateIcon(pendingTemplate.iconType)}
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-ink-50">
+                    Apply {pendingTemplate.name}
+                  </h3>
+                  <p className="text-xs text-ink-400 mt-0.5">
+                    Your current draft contains <span className="font-semibold text-ink-200">{wordCount} words</span>.
+                  </p>
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={() => setPendingTemplate(null)}
-                className="px-3 py-1.5 rounded-md text-xs text-ink-400 hover:text-ink-100 hover:bg-ink-800 transition-colors"
+                className="text-ink-400 hover:text-ink-100 p-1"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Template description & snippet preview */}
+            <div className="p-3 rounded-xl bg-app-card border border-ink-800 text-xs space-y-2">
+              <p className="text-ink-300 font-medium">{pendingTemplate.description}</p>
+              <div className="text-[11px] font-mono text-ink-400 line-clamp-3 bg-app-bg/80 p-2 rounded-lg border border-ink-700/50">
+                {pendingTemplate.content.slice(0, 180)}...
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 pt-1">
+              <button
+                type="button"
+                onClick={() => setPendingTemplate(null)}
+                className="px-3.5 py-1.5 rounded-lg text-xs text-ink-400 hover:text-ink-100 hover:bg-ink-800 transition-colors"
               >
                 Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const combined = notes.trim()
+                    ? `${notes.trim()}\n\n---\n\n${pendingTemplate.content}`
+                    : pendingTemplate.content;
+                  onNotesChange(combined);
+                  setPendingTemplate(null);
+                  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+                  setViewMode(isMobile ? "preview" : "split");
+                }}
+                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-ink-800 hover:bg-ink-700 text-ink-100 border border-ink-700 transition-colors"
+                title="Keep existing notes and append this template at the bottom"
+              >
+                Append to Bottom
               </button>
               <button
                 type="button"
@@ -2310,43 +2370,15 @@ flowchart TD
                   const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
                   setViewMode(isMobile ? "preview" : "split");
                 }}
-                className="px-3 py-1.5 rounded-md text-xs bg-highlight text-ink-900 font-semibold hover:bg-highlight/90 transition-colors"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-highlight hover:bg-highlight-hover text-highlight-text transition-colors shadow-xs"
+                title="Replace existing note with this template"
               >
-                Apply Template
+                Replace Note
               </button>
             </div>
           </div>
         </div>
       )}
-
-      {/* IDE-STYLE BOTTOM WORKSTATION STATUS BAR */}
-      <footer className="h-6 px-3 border-t border-ink-800/80 bg-app-card text-[10px] font-mono text-ink-400 flex items-center justify-between select-none flex-shrink-0">
-        <div className="flex items-center gap-2.5">
-          <span className="text-ink-300">
-            Ln {cursorLine}, Col {cursorCol}
-          </span>
-          <span className="text-ink-700">&bull;</span>
-          <span className="text-ink-400">UTF-8</span>
-          <span className="text-ink-700">&bull;</span>
-          <span className="text-yellow-400/90 font-semibold">Markdown</span>
-        </div>
-
-        <div className="hidden md:flex items-center gap-2 text-ink-500">
-          <span>Type <code className="text-yellow-400/80">/</code> blocks</span>
-          <span className="text-ink-700">&bull;</span>
-          <span><code className="text-yellow-400/80">\</code> LaTeX</span>
-          <span className="text-ink-700">&bull;</span>
-          <span className="text-yellow-400/80">```mermaid</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span>{wordCount} words</span>
-          <span className="text-ink-700">&bull;</span>
-          <span>{estimatedReadMins}m read</span>
-          <span className="text-ink-700">&bull;</span>
-          <span>{notes.length} chars</span>
-        </div>
-      </footer>
     </div>
   );
 });

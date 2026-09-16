@@ -125,7 +125,7 @@ function MenuSection({ label, children }: { label: string; children: React.React
 }
 
 const IconCheck = () => (
-  <svg className="w-3 h-3 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-3 h-3 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
   </svg>
 );
@@ -248,7 +248,7 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
           >
             {label}
             {id === "ai" && dailyRemaining !== null && (
-              <span className="text-[9px] font-mono px-1 rounded bg-yellow-400/20 text-yellow-300 border border-yellow-400/30">
+              <span className="text-[9px] font-mono px-1 rounded bg-highlight/20 text-highlight border border-highlight/30">
                 {dailyRemaining}/10
               </span>
             )}
@@ -401,7 +401,7 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
           <span className="font-mono">{charCount.toLocaleString()} chars</span>
         )}
         {customApiConfig?.enabled && (
-          <span className="px-1.5 py-0.5 rounded bg-yellow-400/15 text-yellow-400 text-[10px] font-mono border border-yellow-400/30">
+          <span className="px-1.5 py-0.5 rounded bg-highlight/15 text-highlight text-[10px] font-mono border border-highlight/30">
             {customApiConfig.model || customApiConfig.provider}
           </span>
         )}

@@ -43,10 +43,16 @@ export const AppearanceModal = memo(function AppearanceModal({
   onReset,
 }: AppearanceModalProps) {
   const [activeTab, setActiveTab] = useState<"themes" | "typography">("themes");
+  const [themeFilter, setThemeFilter] = useState<"all" | "dark" | "light">("all");
 
   if (!isOpen) return null;
 
   const presetList = Object.values(THEME_PRESETS);
+  const filteredPresets = presetList.filter((preset) => {
+    if (themeFilter === "dark") return preset.isDark;
+    if (themeFilter === "light") return !preset.isDark;
+    return true;
+  });
 
   return (
     <div
@@ -124,10 +130,90 @@ export const AppearanceModal = memo(function AppearanceModal({
         {/* Modal Scrollable Content */}
         <div className="flex-1 overflow-y-auto py-4 space-y-5 scrollbar-thin">
           {activeTab === "themes" ? (
-            <div className="space-y-5">
+            <div className="space-y-4">
+              {/* Filter Pills */}
+              <div className="flex items-center gap-1.5 pb-1">
+                <button
+                  type="button"
+                  onClick={() => setThemeFilter("all")}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                    themeFilter === "all"
+                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                  }`}
+                >
+                  All ({presetList.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setThemeFilter("dark")}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                    themeFilter === "dark"
+                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                  }`}
+                >
+                  Dark Schemes ({presetList.filter((p) => p.isDark).length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setThemeFilter("light")}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                    themeFilter === "light"
+                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                  }`}
+                >
+                  Light Paper ({presetList.filter((p) => !p.isDark).length})
+                </button>
+              </div>
+
+              {/* Live Theme Preview Card */}
+              <div
+                className="p-3 rounded-xl border transition-all"
+                style={{
+                  backgroundColor: activeColors.bgApp,
+                  borderColor: activeColors.border,
+                  color: activeColors.ink100,
+                }}
+              >
+                <div className="flex items-center justify-between pb-2 border-b" style={{ borderColor: activeColors.border }}>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: activeColors.highlight }} />
+                    <span className="text-xs font-bold font-mono" style={{ color: activeColors.ink50 }}>
+                      Active: {activeColors.name}
+                    </span>
+                  </div>
+                  <span
+                    className="text-[10px] font-semibold px-2 py-0.5 rounded-md font-mono"
+                    style={{
+                      backgroundColor: activeColors.highlightSoft,
+                      color: activeColors.highlight,
+                    }}
+                  >
+                    {activeColors.isDark ? "Dark Scheme" : "Light Paper"}
+                  </span>
+                </div>
+                <div className="pt-2 space-y-1.5 text-xs">
+                  <div className="font-semibold" style={{ color: activeColors.ink50 }}>
+                    # Quantum Information &amp; Retrieval Practice
+                  </div>
+                  <div
+                    className="px-2.5 py-1.5 rounded font-mono text-[11px] border"
+                    style={{
+                      backgroundColor: activeColors.bgSurface,
+                      borderColor: activeColors.border,
+                      color: activeColors.ink200,
+                    }}
+                  >
+                    <span style={{ color: activeColors.highlight }}>const</span> recall = (n) =&gt; n &gt;= 0.85;
+                  </div>
+                </div>
+              </div>
+
               {/* Presets Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {presetList.map((preset) => {
+                {filteredPresets.map((preset) => {
                   const isSelected = appearance.themeId === preset.id;
                   return (
                     <button

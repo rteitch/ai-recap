@@ -227,6 +227,110 @@
   --border-color: rgba(147, 161, 161, 0.15);
 }
 
+[data-theme="one-dark-pro"] {
+  color-scheme: dark;
+  --bg-app: #282c34;
+  --bg-sidebar: #21252b;
+  --bg-surface: #2f3440;
+  --bg-card: #353b45;
+  --bg-card-hover: #3e4451;
+  --ink-50: #abb2bf;
+  --ink-100: #e5e9f0;
+  --ink-200: #abb2bf;
+  --ink-300: #828997;
+  --ink-400: #61afef;
+  --ink-500: #5c6370;
+  --ink-600: #4b5263;
+  --ink-700: #383e4a;
+  --ink-800: #2c313a;
+  --ink-850: #242830;
+  --ink-900: #21252b;
+  --ink-950: #1b1d23;
+  --highlight: #61afef;
+  --highlight-hover: #4fa3e3;
+  --highlight-soft: rgba(97, 175, 239, 0.15);
+  --highlight-text: #1b1d23;
+  --border-color: rgba(171, 178, 191, 0.12);
+}
+
+[data-theme="monokai-pro"] {
+  color-scheme: dark;
+  --bg-app: #2d2a2e;
+  --bg-sidebar: #221f22;
+  --bg-surface: #363337;
+  --bg-card: #403e41;
+  --bg-card-hover: #4a474b;
+  --ink-50: #fcfcfa;
+  --ink-100: #f7f7f5;
+  --ink-200: #e3e3e1;
+  --ink-300: #c1c0c0;
+  --ink-400: #a9dc76;
+  --ink-500: #727072;
+  --ink-600: #5b595c;
+  --ink-700: #403e41;
+  --ink-800: #363337;
+  --ink-850: #2b282c;
+  --ink-900: #221f22;
+  --ink-950: #19181a;
+  --highlight: #ffd866;
+  --highlight-hover: #fcc642;
+  --highlight-soft: rgba(255, 216, 102, 0.16);
+  --highlight-text: #19181a;
+  --border-color: rgba(252, 252, 250, 0.1);
+}
+
+[data-theme="solarized-light"] {
+  color-scheme: light;
+  --bg-app: #fdf6e3;
+  --bg-sidebar: #eee8d5;
+  --bg-surface: #f6f0dc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #eae4d0;
+  --ink-50: #002b36;
+  --ink-100: #073642;
+  --ink-200: #586e75;
+  --ink-300: #657b83;
+  --ink-400: #839496;
+  --ink-500: #93a1a1;
+  --ink-600: #a8b5b5;
+  --ink-700: #cbd6d6;
+  --ink-800: #e0d9c4;
+  --ink-850: #eae4d0;
+  --ink-900: #eee8d5;
+  --ink-950: #fdf6e3;
+  --highlight: #268bd2;
+  --highlight-hover: #1f75b3;
+  --highlight-soft: rgba(38, 139, 210, 0.14);
+  --highlight-text: #ffffff;
+  --border-color: rgba(7, 54, 66, 0.12);
+}
+
+[data-theme="gruvbox-dark"] {
+  color-scheme: dark;
+  --bg-app: #282828;
+  --bg-sidebar: #1d2021;
+  --bg-surface: #32302f;
+  --bg-card: #3c3836;
+  --bg-card-hover: #504945;
+  --ink-50: #fbf1c7;
+  --ink-100: #ebdbb2;
+  --ink-200: #d5c4a1;
+  --ink-300: #bdae93;
+  --ink-400: #fabd2f;
+  --ink-500: #928374;
+  --ink-600: #665c54;
+  --ink-700: #504945;
+  --ink-800: #3c3836;
+  --ink-850: #282828;
+  --ink-900: #1d2021;
+  --ink-950: #141617;
+  --highlight: #fabd2f;
+  --highlight-hover: #e5a820;
+  --highlight-soft: rgba(250, 189, 47, 0.16);
+  --highlight-text: #141617;
+  --border-color: rgba(235, 219, 178, 0.12);
+}
+
 body {
   background-color: var(--bg-app);
   color: var(--ink-100);
@@ -465,6 +569,15 @@ button:focus-visible {
     padding-left: 12px !important;
     margin-left: 0 !important;
     color: #374151 !important;
+  }
+
+  .callout-box {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    background: #f9fafb !important;
+    border-left-width: 4px !important;
+    border-color: #374151 !important;
+    color: #111827 !important;
   }
 
   a {
