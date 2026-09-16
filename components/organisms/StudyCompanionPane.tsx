@@ -166,7 +166,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
         <div className="flex items-center gap-2">
           <span className={`text-yellow-400 ${loading ? "animate-spin" : ""}`}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
           </span>
           <h2 className="font-semibold text-xs sm:text-sm text-ink-100 tracking-tight">
@@ -281,8 +281,8 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
               disabled={notesLength < 40}
               className="w-full max-w-xs py-2 px-4 rounded-lg bg-highlight text-ink-950 font-semibold text-xs hover:bg-highlight/90 transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
               </svg>
               <span>{notesLength < 40 ? "Write min. 40 characters" : "Start AI Recap"}</span>
             </button>
@@ -292,7 +292,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
               <div className="p-2.5 rounded-md bg-ink-850/60 border border-ink-800 text-[11px] text-ink-300 flex items-center gap-2">
                 <span className="text-sky-400 flex-shrink-0">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </span>
                 <span>Core Summary & Text-to-Speech</span>

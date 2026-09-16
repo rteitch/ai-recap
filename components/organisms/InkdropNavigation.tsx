@@ -3,7 +3,6 @@
 import { memo, useState } from "react";
 import Image from "next/image";
 import { StudyStatus } from "@/lib/types";
-import { STUDY_TEMPLATES } from "@/lib/templates";
 import { ConfirmDialog } from "@/components/molecules/ConfirmDialog";
 import { CustomApiConfig } from "@/lib/ai-config";
 import { getTagDotColor, normalizeTag } from "@/lib/tags";
@@ -84,7 +83,6 @@ export const InkdropNavigation = memo(function InkdropNavigation({
   const [notebooksCollapsed, setNotebooksCollapsed] = useState(false);
   const [statusCollapsed, setStatusCollapsed] = useState(false);
   const [tagsCollapsed, setTagsCollapsed] = useState(false);
-  const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [showClearAllDialog, setShowClearAllDialog] = useState(false);
   const [isAddingNotebook, setIsAddingNotebook] = useState(false);
   const [newNotebookName, setNewNotebookName] = useState("");
@@ -225,7 +223,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
 
       {/* Navigation Tree Content */}
       <div className="flex-1 overflow-y-auto py-2.5 px-2 space-y-4 scrollbar-thin">
-        {/* Core items: All Notes & Templates */}
+        {/* Core items: All Notes */}
         <div className="space-y-0.5">
           <button
             type="button"
@@ -244,22 +242,6 @@ export const InkdropNavigation = memo(function InkdropNavigation({
             </div>
             <span className="text-[11px] font-mono text-ink-400 bg-ink-800/80 px-1.5 py-0.5 rounded">
               {totalNotes}
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowTemplateModal(true)}
-            className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-md font-medium text-ink-200 hover:bg-ink-800/60 hover:text-ink-100 transition-colors"
-          >
-            <div className="flex items-center gap-2.5">
-              <svg className="w-4 h-4 text-ink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <span>Note Templates</span>
-            </div>
-            <span className="text-[11px] font-mono text-ink-400 bg-ink-800/80 px-1.5 py-0.5 rounded">
-              {STUDY_TEMPLATES.length}
             </span>
           </button>
         </div>
@@ -687,63 +669,6 @@ export const InkdropNavigation = memo(function InkdropNavigation({
           )}
         </button>
       </div>
-
-      {/* Template Selection Modal */}
-      {showTemplateModal && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in"
-          onClick={() => setShowTemplateModal(false)}
-        >
-          <div
-            className="w-full max-w-md bg-ink-900 border border-ink-700 rounded-xl p-5 shadow-2xl space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between pb-3 border-b border-ink-800">
-              <div className="flex items-center gap-2">
-                <span className="text-highlight">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </span>
-                <h3 className="text-sm font-semibold text-ink-100">Choose Note Template</h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowTemplateModal(false)}
-                className="text-ink-400 hover:text-ink-200"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="space-y-2">
-              {STUDY_TEMPLATES.map((tmpl) => (
-                <button
-                  key={tmpl.id}
-                  type="button"
-                  onClick={() => {
-                    onApplyTemplate(tmpl.id);
-                    setShowTemplateModal(false);
-                    if (onCloseMobile) onCloseMobile();
-                  }}
-                  className="w-full text-left p-3 rounded-lg border border-ink-800 hover:border-highlight/60 bg-ink-850 hover:bg-ink-800 transition-all group"
-                >
-                  <div className="font-semibold text-xs text-ink-100 group-hover:text-highlight">
-                    {tmpl.name}
-                  </div>
-                  <div className="text-[11px] text-ink-400 mt-0.5 line-clamp-2">
-                    {tmpl.description}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Modern Confirm Dialog for Notebook Deletion */}
       <ConfirmDialog

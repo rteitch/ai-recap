@@ -13,7 +13,6 @@ import { cleanupOrphanedImages } from "@/lib/imageStorage";
 import { NotesInput, NotesInputHandle } from "@/components/organisms/NotesInput";
 import { FlashcardDeck } from "@/components/organisms/FlashcardDeck";
 import { RetentionScorecard } from "@/components/organisms/RetentionScorecard";
-import { HistoryDrawer } from "@/components/organisms/HistoryDrawer";
 import { ShortcutsModal } from "@/components/organisms/ShortcutsModal";
 import { CommandPalette } from "@/components/organisms/CommandPalette";
 import { InkdropNavigation, NavFilterType, NotebookItem, DEFAULT_NOTEBOOKS } from "@/components/organisms/InkdropNavigation";
@@ -57,7 +56,6 @@ export default function Home() {
   const [dailyRemaining, setDailyRemaining] = useState<number | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [notebooks, setNotebooks] = useState<NotebookItem[]>(DEFAULT_NOTEBOOKS);
-  const [showHistory, setShowHistory] = useState(false);
   const [quizViewMode, setQuizViewMode] = useState<"list" | "card">("list");
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
@@ -101,8 +99,6 @@ export default function Home() {
   const [isCompanionOpen, setIsCompanionOpen] = useState(true);
   const activeFilterRef = useRef(activeFilter);
   activeFilterRef.current = activeFilter;
-  const showHistoryRef = useRef(showHistory);
-  showHistoryRef.current = showHistory;
   const showShortcutsRef = useRef(showShortcuts);
   showShortcutsRef.current = showShortcuts;
   const isCommandPaletteOpenRef = useRef(isCommandPaletteOpen);
@@ -351,7 +347,6 @@ export default function Home() {
     const isOverlayOpen =
       isCommandPaletteOpen ||
       showAppearanceModal ||
-      showHistory ||
       showShortcuts ||
       isMobileNavOpen ||
       (isCompanionOpen && typeof window !== "undefined" && window.innerWidth < 1280);
@@ -364,7 +359,7 @@ export default function Home() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isCommandPaletteOpen, showAppearanceModal, showHistory, showShortcuts, isMobileNavOpen, isCompanionOpen]);
+  }, [isCommandPaletteOpen, showAppearanceModal, showShortcuts, isMobileNavOpen, isCompanionOpen]);
 
   useEffect(() => {
     function handleGlobalKeyDown(e: KeyboardEvent) {
@@ -429,8 +424,6 @@ export default function Home() {
           setShowAppearanceModal(false);
         } else if (showShortcutsRef.current) {
           setShowShortcuts(false);
-        } else if (showHistoryRef.current) {
-          setShowHistory(false);
         } else if (isSpeakingRef.current) {
           stopSpeech();
         }
@@ -613,7 +606,7 @@ function updateStorage(
 
   // Flashcard keyboard navigation — uses refs so the listener never re-registers during card use
   useEffect(() => {
-    if (quizViewMode !== "card" || !result || showHistory) return;
+    if (quizViewMode !== "card" || !result) return;
     const maxIndex = result.quiz.length - 1;
 
     function handleCardKeyDown(e: KeyboardEvent) {
@@ -650,7 +643,7 @@ function updateStorage(
     }
     window.addEventListener("keydown", handleCardKeyDown);
     return () => window.removeEventListener("keydown", handleCardKeyDown);
-  }, [quizViewMode, result, showHistory, handleRate]);
+  }, [quizViewMode, result, handleRate]);
 
   // Export handlers
   const handleCopySummary = useCallback(async () => {
@@ -1345,7 +1338,6 @@ function updateStorage(
 
   const handleSelectHistoryItem = useCallback((item: HistoryItem) => {
     handleSelectNote(item);
-    setShowHistory(false);
     setTimeout(() => {
       resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 150);
@@ -1669,7 +1661,11 @@ function updateStorage(
   const handleOpenAppearance = useCallback(() => setShowAppearanceModal(true), []);
   const handleOpenCommandPalette = useCallback(() => setIsCommandPaletteOpen(true), []);
   const handleLoadSample = useCallback(() => { setNotes(SAMPLE_NOTE); setError(null); }, []);
-  const handleOpenHistory = useCallback(() => setIsMobileNavOpen(true), []);
+  const handleOpenHistory = useCallback(() => {
+    setActiveFilter({ type: "all" });
+    setIsMobileNavOpen(true);
+    setMobileNavTab("notes");
+  }, []);
   const handleToggleCompanion = useCallback(() => setIsCompanionOpen((v) => !v), []);
   const handleToggleSidebar = useCallback(() => setIsSidebarOpen((v) => !v), []);
   const handleSelectTag = useCallback((tag: string) => setActiveFilter({ type: "tag", value: tag }), []);
@@ -1898,23 +1894,6 @@ function updateStorage(
                 </div>
 
                 <div className="flex items-center gap-1.5">
-                  {mobileNavTab === "notes" && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleNewNote();
-                        setIsMobileNavOpen(false);
-                      }}
-                      className="px-2 py-1 rounded-md bg-yellow-400/15 text-yellow-300 hover:bg-yellow-400 hover:text-stone-950 transition-all font-semibold flex items-center gap-1 text-xs border border-yellow-400/30"
-                      title="Create New Note"
-                      aria-label="Create New Note"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-                      </svg>
-                      <span className="text-[11px]">New</span>
-                    </button>
-                  )}
                   <button
                     type="button"
                     onClick={() => setIsMobileNavOpen(false)}
@@ -2317,20 +2296,6 @@ function updateStorage(
       <ShortcutsModal
         isOpen={showShortcuts}
         onClose={() => setShowShortcuts(false)}
-      />
-
-      {/* History Drawer (Atomic Organism - fallback) */}
-      <HistoryDrawer
-        isOpen={showHistory}
-        history={history}
-        onClose={() => setShowHistory(false)}
-        onSelectItem={handleSelectHistoryItem}
-        onDeleteItem={handleDeleteHistoryItem}
-        onClearAll={handleClearAllHistory}
-        onTogglePin={handleTogglePin}
-        onChangeStatus={handleChangeStatus}
-        onDuplicate={handleDuplicateHistoryItem}
-        notebooks={notebooks}
       />
 
       {/* Custom AI API Configuration Modal */}

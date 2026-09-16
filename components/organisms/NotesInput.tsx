@@ -1484,48 +1484,6 @@ flowchart TD
             </button>
           </div>
 
-          {/* Copy All & Select All buttons */}
-          <div className="inline-flex items-center rounded-lg bg-ink-900/90 p-0.5 border border-ink-700/60 flex-shrink-0">
-            <button
-              type="button"
-              onClick={handleCopyAll}
-              disabled={!notes}
-              className={`w-7 h-7 flex items-center justify-center rounded-md transition-all ${
-                copiedToast
-                  ? "bg-yellow-400/20 text-yellow-300 border border-yellow-400/40"
-                  : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 disabled:opacity-30"
-              }`}
-              title={copiedToast ? "Copied!" : "Copy All (Ctrl+C)"}
-              aria-label="Copy All"
-            >
-              {copiedToast ? (
-                <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M5 13l4 4L19 7" />
-                </svg>
-              ) : (
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                </svg>
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={handleSelectAll}
-              disabled={!notes}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 disabled:opacity-30 transition-all"
-              title="Select All (Ctrl+A)"
-              aria-label="Select All"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} strokeDasharray="2 2" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2M16 4h2a2 2 0 012 2v2M16 20h2a2 2 0 002-2v-2" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-3-3v6" />
-              </svg>
-            </button>
-          </div>
-
-          {/* DIVIDER */}
-          <div className="h-3.5 w-px bg-ink-800/80 hidden sm:block flex-shrink-0" />
-
           {/* Word Wrap Toggle */}
           <div className="inline-flex items-center rounded-lg bg-ink-900/90 p-0.5 border border-ink-700/60 flex-shrink-0">
             <button
@@ -1633,19 +1591,6 @@ flowchart TD
 
           {/* Group 4: Insert Tools */}
           <div className="inline-flex items-center gap-1 flex-shrink-0">
-            {/* Import / Upload File Button */}
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60 flex-shrink-0"
-              title="Import file (.txt, .md)"
-              aria-label="Import File"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-              </svg>
-            </button>
-
             {/* Image Upload Button */}
             <button
               type="button"
@@ -1939,24 +1884,12 @@ flowchart TD
               )}
             </div>
 
-            {/* Load Demo Note Button */}
-            <button
-              type="button"
-              onClick={onLoadSample}
-              className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border text-ink-300 hover:text-yellow-400 bg-ink-850 hover:bg-ink-800 border-ink-700/60 flex-shrink-0"
-              title="Load Demo Note (E=mc² physics example)"
-              aria-label="Load Demo Note"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
-            </button>
           </div>
 
           {/* DIVIDER */}
           <div className="h-3.5 w-px bg-ink-800/80 hidden sm:block flex-shrink-0" />
 
-          {/* Group 5: Document Tools (TOC & PDF Export) */}
+          {/* Group 5: Document Outline / TOC */}
           <div className="inline-flex items-center gap-1 flex-shrink-0">
             {/* Outline / TOC Toggle */}
             <button
@@ -1978,22 +1911,6 @@ flowchart TD
                 </span>
               )}
             </button>
-
-            {/* Export Markdown to PDF Button (NEW!) */}
-            {onExportPdf && (
-              <button
-                type="button"
-                onClick={onExportPdf}
-                disabled={!notes.trim()}
-                className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border text-ink-300 hover:text-sky-400 bg-ink-850 hover:bg-ink-800 border-ink-700/60 disabled:opacity-30 flex-shrink-0"
-                title="Export Note to PDF / Print"
-                aria-label="Export to PDF"
-              >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                </svg>
-              </button>
-            )}
           </div>
 
         </div>
@@ -2021,38 +1938,6 @@ flowchart TD
             )}
           </button>
 
-          {/* Save Draft */}
-          {onSaveDraft && (
-            <button
-              type="button"
-              onClick={onSaveDraft}
-              disabled={!notes.trim()}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-300 hover:text-ink-100 hover:bg-ink-800 transition-colors disabled:opacity-30 border border-ink-700/60 bg-ink-850 flex-shrink-0"
-              title="Save Draft (0 AI tokens)"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-              </svg>
-            </button>
-          )}
-
-          {/* Clear Note */}
-          <button
-            type="button"
-            onClick={handleClearClick}
-            disabled={!notes.trim()}
-            className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors disabled:opacity-30 border flex-shrink-0 ${
-              confirmClear
-                ? "bg-rose-900/40 text-rose-300 border-rose-600"
-                : "text-ink-400 hover:text-rose-400 hover:bg-ink-800 border-ink-700/60 bg-ink-850"
-            }`}
-            title="Clear Note"
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </button>
-
           {/* AI Recap Action Button (Logo Yellow, Never Cut Off) */}
           <button
             type="button"
@@ -2075,45 +1960,6 @@ flowchart TD
               </span>
             )}
           </button>
-
-          {/* AI Settings / Custom API — hidden on desktop (covered by MenuBar > Settings) */}
-          {onOpenSettings && (
-            <button
-              type="button"
-              onClick={onOpenSettings}
-              className={`lg:hidden w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
-                customApiConfig?.enabled
-                  ? "bg-yellow-400/15 text-yellow-300 border-yellow-400/40"
-                  : "text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
-              }`}
-              title={
-                customApiConfig?.enabled
-                  ? `Custom AI Active: ${customApiConfig.model || customApiConfig.provider} (Click to configure)`
-                  : "AI Model & API Configuration (Default Built-in Active)"
-              }
-              aria-label="AI Settings"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </button>
-          )}
-
-          {/* Theme & Typography — hidden on desktop (covered by MenuBar > Settings) */}
-          {onOpenAppearance && (
-            <button
-              type="button"
-              onClick={onOpenAppearance}
-              className="lg:hidden w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
-              title="Theme & Typography Settings"
-              aria-label="Theme & Typography"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 21a4 4 0 01-4-4 4 4 0 014-4c.72 0 1.39.19 1.97.52l5.74-5.74A4.002 4.002 0 0118 6.5a4 4 0 014 4 4 4 0 01-1.28 2.97l-5.74 5.74c.33.58.52 1.25.52 1.97 0 2.21-1.79 4-4 4H7z" />
-              </svg>
-            </button>
-          )}
 
           {/* Toggle Right Companion Panel — chat bubble icon (not lightning) */}
           {onToggleCompanion && (
@@ -2172,6 +2018,11 @@ flowchart TD
             />
           )}
 
+          <span className="text-ink-700 hidden sm:inline flex-shrink-0">&bull;</span>
+          <span className="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10px] text-ink-400 flex-shrink-0" title="Automatic storage status">
+            <span className={`w-1.5 h-1.5 rounded-full ${saveStatus === "unsaved" ? "bg-amber-400 animate-pulse" : "bg-emerald-400"}`} />
+            <span>{saveStatus === "unsaved" ? "Unsaved" : "Saved"}</span>
+          </span>
           <span className="text-ink-700 hidden sm:inline flex-shrink-0">&bull;</span>
           <span className="hidden sm:inline flex-shrink-0" suppressHydrationWarning>{new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
           <span className="hidden sm:inline text-ink-700 flex-shrink-0">&bull;</span>
