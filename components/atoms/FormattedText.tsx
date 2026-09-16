@@ -9,6 +9,93 @@ type FormattedTextProps = {
   text: string;
 };
 
+type CodeToken = {
+  type: "keyword" | "string" | "comment" | "number" | "boolean" | "plain";
+  text: string;
+};
+
+const CODE_KEYWORDS = new Set([
+  "const", "let", "var", "function", "return", "if", "else", "for", "while", "do",
+  "switch", "case", "break", "continue", "default", "import", "export", "from",
+  "class", "extends", "super", "this", "new", "try", "catch", "finally", "throw",
+  "async", "await", "yield", "type", "interface", "enum", "implements", "public",
+  "private", "protected", "static", "readonly", "def", "lambda", "elif", "pass",
+  "with", "as", "raise", "except", "in", "is", "not", "and", "or", "self",
+  "select", "from", "where", "insert", "into", "update", "delete", "join", "inner",
+  "left", "right", "outer", "group", "order", "by", "having", "limit", "create",
+  "table", "drop", "alter", "primary", "key",
+]);
+
+const CODE_LITERALS = new Set([
+  "true", "false", "null", "undefined", "None", "True", "False", "NaN", "Infinity",
+  "string", "number", "boolean", "any", "void", "never", "unknown", "object"
+]);
+
+function tokenizeCodeLine(line: string, language: string): CodeToken[] {
+  const lang = (language || "").toLowerCase().trim();
+  if (lang === "text" || lang === "plain" || lang === "txt") {
+    return [{ type: "plain", text: line }];
+  }
+
+  const isPythonOrBash = lang === "python" || lang === "py" || lang === "bash" || lang === "sh" || lang === "shell";
+  const regex = isPythonOrBash
+    ? /(#.*$)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(\b\d+(?:\.\d+)?\b)|([a-zA-Z_]\w*)|([^\s\w#"']+)|(\s+)/g
+    : /(\/\/.*$|\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)|(\b\d+(?:\.\d+)?\b)|([a-zA-Z_]\w*)|([^\s\w"'/]+)|(\s+)/g;
+
+  const tokens: CodeToken[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(line)) !== null) {
+    const fullMatch = match[0];
+    const comment = match[1];
+    const str = match[2];
+    const num = match[3];
+    const word = match[4];
+
+    if (comment) {
+      tokens.push({ type: "comment", text: comment });
+    } else if (str) {
+      tokens.push({ type: "string", text: str });
+    } else if (num) {
+      tokens.push({ type: "number", text: num });
+    } else if (word) {
+      const lower = word.toLowerCase();
+      if (CODE_KEYWORDS.has(lower)) {
+        tokens.push({ type: "keyword", text: word });
+      } else if (CODE_LITERALS.has(word) || CODE_LITERALS.has(lower)) {
+        tokens.push({ type: "boolean", text: word });
+      } else {
+        tokens.push({ type: "plain", text: word });
+      }
+    } else {
+      tokens.push({ type: "plain", text: fullMatch });
+    }
+  }
+
+  if (tokens.length === 0) {
+    tokens.push({ type: "plain", text: line });
+  }
+
+  return tokens;
+}
+
+function renderCodeToken(token: CodeToken, idx: number) {
+  switch (token.type) {
+    case "keyword":
+      return <span key={idx} className="text-purple-400 font-semibold print:text-purple-700">{token.text}</span>;
+    case "string":
+      return <span key={idx} className="text-emerald-400 print:text-emerald-700">{token.text}</span>;
+    case "comment":
+      return <span key={idx} className="text-ink-500 italic print:text-gray-500">{token.text}</span>;
+    case "number":
+      return <span key={idx} className="text-amber-400 print:text-amber-700">{token.text}</span>;
+    case "boolean":
+      return <span key={idx} className="text-cyan-400 print:text-cyan-700">{token.text}</span>;
+    default:
+      return <span key={idx}>{token.text}</span>;
+  }
+}
+
 // Sub-component for advanced code block with language badge & copy button
 function CodeBlockView({ language, code }: { language: string; code: string }) {
   const [copied, setCopied] = useState(false);
@@ -62,7 +149,16 @@ function CodeBlockView({ language, code }: { language: string; code: string }) {
           ))}
         </div>
         <pre className="flex-1 font-mono text-[12px] leading-relaxed">
-          <code>{code}</code>
+          <code>
+            {lines.map((line, lineIdx) => {
+              const tokens = tokenizeCodeLine(line, language);
+              return (
+                <div key={lineIdx}>
+                  {tokens.map((token, tokenIdx) => renderCodeToken(token, tokenIdx))}
+                </div>
+              );
+            })}
+          </code>
         </pre>
       </div>
     </div>

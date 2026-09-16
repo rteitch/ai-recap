@@ -39,6 +39,7 @@ import { FindReplaceModal } from "@/components/organisms/FindReplaceModal";
 import { MergeNotesModal } from "@/components/organisms/MergeNotesModal";
 import { useAppearance } from "@/hooks/useAppearance";
 import { extractHashtags, normalizeTag } from "@/lib/tags";
+import { ErrorBoundary } from "@/components/atoms/ErrorBoundary";
 
 const SAMPLE_NOTE = `In classical thermodynamics and special relativity, mass-energy equivalence is defined by $E = mc^2$, where $c$ is the speed of light ($c \\approx 3 \\times 10^8\\text{ m/s}$). For quadratic algebra, roots of the polynomial equation $ax^2 + bx + c = 0$ are solved using:
 $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
@@ -1541,6 +1542,46 @@ function updateStorage(
     window.print();
   }, []);
 
+  const handleExportNoteMarkdown = useCallback(() => {
+    if (!notes.trim()) {
+      toast.info("No active note to export");
+      return;
+    }
+    const currentItem = history.find((h) => h.id === activeNoteId);
+    const title =
+      currentItem?.title ||
+      notes.trim().split("\n")[0].replace(/^[#\s*>-]+/, "").slice(0, 40).trim() ||
+      "Note";
+    const dateStr = new Date(currentItem?.timestamp || Date.now()).toISOString();
+    const notebook = currentItem?.notebook || "Inbox";
+    const tags = currentItem?.tags || [];
+
+    const yamlFrontmatter = [
+      "---",
+      `title: ${JSON.stringify(title)}`,
+      `notebook: ${JSON.stringify(notebook)}`,
+      `tags: [${tags.map((t) => JSON.stringify(t)).join(", ")}]`,
+      `date: ${JSON.stringify(dateStr)}`,
+      "---",
+      "",
+      notes.trim(),
+      "",
+    ].join("\n");
+
+    const blob = new Blob([yamlFrontmatter], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const sanitizedTitle =
+      title.replace(/[^a-zA-Z0-9_\-\s]/g, "").replace(/\s+/g, "_").toLowerCase() || "note";
+    a.download = `${sanitizedTitle}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success("Note exported as Markdown (.md)");
+  }, [notes, history, activeNoteId]);
+
   const handleCopyShareLink = useCallback(async () => {
     if (!result) return;
     try {
@@ -1755,7 +1796,8 @@ function updateStorage(
   const [srMessage, setSrMessage] = useState("");
 
   return (
-    <div className="h-[100dvh] w-screen flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
+    <ErrorBoundary draftText={notes} fallbackTitle="Workstation Fault Isolated">
+      <div className="h-[100dvh] w-screen flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{srMessage}</div>
       {/* Mobile Top App Bar (< lg) */}
       <header className="lg:hidden h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-sidebar flex-shrink-0 select-none print:hidden">
@@ -2047,6 +2089,7 @@ function updateStorage(
             onSaveDraft={handleSaveDraft}
             onImportFile={() => { syncMenuBarState(); notesInputRef.current?.openFilePicker(); }}
             onExportPdf={handlePrint}
+            onExportMarkdown={handleExportNoteMarkdown}
             onClearNote={handleClear}
             // Edit
             onUndo={() => { syncMenuBarState(); notesInputRef.current?.undo(); }}
@@ -2384,6 +2427,7 @@ function updateStorage(
           toast.success("Notes merged successfully!");
         }}
       />
-    </div>
+      </div>
+    </ErrorBoundary>
   );
 }

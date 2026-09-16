@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { triggerHaptic } from "@/lib/haptics";
 
 const SOUND_FILES = {
   press: {
@@ -49,6 +50,7 @@ export function useKeyboardSound() {
   const isLoadingRef = useRef(false);
   const isLoadedRef = useRef(false);
   const pressedKeysRef = useRef<Set<string>>(new Set());
+  const lastReleaseTimeRef = useRef<number>(0);
 
   // Clear pressed keys if window loses focus so keys never get stuck
   useEffect(() => {
@@ -197,7 +199,7 @@ export function useKeyboardSound() {
     });
   }, [initAudio]);
 
-  const playBuffer = useCallback((buffer: AudioBuffer | null) => {
+  const playBuffer = useCallback((buffer: AudioBuffer | null, pitchVariation: boolean = false) => {
     if (!buffer || !audioCtxRef.current || !gainNodeRef.current) return;
     try {
       if (audioCtxRef.current.state === "suspended") {
@@ -205,6 +207,10 @@ export function useKeyboardSound() {
       }
       const source = audioCtxRef.current.createBufferSource();
       source.buffer = buffer;
+      if (pitchVariation) {
+        // Authentic tactile variation: ±3% micro-pitch jitter prevents robotic machine-gun effect
+        source.playbackRate.value = 1.0 + (Math.random() - 0.5) * 0.06;
+      }
       source.connect(gainNodeRef.current);
       source.start(0);
     } catch {
@@ -215,6 +221,14 @@ export function useKeyboardSound() {
   const playKeyRelease = useCallback(
     (eKey: string) => {
       if (!isEnabled) return;
+
+      // Throttle duplicate release events (prevents synthetic keyup + timeout collision)
+      const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+      if (now - lastReleaseTimeRef.current < 45) {
+        return;
+      }
+      lastReleaseTimeRef.current = now;
+
       const key = eKey ? eKey.toLowerCase() : "generic";
       pressedKeysRef.current.delete(key);
 
@@ -239,11 +253,21 @@ export function useKeyboardSound() {
       const key = eKey ? eKey.toLowerCase() : "generic";
       const isUnidentified = !key || key === "unidentified" || key === "generic";
 
-      // On physical keyboards, Cherry MX switch only strikes once on downstroke until release
-      // On mobile / virtual keyboards, keys should never be stuck in pressedKeysRef
-      if (!isUnidentified) {
+      // Detect touch/mobile devices or virtual keyboard input
+      const isTouch =
+        typeof window !== "undefined" &&
+        ("ontouchstart" in window || (navigator && navigator.maxTouchPoints > 0));
+
+      // On physical keyboards, debounce repeated keydown while key is held down.
+      // On touch / virtual keyboards, bypass this check so consecutive same-letter taps ("look", "good") fire reliably!
+      if (!isTouch && !isUnidentified) {
         if (pressedKeysRef.current.has(key)) return;
         pressedKeysRef.current.add(key);
+      }
+
+      // Provide crisp tactile haptic pulse on mobile touch devices
+      if (isTouch) {
+        triggerHaptic(8);
       }
 
       if (!isLoadedRef.current) {
@@ -260,17 +284,12 @@ export function useKeyboardSound() {
         playBuffer(b.BACKSPACE);
       } else if (b.GENERIC.length > 0) {
         const randIndex = Math.floor(Math.random() * b.GENERIC.length);
-        playBuffer(b.GENERIC[randIndex]);
+        // Apply micro-pitch variation on generic keys for organic mechanical feel
+        playBuffer(b.GENERIC[randIndex], true);
       }
 
-      // Detect touch/mobile devices or virtual keyboard input
-      const isTouch =
-        typeof window !== "undefined" &&
-        ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-
-      // On mobile virtual keyboards, browsers do not fire keyup events.
-      // To reproduce the EXACT rich, satisfying dual-action mechanical switch sound (downstroke press + upstroke clack)
-      // identical to desktop, schedule the mechanical switch release sound after authentic switch travel time (65ms).
+      // On mobile virtual keyboards, browsers do not reliably dispatch separate keyup events.
+      // Schedule the switch release sound after authentic mechanical switch travel time (65ms).
       if (isTouch || isUnidentified) {
         setTimeout(() => {
           playKeyRelease(key);

@@ -3,6 +3,7 @@
 import { memo, useRef, useState, useMemo, useEffect, useCallback, forwardRef, useImperativeHandle } from "react";
 import { countWords } from "@/lib/wordCount";
 import { FormattedText } from "@/components/atoms/FormattedText";
+import { ErrorBoundary } from "@/components/atoms/ErrorBoundary";
 import { STUDY_TEMPLATES, StudyTemplate } from "@/lib/templates";
 import { LATEX_SUGGESTIONS, LatexSuggestion } from "@/lib/latexAutocomplete";
 import { SLASH_COMMANDS, SlashCommand } from "@/lib/slashCommands";
@@ -1203,10 +1204,13 @@ flowchart TD
     const OPEN_TO_CLOSE: Record<string, string> = {
       "(": ")",
       "[": "]",
+      "{": "}",
+      '"': '"',
+      "'": "'",
       "`": "`",
       $: "$",
     };
-    const CLOSING_CHARS = new Set([")", "]", "}", "`", "$"]);
+    const CLOSING_CHARS = new Set([")", "]", "}", '"', "'", "`", "$"]);
 
     if (e.key === "Enter" && !e.ctrlKey && !e.metaKey && !slashCommandState && activeSuggestions.length === 0) {
       const lineStart = notes.lastIndexOf("\n", pos - 1) + 1;
@@ -1230,94 +1234,14 @@ flowchart TD
       }
     }
 
-    // Wrap Selection: $ + selected text → $selection$
-    if (e.key === "$" && hasSelection) {
-      e.preventDefault();
-      const selected = notes.slice(pos, end);
-      const before = notes.slice(0, pos);
-      const after = notes.slice(end);
-      const insert = `$${selected}$`;
-      const newNotes = before + insert + after;
-      onNotesChange(newNotes);
-      recordUndo(newNotes);
-      setTimeout(() => {
-        TA.focus();
-        TA.setSelectionRange(pos + insert.length, pos + insert.length);
-        setCursorPosition(pos + insert.length);
-      }, 0);
-      return;
-    }
-
-    // Smart Step-Over: cursor before closing char → skip it
-    if (CLOSING_CHARS.has(e.key) && !hasSelection && charAtCursor === e.key) {
-      e.preventDefault();
-      const newPos = pos + 1;
-      onNotesChange(notes);
-      setTimeout(() => {
-        TA.focus();
-        TA.setSelectionRange(newPos, newPos);
-        setCursorPosition(newPos);
-      }, 0);
-      return;
-    }
-
-    // Auto-Pairing: (, [, `, $ → insert open+close, cursor between
-    const PAIRS: Record<string, string> = { "(": "(", "[": "[", "`": "`", $: "$" };
-    if (PAIRS[e.key] && !hasSelection) {
-      if (e.key === "$" && charAtCursor === "$") return;
-      if (e.key === "$" && pos > 0 && /\w/.test(charBefore) && charBefore !== " ") return;
-
-      e.preventDefault();
-      const closeChar = OPEN_TO_CLOSE[e.key] ?? e.key;
-      const before = notes.slice(0, pos);
-      const after = notes.slice(pos);
-      const newNotes = before + e.key + closeChar + after;
-      onNotesChange(newNotes);
-      recordUndo(newNotes);
-      const newPos = pos + 1;
-      setTimeout(() => {
-        TA.focus();
-        TA.setSelectionRange(newPos, newPos);
-        setCursorPosition(newPos);
-      }, 0);
-      return;
-    }
-
-    // Tab Indentation: context-aware for lists
-    if (e.key === "Tab" && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      const lineStart = notes.lastIndexOf("\n", pos - 1) + 1;
-      const currentLine = notes.slice(lineStart, pos);
-      const isListItem = /^(\s*)([-*]|\d+\.)\s/.test(currentLine);
-      const before = notes.slice(0, pos);
-      const after = notes.slice(pos);
-      let newNotes: string;
-      let newPos: number;
-      if (isListItem) {
-        newNotes = before.slice(0, lineStart) + "  " + notes.slice(lineStart);
-        newPos = pos + 2;
-      } else {
-        newNotes = before + "  " + after;
-        newPos = pos + 2;
-      }
-      onNotesChange(newNotes);
-      recordUndo(newNotes);
-      setTimeout(() => {
-        TA.focus();
-        TA.setSelectionRange(newPos, newPos);
-        setCursorPosition(newPos);
-      }, 0);
-      return;
-    }
-
-    // Shift+Tab: dedent list items
-    if (e.key === "Tab" && e.shiftKey && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      const lineStart = notes.lastIndexOf("\n", pos - 1) + 1;
-      const linePrefix = notes.slice(lineStart, lineStart + 2);
-      if (linePrefix === "  ") {
-        const newNotes = notes.slice(0, lineStart) + notes.slice(lineStart + 2);
-        const newPos = Math.max(lineStart, pos - 2);
+    // Smart Backspace: when between empty paired characters `()`, `[]`, `{}`, `""`, `''`, ````, `$$`
+    if (e.key === "Backspace" && !hasSelection && pos > 0 && pos < notes.length) {
+      const charBeforePos = notes[pos - 1];
+      const charAfterPos = notes[pos];
+      if (OPEN_TO_CLOSE[charBeforePos] && OPEN_TO_CLOSE[charBeforePos] === charAfterPos) {
+        e.preventDefault();
+        const newNotes = notes.slice(0, pos - 1) + notes.slice(pos + 1);
+        const newPos = pos - 1;
         onNotesChange(newNotes);
         recordUndo(newNotes);
         setTimeout(() => {
@@ -1325,8 +1249,171 @@ flowchart TD
           TA.setSelectionRange(newPos, newPos);
           setCursorPosition(newPos);
         }, 0);
+        return;
       }
+    }
+
+    // Selection Wrapping: `(`, `[`, `{`, `"`, `'`, `` ` ``, `$`
+    if (OPEN_TO_CLOSE[e.key] && hasSelection) {
+      e.preventDefault();
+      const openChar = e.key;
+      const closeChar = OPEN_TO_CLOSE[e.key];
+      const selected = notes.slice(pos, end);
+      const before = notes.slice(0, pos);
+      const after = notes.slice(end);
+      const insert = `${openChar}${selected}${closeChar}`;
+      const newNotes = before + insert + after;
+      onNotesChange(newNotes);
+      recordUndo(newNotes);
+      const newPos = pos + openChar.length;
+      const newEnd = newPos + selected.length;
+      setTimeout(() => {
+        TA.focus();
+        TA.setSelectionRange(newPos, newEnd);
+        setCursorPosition(newPos);
+      }, 0);
       return;
+    }
+
+    // Smart Step-Over: cursor immediately before closing character → skip over it
+    if (CLOSING_CHARS.has(e.key) && !hasSelection && charAtCursor === e.key) {
+      e.preventDefault();
+      const newPos = pos + 1;
+      setTimeout(() => {
+        TA.focus();
+        TA.setSelectionRange(newPos, newPos);
+        setCursorPosition(newPos);
+      }, 0);
+      return;
+    }
+
+    // Auto-Pairing: (, [, {, ", ', `, $ → insert open+close, place cursor between
+    if (OPEN_TO_CLOSE[e.key] && !hasSelection) {
+      // Don't auto-pair quotes/dollar if followed or preceded by alphanumeric word characters
+      const isWordBefore = pos > 0 && /\w/.test(charBefore);
+      const isWordAfter = /\w/.test(charAtCursor);
+      if ((e.key === "$" || e.key === '"' || e.key === "'") && (isWordBefore || isWordAfter)) {
+        // Fallback to regular character insertion
+      } else {
+        e.preventDefault();
+        const closeChar = OPEN_TO_CLOSE[e.key];
+        const before = notes.slice(0, pos);
+        const after = notes.slice(pos);
+        const newNotes = before + e.key + closeChar + after;
+        onNotesChange(newNotes);
+        recordUndo(newNotes);
+        const newPos = pos + 1;
+        setTimeout(() => {
+          TA.focus();
+          TA.setSelectionRange(newPos, newPos);
+          setCursorPosition(newPos);
+        }, 0);
+        return;
+      }
+    }
+
+    // Multi-line and Single-line Tab / Shift+Tab Indentation (2 spaces)
+    if (e.key === "Tab" && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+
+      if (hasSelection) {
+        // Multi-line or block selection indentation
+        const selStart = Math.min(pos, end);
+        const selEnd = Math.max(pos, end);
+        const blockStart = notes.lastIndexOf("\n", selStart - 1) + 1;
+        const blockEnd = notes.indexOf("\n", selEnd);
+        const endPos = blockEnd === -1 ? notes.length : blockEnd;
+        const lines = notes.slice(blockStart, endPos).split("\n");
+
+        if (e.shiftKey) {
+          // Dedent: remove up to 2 leading spaces from each line
+          let totalRemoved = 0;
+          let firstLineRemoved = 0;
+          const modifiedLines = lines.map((line, idx) => {
+            let removed = 0;
+            if (line.startsWith("  ")) {
+              removed = 2;
+            } else if (line.startsWith(" ") || line.startsWith("\t")) {
+              removed = 1;
+            }
+            if (idx === 0) firstLineRemoved = removed;
+            totalRemoved += removed;
+            return line.slice(removed);
+          });
+          const newBlock = modifiedLines.join("\n");
+          const newNotes = notes.slice(0, blockStart) + newBlock + notes.slice(endPos);
+          onNotesChange(newNotes);
+          recordUndo(newNotes);
+          const newStart = Math.max(blockStart, selStart - firstLineRemoved);
+          const newEnd = Math.max(newStart, selEnd - totalRemoved);
+          setTimeout(() => {
+            TA.focus();
+            TA.setSelectionRange(newStart, newEnd);
+          }, 0);
+        } else {
+          // Indent: add 2 spaces to each selected line
+          const modifiedLines = lines.map((line) => "  " + line);
+          const newBlock = modifiedLines.join("\n");
+          const newNotes = notes.slice(0, blockStart) + newBlock + notes.slice(endPos);
+          onNotesChange(newNotes);
+          recordUndo(newNotes);
+          const addedTotal = lines.length * 2;
+          setTimeout(() => {
+            TA.focus();
+            TA.setSelectionRange(selStart + 2, selEnd + addedTotal);
+          }, 0);
+        }
+        return;
+      }
+
+      // Single line / cursor without selection
+      if (e.shiftKey) {
+        // Dedent current line
+        const lineStart = notes.lastIndexOf("\n", pos - 1) + 1;
+        const currentLine = notes.slice(lineStart);
+        let removed = 0;
+        if (currentLine.startsWith("  ")) {
+          removed = 2;
+        } else if (currentLine.startsWith(" ") || currentLine.startsWith("\t")) {
+          removed = 1;
+        }
+        if (removed > 0) {
+          const newNotes = notes.slice(0, lineStart) + currentLine.slice(removed);
+          const newPos = Math.max(lineStart, pos - removed);
+          onNotesChange(newNotes);
+          recordUndo(newNotes);
+          setTimeout(() => {
+            TA.focus();
+            TA.setSelectionRange(newPos, newPos);
+            setCursorPosition(newPos);
+          }, 0);
+        }
+        return;
+      } else {
+        // Indent at cursor: insert 2 spaces (or indent list item)
+        const lineStart = notes.lastIndexOf("\n", pos - 1) + 1;
+        const currentLine = notes.slice(lineStart, pos);
+        const isListItem = /^(\s*)([-*]|\d+\.)\s/.test(currentLine);
+        const before = notes.slice(0, pos);
+        const after = notes.slice(pos);
+        let newNotes: string;
+        let newPos: number;
+        if (isListItem) {
+          newNotes = before.slice(0, lineStart) + "  " + notes.slice(lineStart);
+          newPos = pos + 2;
+        } else {
+          newNotes = before + "  " + after;
+          newPos = pos + 2;
+        }
+        onNotesChange(newNotes);
+        recordUndo(newNotes);
+        setTimeout(() => {
+          TA.focus();
+          TA.setSelectionRange(newPos, newPos);
+          setCursorPosition(newPos);
+        }, 0);
+        return;
+      }
     }
   }
 
@@ -2283,12 +2370,14 @@ flowchart TD
                   Live Render
                 </span>
               </div>
-              <FormattedText
-                text={
-                  notes ||
-                  "Type math formulas like `$E=mc^2$` or `$$\\int_0^1 x^2 dx$$` for live preview."
-                }
-              />
+              <ErrorBoundary variant="inline" fallbackTitle="KaTeX / Markdown Preview Error">
+                <FormattedText
+                  text={
+                    notes ||
+                    "Type math formulas like `$E=mc^2$` or `$$\\int_0^1 x^2 dx$$` for live preview."
+                  }
+                />
+              </ErrorBoundary>
             </div>
           </div>
         ) : effectiveMode === "edit" ? (
@@ -2380,12 +2469,14 @@ flowchart TD
           </div>
         ) : (
           <div className="flex-1 min-h-0 p-5 overflow-y-auto scrollbar-thin bg-app-surface/50 select-text">
-            <FormattedText
-              text={
-                notes ||
-                "Note is empty. Start typing or choose a template above."
-              }
-            />
+            <ErrorBoundary variant="inline" fallbackTitle="Markdown / KaTeX Preview Error">
+              <FormattedText
+                text={
+                  notes ||
+                  "Note is empty. Start typing or choose a template above."
+                }
+              />
+            </ErrorBoundary>
           </div>
         )}
       </div>

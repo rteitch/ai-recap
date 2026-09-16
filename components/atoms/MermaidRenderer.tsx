@@ -10,106 +10,96 @@ type MermaidRendererProps = {
 let cachedMermaid: any = null;
 let mermaidInitPromise: Promise<any> | null = null;
 
+function configureMermaid(mermaid: any, colors?: any) {
+  const isDark = colors
+    ? Boolean(colors.isDark)
+    : typeof document !== "undefined"
+    ? document.documentElement.getAttribute("data-color-scheme") !== "light"
+    : true;
+
+  const bg = colors ? colors.bgApp : isDark ? "#13141a" : "#f8fafc";
+  const surface = colors ? colors.bgSurface : isDark ? "#272935" : "#ffffff";
+  const card = colors ? colors.bgCard : isDark ? "#1e1f29" : "#f1f5f9";
+  const text = colors ? colors.ink50 : isDark ? "#f1f2f6" : "#0f172a";
+  const border = colors ? colors.highlight : isDark ? "#F5C518" : "#0284c7";
+  const line = colors ? colors.ink400 : isDark ? "#8b8d98" : "#94a3b8";
+  const clusterBorder = colors ? colors.ink700 : isDark ? "#383a4c" : "#cbd5e1";
+
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: isDark ? "dark" : "default",
+    securityLevel: "strict",
+    fontFamily: "inherit",
+    flowchart: {
+      htmlLabels: false,
+      useMaxWidth: true,
+      curve: "basis",
+    },
+    sequence: {
+      useMaxWidth: true,
+      showSequenceNumbers: true,
+      actorMargin: 50,
+    },
+    themeVariables: {
+      darkMode: isDark,
+      background: bg,
+      primaryColor: surface,
+      primaryTextColor: text,
+      primaryBorderColor: border,
+      lineColor: line,
+      secondaryColor: card,
+      tertiaryColor: bg,
+      mainBkg: surface,
+      nodeBorder: border,
+      clusterBkg: card,
+      clusterBorder: clusterBorder,
+      titleColor: text,
+      edgeLabelBackground: card,
+      textColor: text,
+      nodeTextColor: text,
+      labelTextColor: text,
+      scaleLabelColor: text,
+      actorBkg: surface,
+      actorBorder: border,
+      actorTextColor: text,
+      actorLineColor: line,
+      signalColor: text,
+      signalTextColor: text,
+      labelBoxBkgColor: surface,
+      labelBoxBorderColor: border,
+      labelBoxTextColor: text,
+      sequenceNumberColor: isDark ? "#13141a" : "#ffffff",
+      activationBkgColor: card,
+      activationBorderColor: border,
+      noteBkgColor: card,
+      noteTextColor: text,
+      noteBorderColor: border,
+      classText: text,
+      stateLabelColor: text,
+      taskTextColor: text,
+      taskTextDarkColor: text,
+      taskTextClickableColor: border,
+      pieLegendTextColor: text,
+      pieSectionTextColor: text,
+      pieTitleTextColor: text,
+      git0: surface,
+      git1: isDark ? "#1e3a5f" : "#dbeafe",
+      git2: isDark ? "#3b2a59" : "#f3e8ff",
+      git3: isDark ? "#1c4436" : "#dcfce7",
+      gitBranchLabel0: text,
+      gitBranchLabel1: text,
+      gitBranchLabel2: text,
+      gitBranchLabel3: text,
+    },
+  });
+}
+
 async function getMermaidInstance() {
   if (cachedMermaid) return cachedMermaid;
   if (!mermaidInitPromise) {
     mermaidInitPromise = import("mermaid").then((mod) => {
       const mermaid = mod.default;
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: "dark",
-        securityLevel: "strict",
-        fontFamily: "inherit",
-        flowchart: {
-          htmlLabels: false,
-          useMaxWidth: true,
-          curve: "basis",
-        },
-        sequence: {
-          useMaxWidth: true,
-          showSequenceNumbers: true,
-          actorMargin: 50,
-        },
-        themeVariables: {
-          darkMode: true,
-          background: "#13141a",
-          primaryColor: "#272935",
-          primaryTextColor: "#f1f2f6",
-          primaryBorderColor: "#F5C518",
-          lineColor: "#8b8d98",
-          secondaryColor: "#1e1f29",
-          tertiaryColor: "#181922",
-          mainBkg: "#272935",
-          nodeBorder: "#F5C518",
-          clusterBkg: "#161720",
-          clusterBorder: "#383a4c",
-          titleColor: "#f1f2f6",
-          edgeLabelBackground: "#161722",
-          textColor: "#f1f2f6",
-          nodeTextColor: "#f1f2f6",
-          labelTextColor: "#f1f2f6",
-          scaleLabelColor: "#f1f2f6",
-          actorBkg: "#272935",
-          actorBorder: "#F5C518",
-          actorTextColor: "#f1f2f6",
-          actorLineColor: "#8b8d98",
-          signalColor: "#f1f2f6",
-          signalTextColor: "#f1f2f6",
-          labelBoxBkgColor: "#272935",
-          labelBoxBorderColor: "#F5C518",
-          labelBoxTextColor: "#f1f2f6",
-          sequenceNumberColor: "#13141a",
-          activationBkgColor: "#383a4c",
-          activationBorderColor: "#F5C518",
-          noteBkgColor: "#1e1f29",
-          noteTextColor: "#f1f2f6",
-          noteBorderColor: "#F5C518",
-          classText: "#f1f2f6",
-          stateLabelColor: "#f1f2f6",
-          taskTextColor: "#f1f2f6",
-          taskTextDarkColor: "#f1f2f6",
-          taskTextClickableColor: "#F5C518",
-          pieLegendTextColor: "#f1f2f6",
-          pieSectionTextColor: "#f1f2f6",
-          pieTitleTextColor: "#f1f2f6",
-          git0: "#272935",
-          git1: "#1e3a5f",
-          git2: "#3b2a59",
-          git3: "#1c4436",
-          gitBranchLabel0: "#f1f2f6",
-          gitBranchLabel1: "#f1f2f6",
-          gitBranchLabel2: "#f1f2f6",
-          gitBranchLabel3: "#f1f2f6",
-          gitBranchLabel4: "#f1f2f6",
-          gitBranchLabel5: "#f1f2f6",
-          gitBranchLabel6: "#f1f2f6",
-          gitBranchLabel7: "#f1f2f6",
-          cScale0: "#2d3345",
-          cScale1: "#243647",
-          cScale2: "#3b2f47",
-          cScale3: "#233d37",
-          cScale4: "#423828",
-          cScale5: "#3f2837",
-          cScale6: "#253447",
-          cScale7: "#323742",
-          cScale8: "#303e30",
-          cScale9: "#3f3037",
-          cScale10: "#28323f",
-          cScale11: "#372f44",
-          cScaleLabel0: "#f1f2f6",
-          cScaleLabel1: "#f1f2f6",
-          cScaleLabel2: "#f1f2f6",
-          cScaleLabel3: "#f1f2f6",
-          cScaleLabel4: "#f1f2f6",
-          cScaleLabel5: "#f1f2f6",
-          cScaleLabel6: "#f1f2f6",
-          cScaleLabel7: "#f1f2f6",
-          cScaleLabel8: "#f1f2f6",
-          cScaleLabel9: "#f1f2f6",
-          cScaleLabel10: "#f1f2f6",
-          cScaleLabel11: "#f1f2f6",
-        },
-      });
+      configureMermaid(mermaid);
       cachedMermaid = mermaid;
       return mermaid;
     });
@@ -122,10 +112,28 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
   const [renderError, setRenderError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [themeRevision, setThemeRevision] = useState(0);
   const uniqueId = useId().replace(/[^a-zA-Z0-9_-]/g, "m");
   const containerRef = useRef<HTMLDivElement>(null);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastValidSvgRef = useRef<string | null>(null);
+
+  // Subscribe to theme and appearance changes
+  useEffect(() => {
+    function handleAppearanceChange(e: Event) {
+      const customEvent = e as CustomEvent;
+      if (cachedMermaid) {
+        configureMermaid(cachedMermaid, customEvent.detail?.colors);
+      }
+      lastValidSvgRef.current = null;
+      setThemeRevision((prev) => prev + 1);
+    }
+
+    window.addEventListener("ai-recap-appearance-change", handleAppearanceChange);
+    return () => {
+      window.removeEventListener("ai-recap-appearance-change", handleAppearanceChange);
+    };
+  }, []);
 
   useEffect(() => {
     let isCancelled = false;
@@ -170,8 +178,8 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
           lastValidSvgRef.current = sanitizedSvg;
           setSvgContent(sanitizedSvg);
           setRenderError(null);
-  setIsLoading(false);
-}
+          setIsLoading(false);
+        }
       } catch (err) {
         if (!isCancelled) {
           // Clean up any stray error elements mermaid may have injected into document.body
@@ -198,7 +206,7 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [code, uniqueId]);
+  }, [code, uniqueId, themeRevision]);
 
   function handleCopy() {
     navigator.clipboard.writeText(code);
