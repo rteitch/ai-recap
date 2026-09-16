@@ -98,6 +98,56 @@ export const InkdropNoteList = memo(function InkdropNoteList({
     return list;
   }, [items, searchFilter]);
 
+  type NoteGroup = {
+    label: string;
+    items: HistoryItem[];
+  };
+
+  const noteGroups = useMemo<NoteGroup[]>(() => {
+    if (searchFilter.trim()) {
+      return [{ label: `Search Results (${sortedAndFiltered.length})`, items: sortedAndFiltered }];
+    }
+
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const startOfYesterday = startOfToday - 24 * 60 * 60 * 1000;
+    const startOf7DaysAgo = startOfToday - 7 * 24 * 60 * 1000;
+    const startOf30DaysAgo = startOfToday - 30 * 24 * 60 * 1000;
+
+    const pinned: HistoryItem[] = [];
+    const today: HistoryItem[] = [];
+    const yesterday: HistoryItem[] = [];
+    const past7Days: HistoryItem[] = [];
+    const past30Days: HistoryItem[] = [];
+    const older: HistoryItem[] = [];
+
+    for (const item of sortedAndFiltered) {
+      if (item.pinned) {
+        pinned.push(item);
+      } else if (item.timestamp >= startOfToday) {
+        today.push(item);
+      } else if (item.timestamp >= startOfYesterday) {
+        yesterday.push(item);
+      } else if (item.timestamp >= startOf7DaysAgo) {
+        past7Days.push(item);
+      } else if (item.timestamp >= startOf30DaysAgo) {
+        past30Days.push(item);
+      } else {
+        older.push(item);
+      }
+    }
+
+    const groups: NoteGroup[] = [];
+    if (pinned.length > 0) groups.push({ label: "📌 Pinned", items: pinned });
+    if (today.length > 0) groups.push({ label: "Today", items: today });
+    if (yesterday.length > 0) groups.push({ label: "Yesterday", items: yesterday });
+    if (past7Days.length > 0) groups.push({ label: "Previous 7 Days", items: past7Days });
+    if (past30Days.length > 0) groups.push({ label: "Previous 30 Days", items: past30Days });
+    if (older.length > 0) groups.push({ label: "Older", items: older });
+
+    return groups;
+  }, [sortedAndFiltered, searchFilter]);
+
   return (
     <section
       style={{ width: width ? `${width}px` : undefined }}
@@ -209,22 +259,33 @@ export const InkdropNoteList = memo(function InkdropNoteList({
             </button>
           </div>
         ) : (
-          sortedAndFiltered.map((item) => {
-            const isActive = item.id === activeNoteId;
-            const title = item.title || extractTitle(item.notes, item.preview);
-            const snippet = item.preview || extractSnippet(item.notes);
-            const quizCount = item.result.quiz.length;
+          noteGroups.map((group) => (
+            <div key={group.label} className="relative">
+              {/* Group Sticky Header */}
+              <div className="sticky top-0 z-10 px-3 py-1 bg-app-card/95 backdrop-blur-xs border-y border-ink-800/70 text-[10px] font-semibold uppercase tracking-wider text-ink-400 flex items-center justify-between">
+                <span>{group.label}</span>
+                <span className="font-mono text-[9px] opacity-70 bg-ink-800 px-1 py-0.2 rounded">
+                  {group.items.length}
+                </span>
+              </div>
 
-            return (
-              <div
-                key={item.id}
-                onClick={() => onSelectNote(item)}
-                className={`group relative p-3 cursor-pointer transition-all ${
-                  isActive
-                    ? "bg-ink-800 border-l-[3px] border-yellow-400 shadow-xs"
-                    : "hover:bg-ink-850 border-l-[3px] border-transparent"
-                }`}
-              >
+              <div className="divide-y divide-ink-800/40">
+                {group.items.map((item) => {
+                  const isActive = item.id === activeNoteId;
+                  const title = item.title || extractTitle(item.notes, item.preview);
+                  const snippet = item.preview || extractSnippet(item.notes);
+                  const quizCount = item.result.quiz.length;
+
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => onSelectNote(item)}
+                      className={`group relative p-3 cursor-pointer transition-all ${
+                        isActive
+                          ? "bg-ink-800 border-l-[3px] border-yellow-400 shadow-xs"
+                          : "hover:bg-ink-850 border-l-[3px] border-transparent"
+                      }`}
+                    >
                 {/* Top Row: Title + Pin/Status */}
                 <div className="flex items-start justify-between gap-1.5 mb-1">
                   <div className="flex items-center gap-1.5 min-w-0 flex-1">
@@ -392,10 +453,13 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                 <p className="text-[11px] text-ink-400 line-clamp-2 leading-relaxed">
                   {snippet}
                 </p>
-              </div>
-            );
-          })
-        )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))
+    )}
       </div>
 
       {/* Modern Confirm Dialog for Note Deletion */}

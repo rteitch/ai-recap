@@ -118,7 +118,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
         width ? "" : "w-full"
       }`}
     >
-      {/* Top Header: App Branding & Settings */}
+      {/* Top Header: App Branding */}
       <div className={`h-11 px-3.5 items-center justify-between border-b border-ink-800/80 bg-app-sidebar ${hideHeader ? "hidden sm:flex" : "flex"}`}>
         <div className="flex items-center gap-2">
           <Image
@@ -136,89 +136,18 @@ export const InkdropNavigation = memo(function InkdropNavigation({
           </span>
         </div>
 
-        <div className="flex items-center gap-1">
-          {/* Shortcuts Button (?) */}
-          {onOpenShortcuts && (
-            <button
-              type="button"
-              onClick={onOpenShortcuts}
-              title="Keyboard Shortcuts (?)"
-              className="p-1 rounded text-ink-400 hover:text-ink-200 hover:bg-ink-800/60 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </button>
-          )}
-
-          {/* AI Settings Button (Gear) */}
-          {onOpenSettings && (
-            <button
-              type="button"
-              onClick={onOpenSettings}
-              title={
-                customApiConfig?.enabled
-                  ? `AI Settings: ${customApiConfig.model || customApiConfig.provider}`
-                  : "AI Model & API Settings"
-              }
-              className={`p-1 rounded transition-colors ${
-                customApiConfig?.enabled
-                  ? "text-yellow-400 hover:bg-ink-800"
-                  : "text-ink-400 hover:text-ink-200 hover:bg-ink-800/60"
-              }`}
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </button>
-          )}
-
-          {/* Appearance & Themes Button (Palette) */}
-          {onOpenAppearance && (
-            <button
-              type="button"
-              onClick={onOpenAppearance}
-              title="Appearance & Typography"
-              className="p-1 rounded text-ink-400 hover:text-ink-200 hover:bg-ink-800/60 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.75}
-                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                />
-              </svg>
-            </button>
-          )}
-
-          {/* GitHub Repository Link */}
-          <a
-            href="https://github.com/rteitch/ai-recap"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="GitHub Repository"
-            className="p-1 rounded text-ink-400 hover:text-ink-200 hover:bg-ink-800/60 transition-colors"
+        {onCloseMobile && (
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            className="lg:hidden p-1 rounded text-ink-400 hover:text-ink-200 hover:bg-ink-800 transition-colors"
+            title="Close Navigation"
           >
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </a>
-
-          {onCloseMobile && (
-            <button
-              type="button"
-              onClick={onCloseMobile}
-              className="lg:hidden p-1 rounded text-ink-400 hover:text-ink-200 hover:bg-ink-800"
-              title="Close Navigation"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          )}
-        </div>
+          </button>
+        )}
       </div>
 
       {/* Navigation Tree Content */}
@@ -650,12 +579,82 @@ export const InkdropNavigation = memo(function InkdropNavigation({
         </div>
       </div>
 
-      {/* Bottom Footer: Trash / Reset */}
-      <div className="p-2 border-t border-ink-800/80 bg-app-bg">
+      {/* Bottom Footer: Enterprise Utility Dock */}
+      <div className="p-2 border-t border-ink-800/80 bg-app-bg space-y-1.5 flex-shrink-0">
+        {/* Quick Utility Tools */}
+        <div className="flex items-center justify-between px-1">
+          <div className="flex items-center gap-0.5">
+            {onOpenSettings && (
+              <button
+                type="button"
+                onClick={onOpenSettings}
+                title={
+                  customApiConfig?.enabled
+                    ? `AI Settings: ${customApiConfig.model || customApiConfig.provider}`
+                    : "AI Model & API Settings"
+                }
+                className={`p-1.5 rounded-md transition-colors ${
+                  customApiConfig?.enabled
+                    ? "text-yellow-400 hover:bg-ink-800"
+                    : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                }`}
+                aria-label="AI Settings"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+            )}
+
+            {onOpenAppearance && (
+              <button
+                type="button"
+                onClick={onOpenAppearance}
+                title="Appearance & Typography"
+                className="p-1.5 rounded-md text-ink-400 hover:text-ink-200 hover:bg-ink-800 transition-colors"
+                aria-label="Appearance & Typography"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+              </button>
+            )}
+
+            {onOpenShortcuts && (
+              <button
+                type="button"
+                onClick={onOpenShortcuts}
+                title="Keyboard Shortcuts (?)"
+                className="p-1.5 rounded-md text-ink-400 hover:text-ink-200 hover:bg-ink-800 transition-colors"
+                aria-label="Keyboard Shortcuts"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            )}
+          </div>
+
+          <a
+            href="https://github.com/rteitch/ai-recap"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="GitHub Repository"
+            className="p-1.5 rounded-md text-ink-400 hover:text-ink-200 hover:bg-ink-800 transition-colors"
+            aria-label="GitHub Repository"
+          >
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+            </svg>
+          </a>
+        </div>
+
+        {/* Clear All History Button */}
         <button
           type="button"
           onClick={handleClearClick}
-          className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs text-ink-400 hover:text-rose-400 hover:bg-ink-800/60 transition-colors"
+          className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-ink-400 hover:text-rose-400 hover:bg-ink-800/60 transition-colors"
           title="Permanently delete all notes and history"
         >
           <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

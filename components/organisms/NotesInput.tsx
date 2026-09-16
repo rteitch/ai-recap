@@ -262,6 +262,16 @@ const NotesInputInner = forwardRef<NotesInputHandle, NotesInputProps>(function N
   const [slashDismissed, setSlashDismissed] = useState(false);
   const [selectedSlashIndex, setSelectedSlashIndex] = useState(0);
 
+  // Active cursor Line and Column for bottom status bar
+  const { cursorLine, cursorCol } = useMemo(() => {
+    const textBefore = notes.slice(0, cursorPosition);
+    const lines = textBefore.split("\n");
+    return {
+      cursorLine: lines.length,
+      cursorCol: lines[lines.length - 1].length + 1,
+    };
+  }, [notes, cursorPosition]);
+
   // --- 7. Keyboard Sound Hook ---
   const { isSoundEnabled, toggleSound, playKeyPress, playKeyRelease } = useKeyboardSound();
 
@@ -2023,21 +2033,11 @@ flowchart TD
             <span className={`w-1.5 h-1.5 rounded-full ${saveStatus === "unsaved" ? "bg-amber-400 animate-pulse" : "bg-emerald-400"}`} />
             <span>{saveStatus === "unsaved" ? "Unsaved" : "Saved"}</span>
           </span>
-          <span className="text-ink-700 hidden sm:inline flex-shrink-0">&bull;</span>
-          <span className="hidden sm:inline flex-shrink-0" suppressHydrationWarning>{new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
-          <span className="hidden sm:inline text-ink-700 flex-shrink-0">&bull;</span>
-          <span className="font-mono text-ink-400 whitespace-nowrap hidden sm:inline flex-shrink-0">{estimatedReadMins}m read</span>
-          <span className="text-ink-700 hidden sm:inline flex-shrink-0">&bull;</span>
-          <span className="font-mono text-ink-400 whitespace-nowrap hidden sm:inline flex-shrink-0">{wordCount} words</span>
         </div>
 
-        <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono text-ink-500 flex-shrink-0">
-          <span>Type <code className="text-yellow-400/80">/</code> blocks</span>
-          <span className="text-ink-700">&bull;</span>
-          <span><code className="text-yellow-400/80">\</code> LaTeX</span>
-          <span className="text-ink-700">&bull;</span>
-          <span className="text-yellow-400/80">```mermaid</span>
-        </div>
+        <span className="hidden sm:inline text-[10px] font-mono text-ink-500 flex-shrink-0" suppressHydrationWarning>
+          {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+        </span>
       </div>
 
       {/* TOC Panel Floating Overlay */}
@@ -2318,6 +2318,35 @@ flowchart TD
           </div>
         </div>
       )}
+
+      {/* IDE-STYLE BOTTOM WORKSTATION STATUS BAR */}
+      <footer className="h-6 px-3 border-t border-ink-800/80 bg-app-card text-[10px] font-mono text-ink-400 flex items-center justify-between select-none flex-shrink-0">
+        <div className="flex items-center gap-2.5">
+          <span className="text-ink-300">
+            Ln {cursorLine}, Col {cursorCol}
+          </span>
+          <span className="text-ink-700">&bull;</span>
+          <span className="text-ink-400">UTF-8</span>
+          <span className="text-ink-700">&bull;</span>
+          <span className="text-yellow-400/90 font-semibold">Markdown</span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-2 text-ink-500">
+          <span>Type <code className="text-yellow-400/80">/</code> blocks</span>
+          <span className="text-ink-700">&bull;</span>
+          <span><code className="text-yellow-400/80">\</code> LaTeX</span>
+          <span className="text-ink-700">&bull;</span>
+          <span className="text-yellow-400/80">```mermaid</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span>{wordCount} words</span>
+          <span className="text-ink-700">&bull;</span>
+          <span>{estimatedReadMins}m read</span>
+          <span className="text-ink-700">&bull;</span>
+          <span>{notes.length} chars</span>
+        </div>
+      </footer>
     </div>
   );
 });

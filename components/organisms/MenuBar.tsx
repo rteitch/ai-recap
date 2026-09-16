@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { memo, useState, useRef, useEffect, useCallback } from "react";
 import { CustomApiConfig } from "@/lib/ai-config";
@@ -179,11 +179,28 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [activeMenu, closeAll]);
-
   useEffect(() => {
     if (!activeMenu) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") closeAll();
+      if (e.key === "Escape") {
+        closeAll();
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setActiveMenu((curr) => {
+          const idx = menus.findIndex((m) => m.id === curr);
+          const nextIdx = idx === -1 ? 0 : (idx + 1) % menus.length;
+          return menus[nextIdx].id;
+        });
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setActiveMenu((curr) => {
+          const idx = menus.findIndex((m) => m.id === curr);
+          const prevIdx = idx === -1 ? 0 : (idx - 1 + menus.length) % menus.length;
+          return menus[prevIdx].id;
+        });
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -218,6 +235,11 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
             aria-haspopup="menu"
             aria-expanded={activeMenu === id}
             onClick={() => toggle(id)}
+            onMouseEnter={() => {
+              if (activeMenu !== null && activeMenu !== id) {
+                setActiveMenu(id);
+              }
+            }}
             className={`px-3 h-full rounded-md transition-colors font-medium flex items-center gap-1 ${
               activeMenu === id
                 ? "bg-ink-800 text-ink-50"
