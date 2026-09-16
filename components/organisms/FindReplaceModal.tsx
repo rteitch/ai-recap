@@ -91,11 +91,11 @@ export function FindReplaceModal({
       role="dialog"
       aria-modal="true"
       aria-label="Find and replace"
-      className="fixed top-4 right-4 z-50 w-full max-w-sm bg-ink-900 border border-ink-600 rounded-xl p-4 shadow-2xl animate-fade-up overscroll-contain"
+      className="fixed top-4 right-4 z-50 w-full max-w-sm bg-app-surface border border-app-border rounded-xl p-4 shadow-2xl animate-fade-up overscroll-contain select-none"
       onKeyDown={handleKeyDown}
     >
-      <div className="flex items-center justify-between pb-2 border-b border-ink-600/70">
-        <h2 className="text-sm font-medium text-ink-50">Find & Replace</h2>
+      <div className="flex items-center justify-between pb-2 border-b border-app-border">
+        <h2 className="text-sm font-semibold text-ink-100">Find &amp; Replace</h2>
         <button
           type="button"
           onClick={onClose}
@@ -119,9 +119,9 @@ export function FindReplaceModal({
         </button>
       </div>
 
-      <div className="mt-3 space-y-2">
+      <div className="mt-3 space-y-2.5">
         <div>
-          <label className="block text-xs text-ink-300 mb-1" htmlFor="find-input">
+          <label className="block text-xs font-medium text-ink-300 mb-1" htmlFor="find-input">
             Find
           </label>
           <input
@@ -132,12 +132,12 @@ export function FindReplaceModal({
               setSearchQuery(e.target.value);
               setCurrentIndex(0);
             }}
-            className="w-full p-1 bg-ink-800 text-ink-50 border border-ink-600 rounded focus:outline-none focus:ring-1 focus:ring-highlight"
+            className="w-full px-2.5 py-1.5 bg-ink-850 text-ink-100 placeholder-ink-400 border border-ink-700 rounded-lg focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 text-xs transition-colors"
             placeholder="Search…"
           />
         </div>
         <div>
-          <label className="block text-xs text-ink-300 mb-1" htmlFor="replace-input">
+          <label className="block text-xs font-medium text-ink-300 mb-1" htmlFor="replace-input">
             Replace
           </label>
           <input
@@ -145,7 +145,7 @@ export function FindReplaceModal({
             type="text"
             value={replaceQuery}
             onChange={(e) => setReplaceQuery(e.target.value)}
-            className="w-full p-1 bg-ink-800 text-ink-50 border border-ink-600 rounded focus:outline-none focus:ring-1 focus:ring-highlight"
+            className="w-full px-2.5 py-1.5 bg-ink-850 text-ink-100 placeholder-ink-400 border border-ink-700 rounded-lg focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 text-xs transition-colors"
             placeholder="Replace with…"
           />
         </div>
@@ -153,22 +153,22 @@ export function FindReplaceModal({
           <button
             type="button"
             onClick={() => setCaseSensitive((c) => !c)}
-            className="px-2 py-1 rounded bg-ink-800 hover:bg-ink-700"
+            className="px-2.5 py-1 rounded-md bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 border border-ink-700 transition-colors font-medium text-xs"
           >
             {caseSensitive ? "Case Sensitive" : "Case Insensitive"}
           </button>
-          <span>
+          <span className="font-mono text-[11px] text-ink-400">
             {matches.length === 0
               ? "0 of 0"
               : `${currentIndex + 1} of ${matches.length}`}
           </span>
         </div>
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2 mt-2 pt-1">
           <button
             type="button"
             onClick={handlePrev}
             disabled={matches.length === 0}
-            className="flex-1 px-2 py-1 text-xs rounded bg-ink-800 hover:bg-ink-700 disabled:opacity-50"
+            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 border border-ink-700 disabled:opacity-40 transition-colors font-medium"
           >
             Previous
           </button>
@@ -176,7 +176,7 @@ export function FindReplaceModal({
             type="button"
             onClick={handleNext}
             disabled={matches.length === 0}
-            className="flex-1 px-2 py-1 text-xs rounded bg-ink-800 hover:bg-ink-700 disabled:opacity-50"
+            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 border border-ink-700 disabled:opacity-40 transition-colors font-medium"
           >
             Next
           </button>
@@ -184,7 +184,7 @@ export function FindReplaceModal({
             type="button"
             onClick={replaceAtCurrent}
             disabled={!currentMatch}
-            className="flex-1 px-2 py-1 text-xs rounded bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50"
+            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-emerald-600 hover:bg-emerald-500 text-white font-semibold disabled:opacity-40 transition-colors shadow-xs"
           >
             Replace
           </button>
@@ -192,7 +192,7 @@ export function FindReplaceModal({
             type="button"
             onClick={replaceAll}
             disabled={matches.length === 0}
-            className="flex-1 px-2 py-1 text-xs rounded bg-highlight hover:bg-highlight-hover text-highlight-text font-semibold disabled:opacity-50 transition-colors"
+            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-highlight hover:bg-highlight-hover text-highlight-text font-bold disabled:opacity-40 transition-colors shadow-xs"
           >
             Replace All
           </button>

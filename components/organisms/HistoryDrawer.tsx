@@ -223,7 +223,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 value={historySearch}
                 onChange={(e) => setHistorySearch(e.target.value)}
                 placeholder="Search note history…"
-                className="w-full rounded-md border border-ink-600 bg-ink-800/90 px-3 py-1.5 text-xs text-ink-50 placeholder:text-ink-400 focus:outline-none focus:ring-1 focus:ring-highlight"
+                className="w-full rounded-lg border border-app-border bg-app-card/90 px-3 py-1.5 text-xs text-ink-100 placeholder:text-ink-400 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 transition-all"
               />
               {historySearch && (
                 <button

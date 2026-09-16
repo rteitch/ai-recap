@@ -57,6 +57,26 @@ function extractSnippet(notes: string): string {
   return (lines[0] || "").slice(0, 90);
 }
 
+function highlightMatch(text: string, query: string): React.ReactNode {
+  if (!query.trim()) return text;
+  const q = query.trim();
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escaped})`, "gi");
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    regex.test(part) ? (
+      <mark
+        key={i}
+        className="bg-highlight/30 text-ink-50 dark:text-highlight font-semibold rounded px-0.5"
+      >
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
+}
+
 export const InkdropNoteList = memo(function InkdropNoteList({
   items,
   activeNoteId,
@@ -197,7 +217,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
       )}
 
       {/* Filter / Search Bar */}
-      <div className="p-2 border-b border-ink-800/60 bg-app-card">
+      <div className="p-2 border-b border-app-border bg-app-surface/50">
         <div className="relative">
           <svg
             className="w-3.5 h-3.5 text-ink-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
@@ -212,16 +232,16 @@ export const InkdropNoteList = memo(function InkdropNoteList({
             value={searchFilter}
             onChange={(e) => setSearchFilter(e.target.value)}
             placeholder="Search notes, formulas, tags..."
-            className="w-full bg-ink-900/90 border border-ink-700/60 rounded-md pl-8 pr-14 py-1 text-xs text-ink-100 placeholder-ink-400 focus:outline-none focus:border-highlight/70 focus:ring-1 focus:ring-highlight/30 transition-all"
+            className="w-full bg-app-card/90 border border-app-border rounded-lg pl-8 pr-14 py-1.5 text-xs text-ink-100 placeholder:text-ink-400 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 transition-all"
           />
           {searchFilter ? (
             <button
               type="button"
               onClick={() => setSearchFilter("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-200"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-100 p-0.5 rounded transition-colors"
               title="Clear search"
             >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -229,7 +249,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
             <button
               type="button"
               onClick={onOpenCommandPalette}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-ink-400 hover:text-highlight bg-ink-800/90 hover:bg-ink-700 px-1.5 py-0.5 rounded border border-ink-700 transition-colors"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-ink-400 hover:text-ink-100 bg-ink-800 hover:bg-ink-700 px-1.5 py-0.5 rounded border border-ink-700/80 transition-colors"
               title="Open Command Palette (Ctrl+K)"
             >
               Ctrl+K
@@ -359,7 +379,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                         isActive ? "text-ink-50" : "text-ink-200 group-hover:text-ink-100"
                       }`}
                     >
-                      {title}
+                      {searchFilter ? highlightMatch(title, searchFilter) : title}
                     </h3>
                   </div>
 
@@ -451,7 +471,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
 
                 {/* Snippet preview */}
                 <p className="text-[11px] text-ink-400 line-clamp-2 leading-relaxed">
-                  {snippet}
+                  {searchFilter ? highlightMatch(snippet, searchFilter) : snippet}
                 </p>
                 </div>
               );

@@ -44,14 +44,22 @@ export const AppearanceModal = memo(function AppearanceModal({
 }: AppearanceModalProps) {
   const [activeTab, setActiveTab] = useState<"themes" | "typography">("themes");
   const [themeFilter, setThemeFilter] = useState<"all" | "keycaps" | "dark" | "light">("all");
+  const [themeSearch, setThemeSearch] = useState("");
 
   if (!isOpen) return null;
 
   const presetList = Object.values(THEME_PRESETS);
   const filteredPresets = presetList.filter((preset) => {
-    if (themeFilter === "keycaps") return preset.category === "keycaps";
-    if (themeFilter === "dark") return preset.isDark;
-    if (themeFilter === "light") return !preset.isDark;
+    if (themeFilter === "keycaps" && preset.category !== "keycaps") return false;
+    if (themeFilter === "dark" && !preset.isDark) return false;
+    if (themeFilter === "light" && preset.isDark) return false;
+    if (themeSearch.trim()) {
+      const q = themeSearch.toLowerCase().trim();
+      const matchName = preset.name.toLowerCase().includes(q);
+      const matchId = preset.id.toLowerCase().includes(q);
+      const matchBadge = preset.badge?.toLowerCase().includes(q);
+      return matchName || matchId || matchBadge;
+    }
     return true;
   });
 
@@ -132,52 +140,83 @@ export const AppearanceModal = memo(function AppearanceModal({
         <div className="flex-1 overflow-y-auto py-4 space-y-5 scrollbar-thin">
           {activeTab === "themes" ? (
             <div className="space-y-4">
-              {/* Filter Pills */}
-              <div className="flex flex-wrap items-center gap-1.5 pb-1">
-                <button
-                  type="button"
-                  onClick={() => setThemeFilter("all")}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
-                    themeFilter === "all"
-                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
-                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
-                  }`}
-                >
-                  All ({presetList.length})
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setThemeFilter("keycaps")}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors inline-flex items-center gap-1 ${
-                    themeFilter === "keycaps"
-                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
-                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
-                  }`}
-                >
-                  <span>⌨️ Keycaps ({presetList.filter((p) => p.category === "keycaps").length})</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setThemeFilter("dark")}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
-                    themeFilter === "dark"
-                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
-                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
-                  }`}
-                >
-                  Dark Schemes ({presetList.filter((p) => p.isDark).length})
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setThemeFilter("light")}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
-                    themeFilter === "light"
-                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
-                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
-                  }`}
-                >
-                  Light Paper ({presetList.filter((p) => !p.isDark).length})
-                </button>
+              {/* Search & Filter Bar */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 pb-1">
+                <div className="relative flex-1">
+                  <svg
+                    className="w-3.5 h-3.5 text-ink-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    value={themeSearch}
+                    onChange={(e) => setThemeSearch(e.target.value)}
+                    placeholder="Search themes (e.g. GMK, Tokyo, Paper, Dark)..."
+                    className="w-full bg-app-card/90 border border-app-border rounded-lg pl-8 pr-8 py-1.5 text-xs text-ink-100 placeholder:text-ink-400 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 transition-all"
+                  />
+                  {themeSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setThemeSearch("")}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-100 text-xs p-0.5"
+                      title="Clear search"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                {/* Filter Pills */}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setThemeFilter("all")}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                      themeFilter === "all"
+                        ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                        : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                    }`}
+                  >
+                    All ({presetList.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setThemeFilter("keycaps")}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors inline-flex items-center gap-1 ${
+                      themeFilter === "keycaps"
+                        ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                        : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                    }`}
+                  >
+                    <span>⌨️ Keycaps ({presetList.filter((p) => p.category === "keycaps").length})</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setThemeFilter("dark")}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                      themeFilter === "dark"
+                        ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                        : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                    }`}
+                  >
+                    Dark ({presetList.filter((p) => p.isDark).length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setThemeFilter("light")}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                      themeFilter === "light"
+                        ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                        : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                    }`}
+                  >
+                    Light ({presetList.filter((p) => !p.isDark).length})
+                  </button>
+                </div>
               </div>
 
               {/* Live Theme Preview Card */}
@@ -225,28 +264,44 @@ export const AppearanceModal = memo(function AppearanceModal({
               </div>
 
               {/* Presets Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {filteredPresets.map((preset) => {
-                  const isSelected = appearance.themeId === preset.id;
-                  return (
-                    <button
-                      key={preset.id}
-                      type="button"
-                      onClick={() => onSelectTheme(preset.id)}
-                      className={`p-3 rounded-xl border text-left transition-all relative group flex flex-col justify-between ${
-                        isSelected
-                          ? "border-highlight bg-ink-800/90 shadow-md ring-1 ring-highlight/50"
-                          : "border-ink-800 bg-ink-950/60 hover:bg-ink-800/40 hover:border-ink-700"
-                      }`}
-                    >
-                      <div className="flex items-start justify-between mb-2.5">
-                        <div>
-                          <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className="text-xs font-bold text-ink-100 block">
-                              {preset.name}
-                            </span>
-                            {preset.badge && (
-                              <span className="text-[9px] px-1.5 py-0.5 rounded font-mono font-semibold bg-highlight/15 text-highlight border border-highlight/30">
+              {filteredPresets.length === 0 ? (
+                <div className="p-8 text-center text-xs border border-app-border rounded-xl bg-app-card/60 space-y-1.5">
+                  <p className="text-ink-200 font-semibold text-sm">No themes found matching &ldquo;{themeSearch}&rdquo;</p>
+                  <p className="text-ink-400 text-xs">Try searching for &ldquo;GMK&rdquo;, &ldquo;Dark&rdquo;, &ldquo;Light&rdquo;, or clear the filter.</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setThemeSearch("");
+                      setThemeFilter("all");
+                    }}
+                    className="mt-2 px-3 py-1 rounded-lg text-xs font-semibold bg-highlight text-highlight-text shadow-xs inline-block transition-opacity hover:opacity-90"
+                  >
+                    Reset Search &amp; Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {filteredPresets.map((preset) => {
+                    const isSelected = appearance.themeId === preset.id;
+                    return (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => onSelectTheme(preset.id)}
+                        className={`p-3 rounded-xl border text-left transition-all relative group flex flex-col justify-between ${
+                          isSelected
+                            ? "border-highlight bg-ink-800/90 shadow-md ring-1 ring-highlight/50"
+                            : "border-ink-800 bg-ink-950/60 hover:bg-ink-800/40 hover:border-ink-700"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between mb-2.5">
+                          <div>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-xs font-bold text-ink-100 block">
+                                {preset.name}
+                              </span>
+                              {preset.badge && (
+                                <span className="text-[9px] px-1.5 py-0.5 rounded font-mono font-semibold bg-highlight/15 text-highlight border border-highlight/30">
                                 {preset.badge}
                               </span>
                             )}
@@ -280,15 +335,16 @@ export const AppearanceModal = memo(function AppearanceModal({
                           title="Text Ink"
                         />
                         <span
-                          className="w-5 h-5 rounded-md border border-ink-700 flex-shrink-0 ml-auto"
+                          className="w-5 h-5 rounded-md border border-ink-700 flex-shrink-0"
                           style={{ backgroundColor: preset.highlight }}
-                          title="Accent Highlight"
+                          title="Highlight Brand"
                         />
                       </div>
                     </button>
                   );
                 })}
               </div>
+            )}
 
               {/* Custom Theme Color Builder (when custom selected) */}
               {appearance.themeId === "custom" && (

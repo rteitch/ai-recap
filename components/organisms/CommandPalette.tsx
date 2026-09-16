@@ -452,11 +452,11 @@ export const CommandPalette = memo(function CommandPalette({
       }}
     >
       <div
-        className="w-full max-w-xl rounded-xl border border-ink-700 bg-app-surface shadow-2xl overflow-hidden animate-fade-up flex flex-col max-h-[80vh]"
+        className="w-full max-w-xl rounded-xl border border-app-border bg-app-surface shadow-2xl overflow-hidden animate-fade-up flex flex-col max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Header */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-ink-800 bg-app-card">
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-app-border bg-app-card">
           <svg className="w-4 h-4 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -500,7 +500,7 @@ export const CommandPalette = memo(function CommandPalette({
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`w-full text-left px-3 py-2 rounded-lg flex items-center justify-between gap-3 transition-colors ${
                     isSelected
-                      ? "bg-highlight/15 border border-highlight/40 text-ink-50"
+                      ? "bg-highlight/15 border border-highlight/40 text-ink-100"
                       : "hover:bg-ink-800/60 border border-transparent text-ink-300"
                   }`}
                 >
@@ -528,10 +528,10 @@ export const CommandPalette = memo(function CommandPalette({
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs font-medium truncate ${isSelected ? "text-highlight" : "text-ink-100"}`}>
+                        <span className={`text-xs font-medium truncate ${isSelected ? "text-ink-50 dark:text-highlight font-semibold" : "text-ink-100"}`}>
                           {item.title}
                         </span>
-                        <span className="text-[9px] uppercase tracking-wider px-1 py-0.2 rounded bg-ink-800 text-ink-500 font-mono">
+                        <span className="text-[9px] uppercase tracking-wider px-1 py-0.2 rounded bg-ink-800 text-ink-400 font-mono">
                           {item.category}
                         </span>
                       </div>
@@ -546,9 +546,9 @@ export const CommandPalette = memo(function CommandPalette({
                   {item.shortcut ? (
                     <Kbd>{item.shortcut}</Kbd>
                   ) : isSelected ? (
-                    <span className="text-[10px] font-mono text-highlight flex items-center gap-1 flex-shrink-0">
+                    <span className="text-[10px] font-mono text-ink-200 dark:text-highlight flex items-center gap-1 flex-shrink-0">
                       <span>Select</span>
-                      <kbd className="px-1 py-0.5 bg-highlight/20 text-highlight rounded border border-highlight/40 text-[9px]">↵</kbd>
+                      <kbd className="px-1 py-0.5 bg-highlight/20 text-ink-100 dark:text-highlight rounded border border-highlight/40 text-[9px]">↵</kbd>
                     </span>
                   ) : null}
                 </button>
@@ -558,7 +558,7 @@ export const CommandPalette = memo(function CommandPalette({
         </div>
 
         {/* Footer Navigation Hints */}
-        <div className="px-4 py-2 border-t border-ink-800/80 bg-app-card flex items-center justify-between text-[10px] text-ink-400 font-mono">
+        <div className="px-4 py-2 border-t border-app-border bg-app-card flex items-center justify-between text-[10px] text-ink-400 font-mono">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <kbd className="px-1 py-0.2 bg-ink-800 rounded border border-ink-700">↑</kbd>
