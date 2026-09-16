@@ -11,6 +11,10 @@ export type ThemeId =
   | "monokai-pro"
   | "solarized-light"
   | "gruvbox-dark"
+  | "gmk-midnight-red"
+  | "gmk-dusk-ocean"
+  | "gmk-forest-slate"
+  | "gmk-sand-paper"
   | "custom";
 
 export type EditorFontId =
@@ -35,6 +39,8 @@ export interface ThemeColors {
   name: string;
   id: ThemeId;
   isDark: boolean;
+  category?: "classic" | "keycaps";
+  badge?: string;
   // Surface backgrounds
   bgApp: string;
   bgSidebar: string;
@@ -422,6 +428,126 @@ export const THEME_PRESETS: Record<ThemeId, ThemeColors> = {
     highlightSoft: "rgba(250, 189, 47, 0.16)",
     highlightText: "#141617",
     border: "rgba(235, 219, 178, 0.12)",
+  },
+
+  "gmk-midnight-red": {
+    name: "GMK Midnight Red",
+    id: "gmk-midnight-red",
+    isDark: true,
+    category: "keycaps",
+    badge: "Keycap Legend",
+    bgApp: "#171718",
+    bgSidebar: "#121213",
+    bgSurface: "#1f2122",
+    bgCard: "#27292a",
+    bgCardHover: "#313435",
+    ink50: "#ffffff",
+    ink100: "#F7F2EA",
+    ink200: "#E1DBD1",
+    ink300: "#C5C7CA",
+    ink400: "#9B9284",
+    ink500: "#727474",
+    ink600: "#505353",
+    ink700: "#393B3B",
+    ink800: "#27292a",
+    ink850: "#1f2122",
+    ink900: "#171718",
+    ink950: "#101011",
+    highlight: "#BC251E",
+    highlightHover: "#a31f19",
+    highlightSoft: "rgba(188, 37, 30, 0.16)",
+    highlightText: "#ffffff",
+    border: "rgba(247, 242, 234, 0.09)",
+  },
+
+  "gmk-dusk-ocean": {
+    name: "GMK Dusk Ocean",
+    id: "gmk-dusk-ocean",
+    isDark: true,
+    category: "keycaps",
+    badge: "Keycap Legend",
+    bgApp: "#11171a",
+    bgSidebar: "#0c1113",
+    bgSurface: "#162024",
+    bgCard: "#1f2c32",
+    bgCardHover: "#283940",
+    ink50: "#ffffff",
+    ink100: "#EEE2D0",
+    ink200: "#D3DEE3",
+    ink300: "#A8BAC2",
+    ink400: "#7A95A1",
+    ink500: "#58727E",
+    ink600: "#3D525C",
+    ink700: "#283940",
+    ink800: "#1f2c32",
+    ink850: "#162024",
+    ink900: "#11171a",
+    ink950: "#090d0f",
+    highlight: "#00A4A9",
+    highlightHover: "#008f94",
+    highlightSoft: "rgba(0, 164, 169, 0.16)",
+    highlightText: "#0d1015",
+    border: "rgba(238, 226, 208, 0.09)",
+  },
+
+  "gmk-forest-slate": {
+    name: "GMK Forest Slate",
+    id: "gmk-forest-slate",
+    isDark: true,
+    category: "keycaps",
+    badge: "Keycap Legend",
+    bgApp: "#151917",
+    bgSidebar: "#101412",
+    bgSurface: "#1c221f",
+    bgCard: "#242c28",
+    bgCardHover: "#2e3732",
+    ink50: "#ffffff",
+    ink100: "#E1DBD1",
+    ink200: "#C5D0C7",
+    ink300: "#9BB0A0",
+    ink400: "#758B7B",
+    ink500: "#576A5C",
+    ink600: "#3F4E44",
+    ink700: "#2e3732",
+    ink800: "#242c28",
+    ink850: "#1c221f",
+    ink900: "#151917",
+    ink950: "#0c0e0d",
+    highlight: "#4A9E68",
+    highlightHover: "#3f8759",
+    highlightSoft: "rgba(74, 158, 104, 0.16)",
+    highlightText: "#ffffff",
+    border: "rgba(225, 219, 209, 0.09)",
+  },
+
+  "gmk-sand-paper": {
+    name: "GMK Sand Paper",
+    id: "gmk-sand-paper",
+    isDark: false,
+    category: "keycaps",
+    badge: "Keycap Retro",
+    bgApp: "#F7F2EA",
+    bgSidebar: "#EDE6DA",
+    bgSurface: "#FFFFFF",
+    bgCard: "#FAF6EE",
+    bgCardHover: "#ECE4D4",
+    ink50: "#0e0f0f",
+    ink100: "#171718",
+    ink200: "#302E2B",
+    ink300: "#4A463F",
+    ink400: "#706A5F",
+    ink500: "#8F887C",
+    ink600: "#B8B1A3",
+    ink700: "#D8D2C3",
+    ink800: "#E8E2D4",
+    ink850: "#EDE6DA",
+    ink900: "#F2EDE3",
+    ink950: "#F7F2EA",
+    highlight: "#C85312",
+    highlightHover: "#ad440a",
+    highlightSoft: "rgba(200, 83, 18, 0.14)",
+    highlightText: "#ffffff",
+    border: "rgba(23, 23, 24, 0.11)",
   },
 
   custom: {

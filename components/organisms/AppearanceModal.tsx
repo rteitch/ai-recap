@@ -43,12 +43,13 @@ export const AppearanceModal = memo(function AppearanceModal({
   onReset,
 }: AppearanceModalProps) {
   const [activeTab, setActiveTab] = useState<"themes" | "typography">("themes");
-  const [themeFilter, setThemeFilter] = useState<"all" | "dark" | "light">("all");
+  const [themeFilter, setThemeFilter] = useState<"all" | "keycaps" | "dark" | "light">("all");
 
   if (!isOpen) return null;
 
   const presetList = Object.values(THEME_PRESETS);
   const filteredPresets = presetList.filter((preset) => {
+    if (themeFilter === "keycaps") return preset.category === "keycaps";
     if (themeFilter === "dark") return preset.isDark;
     if (themeFilter === "light") return !preset.isDark;
     return true;
@@ -132,7 +133,7 @@ export const AppearanceModal = memo(function AppearanceModal({
           {activeTab === "themes" ? (
             <div className="space-y-4">
               {/* Filter Pills */}
-              <div className="flex items-center gap-1.5 pb-1">
+              <div className="flex flex-wrap items-center gap-1.5 pb-1">
                 <button
                   type="button"
                   onClick={() => setThemeFilter("all")}
@@ -143,6 +144,17 @@ export const AppearanceModal = memo(function AppearanceModal({
                   }`}
                 >
                   All ({presetList.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setThemeFilter("keycaps")}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors inline-flex items-center gap-1 ${
+                    themeFilter === "keycaps"
+                      ? "bg-highlight text-highlight-text font-bold shadow-xs"
+                      : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
+                  }`}
+                >
+                  <span>⌨️ Keycaps ({presetList.filter((p) => p.category === "keycaps").length})</span>
                 </button>
                 <button
                   type="button"
@@ -191,6 +203,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                       color: activeColors.highlight,
                     }}
                   >
+                    {activeColors.badge ? `${activeColors.badge} · ` : ""}
                     {activeColors.isDark ? "Dark Scheme" : "Light Paper"}
                   </span>
                 </div>
@@ -228,9 +241,16 @@ export const AppearanceModal = memo(function AppearanceModal({
                     >
                       <div className="flex items-start justify-between mb-2.5">
                         <div>
-                          <span className="text-xs font-bold text-ink-100 block">
-                            {preset.name}
-                          </span>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-xs font-bold text-ink-100 block">
+                              {preset.name}
+                            </span>
+                            {preset.badge && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded font-mono font-semibold bg-highlight/15 text-highlight border border-highlight/30">
+                                {preset.badge}
+                              </span>
+                            )}
+                          </div>
                           <span className="text-[10px] text-ink-400">
                             {preset.isDark ? "Dark Scheme" : "Light Paper"}
                           </span>
