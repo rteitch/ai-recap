@@ -75,7 +75,7 @@ export const RetentionScorecard = memo(function RetentionScorecard({
             <button
               type="button"
               onClick={onRetestMissed}
-              className="text-xs bg-highlight/15 hover:bg-highlight/25 text-highlight border border-highlight/40 rounded px-3 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
+              className="text-xs bg-highlight hover:opacity-90 text-highlight-text rounded px-3 py-1.5 transition-opacity touch-manipulation inline-flex items-center gap-1.5 font-semibold"
               title="Test only the questions you need to review again"
             >
               <svg
@@ -135,7 +135,7 @@ export const RetentionScorecard = memo(function RetentionScorecard({
           <button
             type="button"
             onClick={() => onUpdateStatus("perlu-diulang")}
-            className="text-xs bg-amber-500/15 hover:bg-amber-500/25 text-amber-600 dark:text-amber-400 border border-amber-500/40 rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
+            className="text-xs bg-amber-500/15 hover:bg-amber-500/25 text-amber-800 dark:text-amber-300 border border-amber-500/40 rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-semibold"
             title="Update note study status to Needs Review"
           >
             <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,7 +170,7 @@ export const RetentionScorecard = memo(function RetentionScorecard({
         <button
           type="button"
           onClick={() => onRetest(true)}
-          className="text-xs bg-highlight/10 hover:bg-highlight/20 text-highlight border border-highlight/30 rounded px-3 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
+          className="text-xs bg-highlight/10 hover:bg-highlight/20 text-ink-100 dark:text-highlight border border-highlight/30 rounded px-3 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
         >
           <svg
             className="w-3.5 h-3.5"

@@ -36,7 +36,7 @@ const STATUS_OPTIONS: StatusOption[] = [
     dotColor: "bg-amber-500",
     badgeBg: "bg-amber-500/15",
     badgeBorder: "border-amber-500/30",
-    textColor: "text-amber-600 dark:text-amber-400 font-semibold",
+    textColor: "text-amber-800 dark:text-amber-300 font-semibold",
   },
   {
     id: "dikuasai",

@@ -563,7 +563,7 @@ export function getContrastTextColor(hex: string): string {
   const b = parseInt(cleanHex.length === 3 ? cleanHex[2] + cleanHex[2] : cleanHex.slice(4, 6), 16) / 255;
   const toLinear = (c: number) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
   const lum = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
-  return lum > 0.38 ? "#0d1015" : "#ffffff";
+  return lum > 0.25 ? "#0d1015" : "#ffffff";
 }
 
 /**
@@ -611,6 +611,7 @@ export function applyThemeToDOM(colors: ThemeColors, state: AppearanceState) {
   // Set data-theme attribute
   root.setAttribute("data-theme", colors.id);
   root.setAttribute("data-color-scheme", colors.isDark ? "dark" : "light");
+  root.classList.toggle("dark", colors.isDark);
 
   // Core backgrounds
   root.style.setProperty("--bg-app", colors.bgApp);

@@ -314,7 +314,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                     {currentPreset.docHelp}
                   </p>
                 )}
-                <div className="mt-1 text-[11px] bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 rounded-lg p-2">
+                <div className="mt-1 text-[11px] bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 font-medium rounded-lg p-2">
                   API key is stored locally in your browser. Use a dedicated key with usage limits, not a production key.
                 </div>
               </div>

@@ -249,7 +249,7 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
           >
             {label}
             {id === "ai" && dailyRemaining !== null && (
-              <span className="text-[9px] font-mono px-1 rounded bg-highlight/20 text-highlight border border-highlight/30">
+              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-highlight/20 text-ink-100 dark:text-highlight border border-highlight/30 font-medium">
                 {dailyRemaining}/10
               </span>
             )}
@@ -404,7 +404,7 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
           <span className="font-mono">{charCount.toLocaleString()} chars</span>
         )}
         {customApiConfig?.enabled && (
-          <span className="px-1.5 py-0.5 rounded bg-highlight/15 text-highlight text-[10px] font-mono border border-highlight/30">
+          <span className="px-1.5 py-0.5 rounded bg-highlight/15 text-ink-100 dark:text-highlight text-[10px] font-mono border border-highlight/30 font-medium">
             {customApiConfig.model || customApiConfig.provider}
           </span>
         )}

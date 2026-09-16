@@ -2181,7 +2181,7 @@ flowchart TD
                 onClick={() => applyLatexSuggestion(sugg)}
                 className={`px-2 py-0.5 rounded transition-colors flex items-center gap-1 text-[11px] ${
                   i === activeSuggestionIndex
-                    ? "bg-highlight text-ink-900 font-bold"
+                    ? "bg-highlight text-highlight-text font-bold"
                     : "bg-ink-800 text-ink-300 hover:text-ink-100"
                 }`}
               >
@@ -2208,7 +2208,7 @@ flowchart TD
                 }}
                 className={`px-2 py-0.5 rounded text-[11px] transition-colors flex items-center gap-1 ${
                   idx === selectedSlashIndex
-                    ? "bg-highlight text-ink-900 font-bold"
+                    ? "bg-highlight text-highlight-text font-bold"
                     : "bg-ink-800 text-ink-300 hover:text-ink-100"
                 }`}
               >

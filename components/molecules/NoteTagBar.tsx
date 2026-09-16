@@ -113,7 +113,7 @@ export const NoteTagBar = memo(function NoteTagBar({
             <button
               type="button"
               onClick={() => onSelectTag?.(tag)}
-              className="hover:text-highlight transition-colors font-mono"
+              className="hover:text-ink-50 transition-colors font-mono font-medium"
               title={`Filter by #${tag}`}
             >
               #{tag}
@@ -143,8 +143,8 @@ export const NoteTagBar = memo(function NoteTagBar({
         onClick={togglePopover}
         className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all border flex-shrink-0 whitespace-nowrap ${
           isOpen
-            ? "bg-highlight/20 text-highlight border-highlight/50 font-medium"
-            : "text-ink-400 hover:text-ink-100 bg-ink-850/60 hover:bg-ink-800 border-ink-700/60"
+            ? "bg-highlight text-highlight-text border-highlight font-semibold shadow-xs"
+            : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
         }`}
         title="Add tag to note"
         aria-label="Add tag to note"
@@ -209,10 +209,10 @@ export const NoteTagBar = memo(function NoteTagBar({
               <button
                 type="button"
                 onClick={() => handleCreateOrSelect(cleanInput)}
-                className="w-full text-left px-2 py-1.5 rounded bg-highlight/10 hover:bg-highlight/20 text-highlight text-xs font-medium transition-colors flex items-center justify-between group"
+                className="w-full text-left px-2 py-1.5 rounded bg-highlight/15 hover:bg-highlight/25 text-ink-100 dark:text-highlight text-xs font-semibold transition-colors flex items-center justify-between group"
               >
                 <span className="truncate">Create &ldquo;#{cleanInput}&rdquo;</span>
-                <span className="text-[9px] font-mono text-highlight border border-highlight/30 px-1 rounded">
+                <span className="text-[9px] font-mono text-ink-200 dark:text-highlight border border-highlight/40 px-1 rounded">
                   Enter
                 </span>
               </button>

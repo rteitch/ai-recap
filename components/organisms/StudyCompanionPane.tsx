@@ -173,13 +173,13 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
             AI Study Companion
           </h2>
           {loading && (
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-highlight/15 text-highlight border border-highlight/30 animate-pulse flex items-center gap-1">
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-highlight/15 text-ink-100 dark:text-highlight border border-highlight/30 animate-pulse flex items-center gap-1 font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-highlight animate-ping" />
               Recapping...
             </span>
           )}
           {result && !loading && (
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-highlight/15 text-highlight border border-highlight/30">
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-highlight/15 text-ink-100 dark:text-highlight border border-highlight/30 font-medium">
               {result.quiz.length} Questions
             </span>
           )}
@@ -279,7 +279,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
               type="button"
               onClick={onRecap}
               disabled={notesLength < 40}
-              className="w-full max-w-xs py-2 px-4 rounded-lg bg-highlight text-ink-950 font-semibold text-xs hover:bg-highlight/90 transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full max-w-xs py-2 px-4 rounded-lg bg-highlight text-highlight-text font-bold text-xs hover:bg-highlight-hover transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                 <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
@@ -385,7 +385,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                           type="button"
                           disabled={isRegeneratingQuiz}
                           onClick={() => onRegenerateQuiz(selectedRegenCount)}
-                          className="px-2 py-0.5 text-highlight hover:text-highlight-hover hover:bg-ink-800 font-medium transition-colors flex items-center gap-1 disabled:opacity-50"
+                          className="px-2 py-0.5 text-ink-200 hover:text-ink-50 dark:text-highlight dark:hover:text-highlight-hover hover:bg-ink-800 font-medium transition-colors flex items-center gap-1 disabled:opacity-50"
                           title={`Regenerate ${selectedRegenCount} new questions`}
                         >
                           <svg
@@ -485,7 +485,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
 
               {/* Notice when regenerating questions */}
               {isRegeneratingQuiz && (
-                <div className="p-2.5 rounded-lg bg-highlight/10 border border-highlight/30 text-highlight text-xs flex items-center justify-center gap-2 animate-pulse font-mono">
+                <div className="p-2.5 rounded-lg bg-highlight/10 border border-highlight/30 text-ink-100 dark:text-highlight text-xs flex items-center justify-center gap-2 animate-pulse font-mono">
                   <svg className="w-3.5 h-3.5 animate-spin text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>

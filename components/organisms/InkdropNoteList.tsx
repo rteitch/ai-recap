@@ -403,7 +403,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                   <span className="font-mono text-[10px]">{formatRelativeTime(item.timestamp)}</span>
 
                   {quizCount > 0 ? (
-                    <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-highlight/15 text-highlight border border-highlight/30">
+                    <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-highlight/15 text-ink-100 dark:text-highlight border border-highlight/30 font-medium">
                       {quizCount} questions
                     </span>
                   ) : (
@@ -434,7 +434,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                             e.stopPropagation();
                             onSelectTag?.(tag);
                           }}
-                          className="text-[9px] px-1 py-0.2 rounded bg-ink-800/80 hover:bg-highlight/20 text-ink-300 hover:text-highlight font-mono transition-colors"
+                          className="text-[9px] px-1.5 py-0.5 rounded bg-ink-800/90 hover:bg-ink-700 text-ink-300 hover:text-ink-50 font-mono transition-colors border border-ink-700/50"
                           title={`Filter notes by #${tag}`}
                         >
                           #{tag}
