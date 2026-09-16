@@ -44,7 +44,7 @@ function getStatusBadge(status?: StudyStatus) {
     case "perlu-diulang":
       return {
         label: "Needs Review",
-        cls: "bg-yellow-400/15 text-yellow-300 border-yellow-400/30",
+        cls: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30 font-medium",
       };
     case "sedang-dipelajari":
       return {
@@ -258,11 +258,11 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 onClick={() => setActiveFilter("pinned")}
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap flex items-center gap-1 ${
                   activeFilter === "pinned"
-                    ? "bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 font-medium"
+                    ? "bg-highlight/15 text-highlight border border-highlight/40 font-medium"
                     : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
                 }`}
               >
-                <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 text-highlight" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
                 </svg>
                 Pinned ({history.filter((h) => h.pinned).length})
@@ -388,7 +388,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                   onClick={() => onSelectItem(item)}
                   className={`group cursor-pointer rounded-lg border p-3 hover:border-highlight/50 hover:bg-ink-800 transition-all active:scale-[0.99] touch-manipulation ${
                     item.pinned
-                      ? "border-yellow-400/40 bg-ink-850/90 shadow-sm"
+                      ? "border-highlight/40 bg-ink-850/90 shadow-sm"
                       : "border-ink-700/80 bg-ink-800/70"
                   } ${isFocused ? "ring-1 ring-highlight/50 border-highlight/40" : ""}`}
                 >
@@ -404,7 +404,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                           }}
                           className={`p-1 rounded transition-colors ${
                             item.pinned
-                              ? "text-yellow-400 hover:text-yellow-300 bg-yellow-400/10"
+                              ? "text-highlight bg-highlight/10"
                               : "text-ink-500 hover:text-ink-200 hover:bg-ink-700/50"
                           }`}
                           title={item.pinned ? "Unpin note" : "Pin to top"}
@@ -446,7 +446,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
 
                     <div className="flex items-center gap-1.5">
                       {item.result.quiz.length === 0 ? (
-                        <span className="text-[10px] bg-ink-900 text-yellow-300 font-medium px-1.5 py-0.5 rounded border border-yellow-400/30">
+                        <span className="text-[10px] bg-ink-900 text-highlight font-medium px-1.5 py-0.5 rounded border border-highlight/30">
                           Draft
                         </span>
                       ) : (
@@ -509,7 +509,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                     </div>
                   </div>
                   {item.title && (
-                    <h4 className="text-xs font-semibold text-ink-100 group-hover:text-yellow-300 transition-colors truncate mb-1">
+                    <h4 className="text-xs font-semibold text-ink-100 group-hover:text-highlight transition-colors truncate mb-1">
                       {item.title}
                     </h4>
                   )}
@@ -528,7 +528,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                           {item.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="font-mono text-[9px] px-1 py-0.2 rounded bg-ink-900/80 border border-ink-700/60 text-yellow-300/90"
+                              className="font-mono text-[9px] px-1 py-0.2 rounded bg-ink-900/80 border border-ink-700/60 text-highlight"
                             >
                               #{tag}
                             </span>

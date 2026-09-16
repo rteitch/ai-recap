@@ -51,7 +51,7 @@ export const TocPanel = memo(function TocPanel({
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-ink-800">
           <div className="flex items-center gap-2">
             <svg
-              className="w-4 h-4 text-yellow-400 flex-shrink-0"
+              className="w-4 h-4 text-highlight flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

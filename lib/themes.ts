@@ -553,6 +553,20 @@ export const DEFAULT_APPEARANCE: AppearanceState = {
 };
 
 /**
+ * Calculates WCAG relative luminance to determine optimal high-contrast text (#0d1015 vs #ffffff)
+ */
+export function getContrastTextColor(hex: string): string {
+  const cleanHex = hex.replace("#", "").trim();
+  if (cleanHex.length !== 6 && cleanHex.length !== 3) return "#ffffff";
+  const r = parseInt(cleanHex.length === 3 ? cleanHex[0] + cleanHex[0] : cleanHex.slice(0, 2), 16) / 255;
+  const g = parseInt(cleanHex.length === 3 ? cleanHex[1] + cleanHex[1] : cleanHex.slice(2, 4), 16) / 255;
+  const b = parseInt(cleanHex.length === 3 ? cleanHex[2] + cleanHex[2] : cleanHex.slice(4, 6), 16) / 255;
+  const toLinear = (c: number) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+  const lum = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+  return lum > 0.38 ? "#0d1015" : "#ffffff";
+}
+
+/**
  * Generate full ThemeColors object from a user's custom partial configuration
  */
 export function buildCustomThemeColors(config: CustomThemeConfig): ThemeColors {
@@ -581,7 +595,7 @@ export function buildCustomThemeColors(config: CustomThemeConfig): ThemeColors {
     highlight: config.highlight,
     highlightHover: config.highlight,
     highlightSoft: `${config.highlight}25`,
-    highlightText: isDark ? "#0d1015" : "#ffffff",
+    highlightText: getContrastTextColor(config.highlight),
     border: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.08)",
   };
 }

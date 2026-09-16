@@ -65,7 +65,7 @@ export const ConfirmDialog = memo(function ConfirmDialog({
               </svg>
             </div>
           ) : (
-            <div className="w-9 h-9 rounded-lg bg-yellow-400/15 border border-yellow-400/30 text-yellow-300 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -104,7 +104,7 @@ export const ConfirmDialog = memo(function ConfirmDialog({
             className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all shadow-xs ${
               variant === "danger"
                 ? "bg-rose-600 hover:bg-rose-500 text-white"
-                : "bg-yellow-400 hover:bg-yellow-300 text-stone-950"
+                : "bg-highlight hover:bg-highlight-hover text-highlight-text"
             }`}
           >
             {confirmLabel}

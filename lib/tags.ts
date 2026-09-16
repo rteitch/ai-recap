@@ -16,7 +16,7 @@ export const KNOWN_TAG_COLORS: Record<string, string> = {
   science: "bg-teal-400",
   coding: "bg-pink-400",
   draft: "bg-stone-400",
-  template: "bg-yellow-400",
+  template: "bg-amber-400",
   biology: "bg-emerald-400",
   chemistry: "bg-indigo-400",
   history: "bg-stone-300",

@@ -96,7 +96,7 @@ export const NoteTagBar = memo(function NoteTagBar({
     <div ref={containerRef} className="relative flex items-center gap-1.5 flex-nowrap flex-shrink-0">
       {/* Tag Icon */}
       <div className="flex items-center gap-1 text-[11px] text-ink-400 flex-shrink-0">
-        <svg className="w-3 h-3 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <svg className="w-3 h-3 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5a2 2 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V5a2 2 0 012-2z" />
         </svg>
       </div>
@@ -107,13 +107,13 @@ export const NoteTagBar = memo(function NoteTagBar({
         return (
           <span
             key={tag}
-            className="group/chip inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-ink-850 border border-ink-700/80 text-[10px] text-ink-200 hover:border-yellow-400/40 transition-all select-none flex-shrink-0 whitespace-nowrap"
+            className="group/chip inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-ink-850 border border-ink-700/80 text-[10px] text-ink-200 hover:border-highlight/50 transition-all select-none flex-shrink-0 whitespace-nowrap"
           >
             <span className={`w-1.5 h-1.5 rounded-full ${dotColor} flex-shrink-0`} />
             <button
               type="button"
               onClick={() => onSelectTag?.(tag)}
-              className="hover:text-yellow-300 transition-colors font-mono"
+              className="hover:text-highlight transition-colors font-mono"
               title={`Filter by #${tag}`}
             >
               #{tag}
@@ -143,7 +143,7 @@ export const NoteTagBar = memo(function NoteTagBar({
         onClick={togglePopover}
         className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all border flex-shrink-0 whitespace-nowrap ${
           isOpen
-            ? "bg-yellow-400/20 text-yellow-300 border-yellow-400/50"
+            ? "bg-highlight/20 text-highlight border-highlight/50 font-medium"
             : "text-ink-400 hover:text-ink-100 bg-ink-850/60 hover:bg-ink-800 border-ink-700/60"
         }`}
         title="Add tag to note"
@@ -200,7 +200,7 @@ export const NoteTagBar = memo(function NoteTagBar({
                   }
                 }}
                 placeholder="e.g. physics, exam..."
-                className="w-full bg-ink-900 border border-ink-700 rounded pl-5 pr-2 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-yellow-400 transition-colors"
+                className="w-full bg-ink-900 border border-ink-700 rounded pl-5 pr-2 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight transition-colors"
               />
             </div>
 
@@ -209,10 +209,10 @@ export const NoteTagBar = memo(function NoteTagBar({
               <button
                 type="button"
                 onClick={() => handleCreateOrSelect(cleanInput)}
-                className="w-full text-left px-2 py-1.5 rounded bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-300 text-xs font-medium transition-colors flex items-center justify-between group"
+                className="w-full text-left px-2 py-1.5 rounded bg-highlight/10 hover:bg-highlight/20 text-highlight text-xs font-medium transition-colors flex items-center justify-between group"
               >
                 <span className="truncate">Create &ldquo;#{cleanInput}&rdquo;</span>
-                <span className="text-[9px] font-mono text-yellow-400/70 border border-yellow-400/30 px-1 rounded">
+                <span className="text-[9px] font-mono text-highlight border border-highlight/30 px-1 rounded">
                   Enter
                 </span>
               </button>
@@ -243,7 +243,7 @@ export const NoteTagBar = memo(function NoteTagBar({
 
             {/* Tip */}
             <div className="pt-1 border-t border-ink-800/80 text-[10px] text-ink-500 italic px-1">
-              Tip: Type <code className="text-yellow-400/80">#tag</code> in note to auto-tag
+              Tip: Type <code className="text-highlight">#tag</code> in note to auto-tag
             </div>
           </div>
         </>

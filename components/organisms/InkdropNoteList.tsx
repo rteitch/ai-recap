@@ -164,7 +164,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                 type="button"
                 onClick={onToggleSidebar}
                 className={`p-1 rounded text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 transition-colors ${
-                  !isSidebarOpen ? "bg-ink-800 text-yellow-400" : ""
+                  !isSidebarOpen ? "bg-ink-800 text-highlight" : ""
                 }`}
                 title={isSidebarOpen ? "Collapse Navigation Sidebar" : "Show Navigation Sidebar"}
               >
@@ -185,7 +185,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
           <button
             type="button"
             onClick={onNewNote}
-            className="px-2 py-1 rounded-md bg-yellow-400/15 text-yellow-300 hover:bg-yellow-400 hover:text-stone-950 transition-all font-semibold flex items-center gap-1 text-xs border border-yellow-400/30"
+            className="px-2 py-1 rounded-md bg-highlight text-highlight-text hover:bg-highlight-hover transition-all font-semibold flex items-center gap-1 text-xs shadow-xs"
             title="Create New Note (Ctrl+N)"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -229,7 +229,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
             <button
               type="button"
               onClick={onOpenCommandPalette}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-ink-400 hover:text-yellow-300 bg-ink-800/90 hover:bg-ink-700 px-1.5 py-0.5 rounded border border-ink-700 transition-colors"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-ink-400 hover:text-highlight bg-ink-800/90 hover:bg-ink-700 px-1.5 py-0.5 rounded border border-ink-700 transition-colors"
               title="Open Command Palette (Ctrl+K)"
             >
               Ctrl+K
@@ -282,8 +282,8 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                       onClick={() => onSelectNote(item)}
                       className={`group relative p-3 cursor-pointer transition-all ${
                         isActive
-                          ? "bg-ink-800 border-l-[3px] border-yellow-400 shadow-xs"
-                          : "hover:bg-ink-850 border-l-[3px] border-transparent"
+                          ? "bg-app-surface/90 border-l-[3px] border-highlight shadow-xs"
+                          : "hover:bg-app-cardHover border-l-[3px] border-transparent"
                       }`}
                     >
                 {/* Top Row: Title + Pin/Status */}
@@ -328,7 +328,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                           <span className="w-2 h-2 block rounded-full bg-sky-400 ring-2 ring-sky-400/20" />
                         )}
                         {item.status === "perlu-diulang" && (
-                          <span className="w-2 h-2 block rounded-full bg-yellow-400 ring-2 ring-yellow-400/20" />
+                          <span className="w-2 h-2 block rounded-full bg-amber-400 ring-2 ring-amber-400/20" />
                         )}
                         {item.status === "dikuasai" && (
                           <span className="w-2 h-2 block rounded-full bg-emerald-400 ring-2 ring-emerald-400/20" />
@@ -343,7 +343,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                           <span className="w-2 h-2 rounded-full bg-sky-400 flex-shrink-0" title="In Progress" />
                         )}
                         {item.status === "perlu-diulang" && (
-                          <span className="w-2 h-2 rounded-full bg-yellow-400 flex-shrink-0" title="Needs Review" />
+                          <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" title="Needs Review" />
                         )}
                         {item.status === "dikuasai" && (
                           <span className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" title="Mastered" />
@@ -373,7 +373,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                       }}
                       className={`p-1 rounded transition-all ${
                         item.pinned
-                          ? "text-yellow-400 opacity-100 hover:bg-yellow-400/15"
+                          ? "text-highlight opacity-100 hover:bg-highlight/15"
                           : "text-ink-400 opacity-0 group-hover:opacity-100 focus-within:opacity-100 hover:text-ink-100 hover:bg-ink-750"
                       }`}
                       title={item.pinned ? "Unpin note" : "Pin note to top"}
@@ -403,7 +403,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                   <span className="font-mono text-[10px]">{formatRelativeTime(item.timestamp)}</span>
 
                   {quizCount > 0 ? (
-                    <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-yellow-400/15 text-yellow-300 border border-yellow-400/30">
+                    <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-highlight/15 text-highlight border border-highlight/30">
                       {quizCount} questions
                     </span>
                   ) : (
@@ -434,7 +434,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                             e.stopPropagation();
                             onSelectTag?.(tag);
                           }}
-                          className="text-[9px] px-1 py-0.2 rounded bg-ink-800/80 hover:bg-yellow-400/20 text-ink-300 hover:text-yellow-300 font-mono transition-colors"
+                          className="text-[9px] px-1 py-0.2 rounded bg-ink-800/80 hover:bg-highlight/20 text-ink-300 hover:text-highlight font-mono transition-colors"
                           title={`Filter notes by #${tag}`}
                         >
                           #{tag}

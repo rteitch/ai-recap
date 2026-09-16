@@ -192,7 +192,7 @@ export function FindReplaceModal({
             type="button"
             onClick={replaceAll}
             disabled={matches.length === 0}
-            className="flex-1 px-2 py-1 text-xs rounded bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-semibold disabled:opacity-50 transition-colors"
+            className="flex-1 px-2 py-1 text-xs rounded bg-highlight hover:bg-highlight-hover text-highlight-text font-semibold disabled:opacity-50 transition-colors"
           >
             Replace All
           </button>

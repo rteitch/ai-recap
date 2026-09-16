@@ -75,7 +75,7 @@ export const RetentionScorecard = memo(function RetentionScorecard({
             <button
               type="button"
               onClick={onRetestMissed}
-              className="text-xs bg-yellow-400/15 hover:bg-yellow-400/25 text-yellow-300 border border-yellow-400/40 rounded px-3 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
+              className="text-xs bg-highlight/15 hover:bg-highlight/25 text-highlight border border-highlight/40 rounded px-3 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
               title="Test only the questions you need to review again"
             >
               <svg
@@ -93,7 +93,7 @@ export const RetentionScorecard = memo(function RetentionScorecard({
             <button
               type="button"
               onClick={onCopyMissed}
-              className="text-xs bg-ink-800 hover:bg-ink-700 text-yellow-300/90 border border-yellow-400/30 rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5"
+              className="text-xs bg-app-card hover:bg-app-cardHover text-ink-100 border border-app-border rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5"
               title="Copy missed review questions to clipboard"
             >
               <svg
@@ -135,10 +135,10 @@ export const RetentionScorecard = memo(function RetentionScorecard({
           <button
             type="button"
             onClick={() => onUpdateStatus("perlu-diulang")}
-            className="text-xs bg-yellow-400/15 hover:bg-yellow-400/25 text-yellow-300 border border-yellow-400/40 rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
+            className="text-xs bg-amber-500/15 hover:bg-amber-500/25 text-amber-600 dark:text-amber-400 border border-amber-500/40 rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
             title="Update note study status to Needs Review"
           >
-            <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
             <span>Mark Needs Review</span>

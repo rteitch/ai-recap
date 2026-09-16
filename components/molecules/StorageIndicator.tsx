@@ -23,7 +23,7 @@ export const StorageIndicator = memo(function StorageIndicator() {
     usagePercent > 80
       ? "bg-red-500"
       : usagePercent > 60
-      ? "bg-yellow-400"
+      ? "bg-amber-500"
       : "bg-emerald-500";
 
   async function handleClear() {

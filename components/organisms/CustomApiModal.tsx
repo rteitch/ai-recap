@@ -161,7 +161,7 @@ export const CustomApiModal = memo(function CustomApiModal({
         {/* Header */}
         <div className="flex items-start justify-between border-b border-ink-800 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-yellow-400/15 border border-yellow-400/30 flex items-center justify-center text-yellow-400">
+            <div className="w-9 h-9 rounded-lg bg-highlight-soft border border-highlight/40 flex items-center justify-center text-highlight">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -203,20 +203,20 @@ export const CustomApiModal = memo(function CustomApiModal({
                   onClick={() => handleSelectProvider(p.id)}
                   className={`p-2.5 rounded-xl border text-left transition-all ${
                     isSelected
-                      ? "bg-yellow-400/10 border-yellow-400/60 shadow-sm"
+                      ? "bg-highlight/10 border-highlight/60 shadow-sm"
                       : "bg-ink-900/60 border-ink-800 hover:border-ink-700 hover:bg-ink-850"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span
                       className={`text-xs font-bold ${
-                        isSelected ? "text-yellow-400" : "text-ink-200"
+                        isSelected ? "text-highlight" : "text-ink-200"
                       }`}
                     >
                       {p.name}
                     </span>
                     {isSelected && (
-                      <span className="w-2 h-2 rounded-full bg-yellow-400" />
+                      <span className="w-2 h-2 rounded-full bg-highlight" />
                     )}
                   </div>
                   <p className="text-[10px] text-ink-400 mt-1 line-clamp-2 leading-tight">
@@ -266,7 +266,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                   value={baseUrl}
                   onChange={(e) => setBaseUrl(e.target.value)}
                   placeholder={currentPreset.defaultBaseUrl || "https://api.example.com/v1"}
-                  className="w-full bg-ink-950 border border-ink-700/80 rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-yellow-400"
+                  className="w-full bg-ink-950 border border-ink-700/80 rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
                 />
               </div>
 
@@ -292,7 +292,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                         ? "sk-..."
                         : "Optional (leave blank for local Ollama/LM Studio)"
                     }
-                    className="w-full bg-ink-950 border border-ink-700/80 rounded-lg pl-3 pr-9 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-yellow-400"
+                    className="w-full bg-ink-950 border border-ink-700/80 rounded-lg pl-3 pr-9 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
                   />
                   <button
                     type="button"
@@ -314,7 +314,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                     {currentPreset.docHelp}
                   </p>
                 )}
-                <div className="mt-1 text-[11px] bg-yellow-400/10 border border-yellow-400/30 text-yellow-300 rounded-lg p-2">
+                <div className="mt-1 text-[11px] bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 rounded-lg p-2">
                   API key is stored locally in your browser. Use a dedicated key with usage limits, not a production key.
                 </div>
               </div>
@@ -336,7 +336,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   placeholder="e.g. gpt-4o-mini, llama3.2, deepseek-r1"
-                  className="w-full bg-ink-950 border border-ink-700/80 rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-yellow-400"
+                  className="w-full bg-ink-950 border border-ink-700/80 rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
                 />
 
                 {/* Suggested Model Pills */}
@@ -349,7 +349,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                         onClick={() => setModel(sm)}
                         className={`text-[10px] font-mono px-2 py-0.5 rounded border transition-colors ${
                           model === sm
-                            ? "bg-yellow-400 text-stone-950 font-bold border-yellow-400"
+                            ? "bg-highlight text-highlight-text font-bold border-highlight"
                             : "bg-ink-800 text-ink-300 border-ink-700 hover:text-ink-100"
                         }`}
                       >
@@ -372,7 +372,7 @@ export const CustomApiModal = memo(function CustomApiModal({
             >
               {testing ? (
                 <>
-                  <svg className="w-3.5 h-3.5 animate-spin text-yellow-400" fill="none" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 animate-spin text-highlight" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                   </svg>
@@ -380,7 +380,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                 </>
               ) : (
                 <>
-                  <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   <span>Test Connection</span>
@@ -433,7 +433,7 @@ export const CustomApiModal = memo(function CustomApiModal({
               href="https://github.com/rteitch/ai-recap"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-ink-400 hover:text-yellow-400 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-ink-400 hover:text-highlight transition-colors"
               title="View source on GitHub"
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -454,7 +454,7 @@ export const CustomApiModal = memo(function CustomApiModal({
             <button
               type="button"
               onClick={handleSave}
-              className="px-4 py-1.5 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-bold text-xs transition-colors shadow-sm"
+              className="px-4 py-1.5 rounded-lg bg-highlight hover:bg-highlight-hover text-highlight-text font-bold text-xs transition-colors shadow-sm"
             >
               Save Configuration
             </button>

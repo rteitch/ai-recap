@@ -457,7 +457,7 @@ export const CommandPalette = memo(function CommandPalette({
       >
         {/* Search Header */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-ink-800 bg-app-card">
-          <svg className="w-4 h-4 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -500,7 +500,7 @@ export const CommandPalette = memo(function CommandPalette({
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`w-full text-left px-3 py-2 rounded-lg flex items-center justify-between gap-3 transition-colors ${
                     isSelected
-                      ? "bg-yellow-400/15 border border-yellow-400/40 text-ink-50"
+                      ? "bg-highlight/15 border border-highlight/40 text-ink-50"
                       : "hover:bg-ink-800/60 border border-transparent text-ink-300"
                   }`}
                 >
@@ -511,24 +511,24 @@ export const CommandPalette = memo(function CommandPalette({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     ) : item.category === "actions" ? (
-                      <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     ) : item.category === "templates" ? (
-                      <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                       </svg>
                     ) : item.category === "notebooks" ? (
-                      <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                       </svg>
                     ) : (
-                      <span className={`w-2 h-2 rounded-full ${item.dotColor || "bg-yellow-400"} flex-shrink-0`} />
+                      <span className={`w-2 h-2 rounded-full ${item.dotColor || "bg-highlight"} flex-shrink-0`} />
                     )}
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs font-medium truncate ${isSelected ? "text-yellow-300" : "text-ink-100"}`}>
+                        <span className={`text-xs font-medium truncate ${isSelected ? "text-highlight" : "text-ink-100"}`}>
                           {item.title}
                         </span>
                         <span className="text-[9px] uppercase tracking-wider px-1 py-0.2 rounded bg-ink-800 text-ink-500 font-mono">
@@ -546,9 +546,9 @@ export const CommandPalette = memo(function CommandPalette({
                   {item.shortcut ? (
                     <Kbd>{item.shortcut}</Kbd>
                   ) : isSelected ? (
-                    <span className="text-[10px] font-mono text-yellow-400/80 flex items-center gap-1 flex-shrink-0">
+                    <span className="text-[10px] font-mono text-highlight flex items-center gap-1 flex-shrink-0">
                       <span>Select</span>
-                      <kbd className="px-1 py-0.5 bg-yellow-400/20 text-yellow-300 rounded border border-yellow-400/30 text-[9px]">↵</kbd>
+                      <kbd className="px-1 py-0.5 bg-highlight/20 text-highlight rounded border border-highlight/40 text-[9px]">↵</kbd>
                     </span>
                   ) : null}
                 </button>

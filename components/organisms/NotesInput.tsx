@@ -163,6 +163,7 @@ const NotesInputInner = forwardRef<NotesInputHandle, NotesInputProps>(function N
   // --- 1. DOM & Timer Refs (Declared first, before any helper or effect) ---
   const activeTextareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumbersRef = useRef<HTMLDivElement>(null);
+  const measureMirrorRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const templateButtonRef = useRef<HTMLButtonElement>(null);
@@ -174,6 +175,8 @@ const NotesInputInner = forwardRef<NotesInputHandle, NotesInputProps>(function N
 
   // --- 2. View & UI State ---
   const [viewMode, setViewMode] = useState<"edit" | "split" | "preview">("edit");
+  const [lineHeights, setLineHeights] = useState<number[]>([]);
+  const [textareaInnerWidth, setTextareaInnerWidth] = useState<number>(0);
   const [isDragging, setIsDragging] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
   const [showToc, setShowToc] = useState(false);
@@ -1362,10 +1365,39 @@ flowchart TD
     return list;
   }, [selectedCategory, formulaSearch]);
 
-  const lineCount = useMemo(() => {
-    if (!notes) return 1;
-    return Math.max(notes.split("\n").length, 12);
+  const noteLines = useMemo(() => {
+    return notes ? notes.split("\n") : [""];
   }, [notes]);
+
+  // Sync textarea inner content width for exact word-wrap line break calculation
+  useEffect(() => {
+    const el = activeTextareaRef.current;
+    if (!el) return;
+    const updateWidth = () => {
+      // clientWidth automatically excludes scrollbar width, minus 32px for p-4 (16px left + 16px right)
+      setTextareaInnerWidth(Math.max(0, el.clientWidth - 32));
+    };
+    updateWidth();
+    const ro = new ResizeObserver(updateWidth);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [viewMode, effectiveMode]);
+
+  // Measure rendered line heights from typography mirror when wordWrap is enabled
+  useEffect(() => {
+    if (!wordWrap) {
+      setLineHeights([]);
+      return;
+    }
+    if (!measureMirrorRef.current) return;
+    const children = measureMirrorRef.current.children;
+    const heights: number[] = new Array(children.length);
+    for (let i = 0; i < children.length; i++) {
+      const h = (children[i] as HTMLElement).getBoundingClientRect().height;
+      heights[i] = Math.max(Math.round(h), 24);
+    }
+    setLineHeights(heights);
+  }, [notes, wordWrap, textareaInnerWidth]);
 
   return (
     <div className="inkdrop-editor-root flex-1 h-full flex flex-col min-w-0 bg-app-bg select-text">
@@ -2126,16 +2158,70 @@ flowchart TD
             onDismiss={() => setShowWelcome(false)}
           />
         )}
+        {/* Offscreen Typography Mirror for Word-Wrap Line Height Calculation */}
+        <div
+          ref={measureMirrorRef}
+          aria-hidden="true"
+          className="invisible absolute pointer-events-none -z-50 overflow-hidden"
+          style={{
+            position: "fixed",
+            top: -99999,
+            left: -99999,
+            width: textareaInnerWidth > 0 ? `${textareaInnerWidth}px` : "auto",
+            fontFamily: "var(--font-editor, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace)",
+            fontSize: "14px",
+            lineHeight: "24px",
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-all",
+            overflowWrap: "break-word",
+            visibility: "hidden",
+          }}
+        >
+          {noteLines.map((line, idx) => (
+            <div key={idx} style={{ minHeight: "24px", lineHeight: "24px" }}>
+              {line.length > 0 ? line : "\u00A0"}
+            </div>
+          ))}
+        </div>
+
         {effectiveMode === "split" ? (
           <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-ink-800/80 overflow-hidden">
             {/* Left: Textarea with Line Numbers */}
             <div className="flex-1 min-h-0 flex overflow-hidden">
-              <div ref={lineNumbersRef} className="hidden sm:block w-10 py-3 pr-2 select-none text-right font-mono text-xs text-ink-600 bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0">
-                {Array.from({ length: lineCount }).map((_, i) => (
-                  <div key={i} className="leading-relaxed">
-                    {i + 1}
-                  </div>
-                ))}
+              <div
+                ref={lineNumbersRef}
+                onWheel={(e) => {
+                  if (activeTextareaRef.current) activeTextareaRef.current.scrollTop += e.deltaY;
+                }}
+                className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0"
+                style={{
+                  paddingTop: "16px",
+                  paddingBottom: "16px",
+                  paddingRight: "8px",
+                  fontFamily: "var(--font-editor, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace)",
+                }}
+              >
+                {noteLines.map((_, i) => {
+                  const isCurrentLine = cursorLine === i + 1;
+                  const h = wordWrap && lineHeights[i] ? lineHeights[i] : 24;
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        height: `${h}px`,
+                        lineHeight: "24px",
+                        fontSize: "14px",
+                      }}
+                      className={`transition-colors duration-75 ${
+                        isCurrentLine
+                          ? "text-highlight font-bold"
+                          : "text-ink-600 hover:text-ink-400"
+                      }`}
+                    >
+                      {i + 1}
+                    </div>
+                  );
+                })}
               </div>
               <textarea
                 id="notes"
@@ -2170,8 +2256,16 @@ flowchart TD
                 }}
                 onKeyDown={handleKeyDown}
                 placeholder="Write notes, math & science formulas ($E=mc^2$), or type / for blocks… (Ctrl+Enter to recap)"
-                className="inkdrop-editor flex-1 h-full resize-none p-4 font-mono text-sm leading-relaxed text-ink-50 placeholder:text-ink-500 bg-transparent focus:outline-none overflow-y-auto scrollbar-thin select-text"
-                style={{ whiteSpace: wordWrap ? "pre-wrap" : "pre", overflowWrap: wordWrap ? "break-word" : "normal", wordBreak: wordWrap ? "break-all" : undefined }}
+                className="inkdrop-editor flex-1 h-full resize-none font-mono text-ink-50 placeholder:text-ink-500 bg-transparent focus:outline-none overflow-y-auto scrollbar-thin select-text"
+                style={{
+                  padding: "16px",
+                  fontSize: "14px",
+                  lineHeight: "24px",
+                  fontFamily: "var(--font-editor, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace)",
+                  whiteSpace: wordWrap ? "pre-wrap" : "pre",
+                  overflowWrap: wordWrap ? "break-word" : "normal",
+                  wordBreak: wordWrap ? "break-all" : undefined,
+                }}
                 onScroll={(e) => {
                   if (lineNumbersRef.current) {
                     lineNumbersRef.current.scrollTop = e.currentTarget.scrollTop;
@@ -2199,12 +2293,40 @@ flowchart TD
           </div>
         ) : effectiveMode === "edit" ? (
           <div className="flex-1 min-h-0 flex overflow-hidden">
-            <div className="hidden sm:block w-10 py-3 pr-2 select-none text-right font-mono text-xs text-ink-600 bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0">
-              {Array.from({ length: lineCount }).map((_, i) => (
-                <div key={i} className="leading-relaxed">
-                  {i + 1}
-                </div>
-              ))}
+            <div
+              ref={lineNumbersRef}
+              onWheel={(e) => {
+                if (activeTextareaRef.current) activeTextareaRef.current.scrollTop += e.deltaY;
+              }}
+              className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0"
+              style={{
+                paddingTop: "16px",
+                paddingBottom: "16px",
+                paddingRight: "8px",
+                fontFamily: "var(--font-editor, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace)",
+              }}
+            >
+              {noteLines.map((_, i) => {
+                const isCurrentLine = cursorLine === i + 1;
+                const h = wordWrap && lineHeights[i] ? lineHeights[i] : 24;
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      height: `${h}px`,
+                      lineHeight: "24px",
+                      fontSize: "14px",
+                    }}
+                    className={`transition-colors duration-75 ${
+                      isCurrentLine
+                        ? "text-highlight font-bold"
+                        : "text-ink-600 hover:text-ink-400"
+                    }`}
+                  >
+                    {i + 1}
+                  </div>
+                );
+              })}
             </div>
             <textarea
               id="notes"
@@ -2239,7 +2361,21 @@ flowchart TD
               }}
               onKeyDown={handleKeyDown}
               placeholder="Write notes, math & science formulas ($E=mc^2$), or type / for blocks… (Ctrl+Enter to recap)"
-              className="inkdrop-editor flex-1 h-full resize-none p-4 font-mono text-sm leading-relaxed text-ink-50 placeholder:text-ink-500 bg-transparent focus:outline-none overflow-y-auto scrollbar-thin select-text"
+              className="inkdrop-editor flex-1 h-full resize-none font-mono text-ink-50 placeholder:text-ink-500 bg-transparent focus:outline-none overflow-y-auto scrollbar-thin select-text"
+              style={{
+                padding: "16px",
+                fontSize: "14px",
+                lineHeight: "24px",
+                fontFamily: "var(--font-editor, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace)",
+                whiteSpace: wordWrap ? "pre-wrap" : "pre",
+                overflowWrap: wordWrap ? "break-word" : "normal",
+                wordBreak: wordWrap ? "break-all" : undefined,
+              }}
+              onScroll={(e) => {
+                if (lineNumbersRef.current) {
+                  lineNumbersRef.current.scrollTop = e.currentTarget.scrollTop;
+                }
+              }}
             />
           </div>
         ) : (

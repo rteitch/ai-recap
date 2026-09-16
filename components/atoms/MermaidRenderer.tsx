@@ -210,11 +210,11 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
     return (
       <div className="my-3 rounded-lg border border-ink-700 bg-ink-950 overflow-hidden shadow-md text-xs font-mono">
         <div className="flex items-center justify-between px-3 py-1.5 bg-ink-900 border-b border-ink-800 text-ink-400">
-          <div className="flex items-center gap-1.5 text-yellow-400">
+          <div className="flex items-center gap-1.5 text-highlight">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
-            <span className="text-[11px] font-semibold text-yellow-400">Mermaid Diagram (Editing...)</span>
+            <span className="text-[11px] font-semibold text-highlight">Mermaid Diagram (Editing...)</span>
           </div>
           <button
             type="button"
@@ -236,7 +236,7 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
       {/* Header bar */}
       <div className="flex items-center justify-between px-3 py-1.5 bg-app-card border-b border-ink-800/80 text-ink-400 print:hidden">
         <div className="flex items-center gap-2">
-          <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
           </svg>
           <span className="text-[11px] font-medium tracking-wide text-ink-200">
@@ -275,7 +275,7 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
       >
         {isLoading && !svgContent ? (
           <div className="flex items-center gap-2 text-xs text-ink-400 animate-pulse py-8">
-            <svg className="w-4 h-4 animate-spin text-yellow-400" fill="none" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 animate-spin text-highlight" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
             </svg>

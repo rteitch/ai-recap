@@ -13,11 +13,11 @@ export const StudyStreakBadge = memo(function StudyStreakBadge({
 
   return (
     <span
-      className="inline-flex items-center gap-1 rounded-full border border-yellow-400/30 bg-yellow-400/10 px-2 py-0.5 text-[11px] font-medium text-yellow-300"
+      className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-600 dark:text-amber-400"
       title={`${streak} consecutive day${streak > 1 ? "s" : ""} studied`}
     >
       <svg
-        className="w-3 h-3 text-yellow-400 flex-shrink-0"
+        className="w-3 h-3 text-amber-500 flex-shrink-0"
         fill="currentColor"
         viewBox="0 0 20 20"
         aria-hidden="true"

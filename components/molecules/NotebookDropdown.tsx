@@ -19,21 +19,21 @@ function renderNotebookIcon(icon?: string) {
   switch (icon) {
     case "academic":
       return (
-        <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 14l9-5-9-5-9 5 9 5z" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
         </svg>
       );
     case "rocket":
       return (
-        <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
         </svg>
       );
     case "inbox":
     default:
       return (
-        <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
         </svg>
       );
@@ -91,7 +91,7 @@ export const NotebookDropdown = memo(function NotebookDropdown({
         onClick={handleOpen}
         className={`inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded border transition-all flex-shrink-0 whitespace-nowrap ${
           isOpen
-            ? "bg-ink-800 border-yellow-400/50 text-yellow-300 shadow-xs"
+            ? "bg-app-card border-highlight/50 text-highlight shadow-xs"
             : "bg-ink-850 border-ink-750 text-ink-300 hover:text-ink-100 hover:border-ink-600 hover:bg-ink-800"
         }`}
         title={`Notebook: ${currentNb.label} (Click to change)`}
@@ -99,7 +99,7 @@ export const NotebookDropdown = memo(function NotebookDropdown({
         <span className="truncate max-w-[85px] sm:max-w-[120px]">{currentNb.label}</span>
         <svg
           className={`w-2.5 h-2.5 text-ink-400 transition-transform flex-shrink-0 ${
-            isOpen ? "rotate-180 text-yellow-400" : ""
+            isOpen ? "rotate-180 text-highlight" : ""
           }`}
           fill="none"
           stroke="currentColor"
@@ -127,7 +127,7 @@ export const NotebookDropdown = memo(function NotebookDropdown({
             className="fixed z-50 w-52 rounded-xl border border-ink-700/80 bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-0.5"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-2 py-1 text-[10px] font-semibold text-yellow-400 border-b border-ink-800 mb-1 flex items-center justify-between">
+            <div className="px-2 py-1 text-[10px] font-semibold text-highlight border-b border-ink-800 mb-1 flex items-center justify-between">
               <span>Move Note to Notebook</span>
               <button
                 type="button"
@@ -150,7 +150,7 @@ export const NotebookDropdown = memo(function NotebookDropdown({
                   }}
                   className={`w-full text-left px-2.5 py-1.5 rounded-lg transition-colors flex items-center justify-between gap-2 group text-xs ${
                     isSelected
-                      ? "bg-yellow-400/15 text-yellow-300 font-semibold"
+                      ? "bg-highlight/15 text-highlight font-semibold"
                       : "text-ink-200 hover:bg-ink-800 hover:text-ink-50"
                   }`}
                 >
@@ -159,7 +159,7 @@ export const NotebookDropdown = memo(function NotebookDropdown({
                     <span className="truncate">{nb.label}</span>
                   </div>
                   {isSelected && (
-                    <svg className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
                   )}

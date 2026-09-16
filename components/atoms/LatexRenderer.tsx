@@ -34,7 +34,7 @@ export const LatexRenderer = memo(function LatexRenderer({
 
   if (!html) {
     return (
-      <span className="font-mono text-xs text-yellow-400/90" title="Formula display fallback">
+      <span className="font-mono text-xs text-highlight" title="Formula display fallback">
         {block ? `$$${math}$$` : `$${math}$`}
       </span>
     );

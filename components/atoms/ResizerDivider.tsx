@@ -30,8 +30,8 @@ export const ResizerDivider = memo(function ResizerDivider({
       <div
         className={`w-px h-full transition-colors ${
           isActive
-            ? "bg-yellow-400 shadow-[0_0_8px_rgba(245,197,24,0.5)]"
-            : "bg-ink-800/80 group-hover:bg-yellow-400/80"
+            ? "bg-highlight shadow-[0_0_8px_var(--highlight)]"
+            : "bg-ink-800/80 group-hover:bg-highlight/80"
         }`}
       />
     </div>

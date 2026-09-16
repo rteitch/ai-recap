@@ -27,25 +27,25 @@ const STATUS_OPTIONS: StatusOption[] = [
     dotColor: "bg-sky-400",
     badgeBg: "bg-sky-400/15",
     badgeBorder: "border-sky-400/30",
-    textColor: "text-sky-300",
+    textColor: "text-sky-600 dark:text-sky-400 font-medium",
   },
   {
     id: "perlu-diulang",
     label: "Needs Review",
     description: "Challenging concepts requiring spaced repetition",
-    dotColor: "bg-yellow-400",
-    badgeBg: "bg-yellow-400/15",
-    badgeBorder: "border-yellow-400/30",
-    textColor: "text-yellow-300",
+    dotColor: "bg-amber-500",
+    badgeBg: "bg-amber-500/15",
+    badgeBorder: "border-amber-500/30",
+    textColor: "text-amber-600 dark:text-amber-400 font-semibold",
   },
   {
     id: "dikuasai",
     label: "Mastered",
     description: "Concept fully understood and tested with high retention",
-    dotColor: "bg-emerald-400",
-    badgeBg: "bg-emerald-400/15",
-    badgeBorder: "border-emerald-400/30",
-    textColor: "text-emerald-300",
+    dotColor: "bg-emerald-500",
+    badgeBg: "bg-emerald-500/15",
+    badgeBorder: "border-emerald-500/30",
+    textColor: "text-emerald-600 dark:text-emerald-400 font-medium",
   },
   {
     id: "belum-direview",
@@ -54,7 +54,7 @@ const STATUS_OPTIONS: StatusOption[] = [
     dotColor: "bg-rose-400",
     badgeBg: "bg-rose-400/15",
     badgeBorder: "border-rose-400/30",
-    textColor: "text-rose-300",
+    textColor: "text-rose-600 dark:text-rose-400 font-medium",
   },
 ];
 
@@ -192,7 +192,7 @@ export const StudyStatusDropdown = memo(function StudyStatusDropdown({
                       {opt.label}
                     </span>
                     {isSelected && (
-                      <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
                     )}

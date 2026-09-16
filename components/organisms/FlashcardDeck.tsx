@@ -53,7 +53,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                   : ratings[dotIdx] === "known"
                   ? "w-2 bg-emerald-400/80"
                   : ratings[dotIdx] === "learning"
-                  ? "w-2 bg-yellow-400/80"
+                  ? "w-2 bg-amber-500/80"
                   : "w-2 bg-ink-600"
               }`}
               aria-label={`Go to card ${dotIdx + 1}`}
@@ -150,11 +150,11 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                 onClick={() => onRate(activeCardIndex, "learning")}
                 className={`rounded px-3 py-1.5 transition-all active:scale-95 touch-manipulation flex items-center gap-1.5 ${
                   ratings[activeCardIndex] === "learning"
-                    ? "bg-yellow-400/20 text-yellow-300 font-medium border border-yellow-400/40"
+                    ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 font-medium border border-amber-500/40"
                     : "bg-ink-900 text-ink-300 hover:text-ink-50 border border-ink-600"
                 }`}
               >
-                <svg className="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
                 <span>Review again</span>
@@ -169,7 +169,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                 className={`text-[11px] font-medium inline-flex items-center gap-1 ${
                   ratings[activeCardIndex] === "known"
                     ? "text-emerald-400"
-                    : "text-yellow-400"
+                    : "text-amber-600 dark:text-amber-400"
                 }`}
               >
                 {ratings[activeCardIndex] === "known" ? (
@@ -181,7 +181,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                   </>
                 ) : (
                   <>
-                    <svg className="w-3 h-3 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <span>Review again</span>

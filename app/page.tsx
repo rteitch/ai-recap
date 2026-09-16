@@ -195,13 +195,23 @@ export default function Home() {
 
     try {
       const savedHistory = localStorage.getItem("ai_recap_history");
+      const hasOnboarded = localStorage.getItem("ai_recap_has_onboarded");
+      const savedActiveNoteId = localStorage.getItem("ai_recap_active_note_id");
+
       if (savedHistory && JSON.parse(savedHistory).length > 0) {
-        const parsed = JSON.parse(savedHistory);
+        const parsed: HistoryItem[] = JSON.parse(savedHistory);
         setHistory(parsed);
-        if (parsed[0]) {
-          setActiveNoteId(parsed[0].id);
+        const targetNote = (savedActiveNoteId && parsed.find((h) => h.id === savedActiveNoteId)) || parsed[0];
+        if (targetNote) {
+          setActiveNoteId(targetNote.id);
+          setNotes(targetNote.notes);
+          setResult(targetNote.result);
+          if (targetNote.result?.quiz) {
+            fullQuizRef.current = targetNote.result.quiz;
+          }
+          updateStorage(targetNote.notes, targetNote.result, {});
         }
-      } else {
+      } else if (!hasOnboarded) {
         const defaultSample: HistoryItem = {
           id: "sample-inkdrop-1",
           timestamp: Date.now() - 3600 * 1000 * 2,
@@ -232,14 +242,19 @@ export default function Home() {
         };
         setHistory([defaultSample]);
         setActiveNoteId(defaultSample.id);
-        if (!notes) {
-          setNotes(defaultSample.notes);
-          setResult(defaultSample.result);
-          fullQuizRef.current = defaultSample.result.quiz;
-        }
+        setNotes(defaultSample.notes);
+        setResult(defaultSample.result);
+        fullQuizRef.current = defaultSample.result.quiz;
         try {
           localStorage.setItem("ai_recap_history", JSON.stringify([defaultSample]));
+          localStorage.setItem("ai_recap_active_note_id", defaultSample.id);
+          localStorage.setItem("ai_recap_has_onboarded", "true");
         } catch {}
+      } else {
+        setActiveNoteId(null);
+        setNotes("");
+        setResult(null);
+        fullQuizRef.current = null;
       }
     } catch {
       // Ignore
@@ -1195,6 +1210,7 @@ function updateStorage(
       }
       if (activeNoteIdRef.current && notesDataRef.current) {
         flushActiveNoteToHistory(activeNoteIdRef.current, notesDataRef.current);
+        updateStorage(notesDataRef.current, resultDataRef.current, {});
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -1205,6 +1221,17 @@ function updateStorage(
       }
     };
   }, [flushActiveNoteToHistory]);
+
+  // Keep activeNoteId continuously synchronized to localStorage
+  useEffect(() => {
+    try {
+      if (activeNoteId) {
+        localStorage.setItem("ai_recap_active_note_id", activeNoteId);
+      } else {
+        localStorage.removeItem("ai_recap_active_note_id");
+      }
+    } catch {}
+  }, [activeNoteId]);
 
   const handleNotesChange = useCallback(
     (val: string) => {
@@ -1218,6 +1245,7 @@ function updateStorage(
         }
         historySyncTimerRef.current = setTimeout(() => {
           flushActiveNoteToHistory(activeNoteId, val);
+          updateStorage(val, resultDataRef.current, {});
         }, 350);
       }
     },
@@ -1757,7 +1785,7 @@ function updateStorage(
           <button
             type="button"
             onClick={handleNewNote}
-            className="px-2 py-1 rounded bg-yellow-400/15 text-yellow-300 text-xs font-semibold hover:bg-yellow-400 hover:text-stone-950 transition-colors flex items-center gap-1 border border-yellow-400/30"
+            className="px-2 py-1 rounded bg-highlight text-highlight-text text-xs font-semibold hover:bg-highlight-hover transition-colors flex items-center gap-1 shadow-xs"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1776,7 +1804,7 @@ function updateStorage(
                 onClick={() => setRecapMode(mode)}
                 className={`px-2 py-0.5 text-[10px] font-semibold transition-colors capitalize ${
                   recapMode === mode
-                    ? "bg-yellow-400/20 text-yellow-300"
+                    ? "bg-highlight text-highlight-text font-semibold"
                     : "text-ink-400 hover:text-ink-200 bg-ink-900"
                 }`}
                 title={`Recap Mode: ${mode}`}
@@ -1794,7 +1822,7 @@ function updateStorage(
                 onClick={() => setQuizCount(count)}
                 className={`px-1.5 py-0.5 text-[10px] font-semibold font-mono transition-colors ${
                   quizCount === count
-                    ? "bg-yellow-400/20 text-yellow-300"
+                    ? "bg-highlight text-highlight-text font-semibold"
                     : "text-ink-400 hover:text-ink-200 bg-ink-900"
                 }`}
                 title={`Quiz Questions: ${count}`}
@@ -1868,7 +1896,7 @@ function updateStorage(
                     onClick={() => setMobileNavTab("nav")}
                     className={`px-2.5 py-1 rounded transition-all font-medium flex items-center gap-1.5 ${
                       mobileNavTab === "nav"
-                        ? "bg-ink-700 text-yellow-300 font-semibold shadow-xs"
+                        ? "bg-highlight text-highlight-text font-semibold shadow-xs"
                         : "text-ink-400 hover:text-ink-200"
                     }`}
                   >
@@ -1882,7 +1910,7 @@ function updateStorage(
                     onClick={() => setMobileNavTab("notes")}
                     className={`px-2.5 py-1 rounded transition-all font-medium flex items-center gap-1.5 ${
                       mobileNavTab === "notes"
-                        ? "bg-ink-700 text-yellow-300 font-semibold shadow-xs"
+                        ? "bg-highlight text-highlight-text font-semibold shadow-xs"
                         : "text-ink-400 hover:text-ink-200"
                     }`}
                   >

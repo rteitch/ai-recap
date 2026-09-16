@@ -53,7 +53,7 @@ export const DEFAULT_NOTEBOOKS: NotebookItem[] = [
 
 const STATUS_ITEMS: { id: StudyStatus; label: string; color: string; border: string }[] = [
   { id: "sedang-dipelajari", label: "In Progress", color: "bg-sky-400", border: "border-sky-400/30" },
-  { id: "perlu-diulang", label: "Needs Review", color: "bg-yellow-400", border: "border-yellow-400/30" },
+  { id: "perlu-diulang", label: "Needs Review", color: "bg-amber-500", border: "border-amber-500/30" },
   { id: "dikuasai", label: "Mastered", color: "bg-emerald-400", border: "border-emerald-400/30" },
   { id: "belum-direview", label: "Not Reviewed", color: "bg-rose-400", border: "border-rose-400/30" },
 ];
@@ -159,7 +159,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
             onClick={() => handleFilterClick({ type: "all" })}
             className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md font-medium transition-colors ${
               isFilterActive({ type: "all" })
-                ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-yellow-400 pl-2"
+                ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                 : "text-ink-200 hover:bg-ink-800/60 hover:text-ink-100"
             }`}
           >
@@ -186,7 +186,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                   setIsAddingNotebook(true);
                   setNewNotebookName("");
                 }}
-                className="hover:text-yellow-400 p-0.5 transition-colors"
+                className="hover:text-highlight p-0.5 transition-colors"
                 title="Add New Notebook"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -252,7 +252,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                         }
                         setIsAddingNotebook(false);
                       }}
-                      className="px-2 py-0.5 bg-yellow-400 text-stone-950 font-bold rounded hover:bg-yellow-300"
+                      className="px-2 py-0.5 bg-highlight text-highlight-text font-bold rounded hover:bg-highlight-hover"
                     >
                       Add
                     </button>
@@ -267,7 +267,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
 
                 if (isEditing) {
                   return (
-                    <div key={nb.id} className="px-2 py-1.5 bg-ink-900 border border-yellow-400/50 rounded-md my-1">
+                    <div key={nb.id} className="px-2 py-1.5 bg-ink-900 border border-highlight/50 rounded-md my-1">
                       <input
                         type="text"
                         value={editingNotebookName}
@@ -301,7 +301,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                             }
                             setEditingNotebookId(null);
                           }}
-                          className="px-2 py-0.5 bg-yellow-400 text-stone-950 font-bold rounded"
+                          className="px-2 py-0.5 bg-highlight text-highlight-text font-bold rounded"
                         >
                           Save
                         </button>
@@ -315,7 +315,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                     key={nb.id}
                     className={`group w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors ${
                       active
-                        ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-yellow-400 pl-2"
+                        ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                         : "text-ink-300 hover:bg-ink-800/60 hover:text-ink-100"
                     }`}
                   >
@@ -358,7 +358,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                               setEditingNotebookId(nb.id);
                               setEditingNotebookName(nb.label);
                             }}
-                            className="p-1 rounded text-ink-400 hover:text-yellow-300 hover:bg-ink-800"
+                            className="p-1 rounded text-ink-400 hover:text-highlight hover:bg-ink-800"
                             title="Rename Notebook"
                           >
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -395,10 +395,10 @@ export const InkdropNavigation = memo(function InkdropNavigation({
           )}
         </div>
 
-        {/* Section: Study Status */}
+        {/* Section: Status */}
         <div>
           <div className="flex items-center justify-between px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink-400">
-            <span>Study Status</span>
+            <span>Status</span>
             <button
               type="button"
               onClick={() => setStatusCollapsed(!statusCollapsed)}
@@ -430,7 +430,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                     onClick={() => handleFilterClick({ type: "status", value: st.id })}
                     className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors ${
                       active
-                        ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-yellow-400 pl-2"
+                        ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                         : "text-ink-300 hover:bg-ink-800/60 hover:text-ink-100"
                     }`}
                   >
@@ -459,7 +459,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                 <button
                   type="button"
                   onClick={() => setIsAddingTag(true)}
-                  className="p-0.5 hover:text-yellow-400 text-ink-500 hover:bg-ink-800 rounded transition-colors"
+                  className="p-0.5 hover:text-highlight text-ink-500 hover:bg-ink-800 rounded transition-colors"
                   title="Create New Tag"
                   aria-label="Create New Tag"
                 >
@@ -490,7 +490,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
 
           {/* Add Tag Inline Form */}
           {isAddingTag && (
-            <div className="px-2 py-1.5 bg-ink-900 border border-yellow-400/50 rounded-md my-1">
+            <div className="px-2 py-1.5 bg-ink-900 border border-highlight/50 rounded-md my-1">
               <input
                 type="text"
                 value={newTagName}
@@ -533,7 +533,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                       setIsAddingTag(false);
                     }
                   }}
-                  className="px-2 py-0.5 bg-yellow-400 text-stone-950 font-bold rounded"
+                  className="px-2 py-0.5 bg-highlight text-highlight-text font-bold rounded"
                 >
                   Create
                 </button>
@@ -559,7 +559,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                       onClick={() => handleFilterClick({ type: "tag", value: tag })}
                       className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors ${
                         active
-                          ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-yellow-400 pl-2"
+                          ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                           : "text-ink-300 hover:bg-ink-800/60 hover:text-ink-100"
                       }`}
                     >
@@ -595,7 +595,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                 }
                 className={`p-1.5 rounded-md transition-colors ${
                   customApiConfig?.enabled
-                    ? "text-yellow-400 hover:bg-ink-800"
+                    ? "text-highlight hover:bg-ink-800"
                     : "text-ink-400 hover:text-ink-200 hover:bg-ink-800"
                 }`}
                 aria-label="AI Settings"

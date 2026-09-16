@@ -17,8 +17,8 @@ export const Kbd = memo(function Kbd({
     default: "bg-ink-800 border-ink-600 text-ink-200",
     highlight: "bg-ink-800 border-ink-600 text-highlight",
     emerald: "bg-ink-800 border-ink-600 text-emerald-300",
-    amber: "bg-ink-800 border-ink-600 text-yellow-300",
-    yellow: "bg-ink-800 border-ink-600 text-yellow-300",
+    amber: "bg-ink-800 border-ink-600 text-amber-600 dark:text-amber-400 font-semibold",
+    yellow: "bg-ink-800 border-ink-600 text-highlight",
   }[variant];
 
   return (
