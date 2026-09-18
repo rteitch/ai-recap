@@ -82,28 +82,53 @@ export default function Home() {
 
   // App mode: "simple" (clean centered UI) | "workstation" (full IDE)
   // Lazy initializer reads from localStorage so preference persists across sessions.
+  // showModePicker = true only for brand-new users who have never chosen a mode.
   const [appMode, setAppMode] = useState<"simple" | "workstation">(() => {
     if (typeof window === "undefined") return "simple";
     try {
       const saved = localStorage.getItem("ai_recap_app_mode");
       if (saved === "workstation" || saved === "simple") return saved;
-      // Default: returning users with existing history go straight to workstation
+      // Returning user with history but no mode saved → default workstation
       const hasHistory = localStorage.getItem("ai_recap_history");
       if (hasHistory) {
         const parsed = JSON.parse(hasHistory);
         if (Array.isArray(parsed) && parsed.length > 0) return "workstation";
       }
     } catch {}
-    return "simple";
+    return "simple"; // placeholder until picker is shown
   });
+
+  // Show mode picker only when user has never explicitly chosen a mode
+  const [showModePicker, setShowModePicker] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const saved = localStorage.getItem("ai_recap_app_mode");
+      if (saved === "workstation" || saved === "simple") return false; // already chose
+      // Returning user with history — no need to ask
+      const hasHistory = localStorage.getItem("ai_recap_history");
+      if (hasHistory) {
+        const parsed = JSON.parse(hasHistory);
+        if (Array.isArray(parsed) && parsed.length > 0) return false;
+      }
+    } catch {}
+    return true; // first-time visitor → show picker
+  });
+
+  const handlePickMode = useCallback((mode: "simple" | "workstation") => {
+    setAppMode(mode);
+    setShowModePicker(false);
+    try { localStorage.setItem("ai_recap_app_mode", mode); } catch {}
+  }, []);
 
   const handleSwitchToWorkstation = useCallback(() => {
     setAppMode("workstation");
+    setShowModePicker(false);
     try { localStorage.setItem("ai_recap_app_mode", "workstation"); } catch {}
   }, []);
 
   const handleSwitchToSimple = useCallback(() => {
     setAppMode("simple");
+    setShowModePicker(false);
     try { localStorage.setItem("ai_recap_app_mode", "simple"); } catch {}
   }, []);
 
@@ -1826,8 +1851,146 @@ function updateStorage(
 
   return (
     <ErrorBoundary draftText={notes} fallbackTitle="Workstation Fault Isolated">
+      {/* ── MODE PICKER SPLASH (first-time users only) ── */}
+      {showModePicker && (
+        <div className="fixed inset-0 z-[9999] bg-app-bg flex flex-col items-center justify-center px-4 py-10 overflow-y-auto">
+          {/* Logo + greeting */}
+          <div className="text-center mb-8 space-y-3">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <img
+                src="/android-chrome-192x192.png"
+                alt="AI Recap"
+                width={48}
+                height={48}
+                className="rounded-xl shadow-lg"
+              />
+              <h1 className="font-serif text-3xl sm:text-4xl font-bold italic text-ink-50">AI Recap</h1>
+            </div>
+            <p className="text-sm text-ink-400 max-w-xs mx-auto leading-relaxed">
+              Sebelum mulai, pilih tampilan yang paling cocok untukmu.
+            </p>
+            <p className="text-xs text-ink-600">
+              Kamu bisa ganti mode ini kapan saja dari menu Settings.
+            </p>
+          </div>
+
+          {/* Mode cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
+            {/* Simple Mode Card */}
+            <button
+              type="button"
+              onClick={() => handlePickMode("simple")}
+              className="group text-left rounded-2xl border-2 border-app-border bg-app-card hover:border-highlight hover:bg-highlight/5 transition-all p-6 space-y-4 focus:outline-none focus:ring-2 focus:ring-highlight active:scale-[0.98]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-highlight/15 border border-highlight/30 flex items-center justify-center text-highlight flex-shrink-0">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h10" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-ink-50 group-hover:text-highlight transition-colors">Mode Simple</h2>
+                  <p className="text-xs text-ink-500">Cepat & ringan</p>
+                </div>
+              </div>
+              <ul className="space-y-2 text-sm text-ink-300">
+                <li className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Paste catatan → satu klik Recap
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Ringkasan + quiz langsung di bawah
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Cocok untuk belajar kilat / mobile
+                </li>
+                <li className="flex items-start gap-2 text-ink-500">
+                  <svg className="w-4 h-4 text-ink-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Tanpa sidebar, flashcard, atau markdown editor
+                </li>
+              </ul>
+              <div className="pt-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-highlight text-highlight-text text-xs font-bold group-hover:bg-highlight-hover transition-colors">
+                  Mulai dengan Simple
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </button>
+
+            {/* Workstation Mode Card */}
+            <button
+              type="button"
+              onClick={() => handlePickMode("workstation")}
+              className="group text-left rounded-2xl border-2 border-app-border bg-app-card hover:border-highlight hover:bg-highlight/5 transition-all p-6 space-y-4 focus:outline-none focus:ring-2 focus:ring-highlight active:scale-[0.98]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-ink-800 border border-ink-700 flex items-center justify-center text-ink-300 group-hover:text-highlight group-hover:bg-highlight/15 group-hover:border-highlight/30 flex-shrink-0 transition-all">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10-10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zm0 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-ink-50 group-hover:text-highlight transition-colors">Mode Workstation</h2>
+                  <p className="text-xs text-ink-500">IDE belajar lengkap</p>
+                </div>
+              </div>
+              <ul className="space-y-2 text-sm text-ink-300">
+                <li className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Markdown editor + preview split
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Library catatan, notebook & tag
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Flashcard, retention score & history
+                </li>
+                <li className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  LaTeX, Mermaid diagram, export PDF/MD
+                </li>
+              </ul>
+              <div className="pt-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ink-800 text-ink-200 text-xs font-bold border border-ink-700 group-hover:bg-highlight group-hover:text-highlight-text group-hover:border-highlight transition-colors">
+                  Mulai dengan Workstation
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </button>
+          </div>
+
+          <p className="mt-6 text-[11px] text-ink-700 text-center">
+            Built with Next.js · Deployed on Tencent EdgeOne Makers
+          </p>
+        </div>
+      )}
+
       {/* ── SIMPLE MODE ── */}
-      {appMode === "simple" && (
+      {!showModePicker && appMode === "simple" && (
         <>
           <SimpleModeView
             notes={notes}
@@ -1873,7 +2036,7 @@ function updateStorage(
       )}
 
       {/* ── WORKSTATION MODE ── */}
-      {appMode === "workstation" && (
+      {!showModePicker && appMode === "workstation" && (
       <div className="h-[100dvh] w-screen flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{srMessage}</div>
       {/* Mobile Top App Bar (< lg) */}
