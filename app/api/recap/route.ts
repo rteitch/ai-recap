@@ -146,28 +146,12 @@ export async function POST(req: NextRequest) {
     req.headers.get("x-real-ip") ||
     "client-default";
 
-  const transferEncoding = req.headers.get("transfer-encoding");
-  if (transferEncoding) {
-    return NextResponse.json(
-      { error: "Transfer-encoding is not allowed." },
-      { status: 413 }
-    );
-  }
-
-  const contentLengthHeader = req.headers.get("content-length");
-  if (!contentLengthHeader) {
-    return NextResponse.json(
-      { error: "Content-Length header is required." },
-      { status: 411 }
-    );
-  }
-  const contentLength = parseInt(contentLengthHeader, 10);
-  if (isNaN(contentLength) || contentLength > 65536) {
-    return NextResponse.json(
-      { error: "Request body too large." },
-      { status: 413 }
-    );
-  }
+  // NOTE: Do NOT block on Transfer-Encoding or require Content-Length — edge CDN
+  // platforms (EdgeOne, Vercel, Cloudflare) may strip or rewrite these headers before
+  // forwarding to the Next.js handler. Enforcing them causes legitimate browser requests
+  // to be rejected with 411/413 on production deployments.
+  //
+  // Body size is enforced below by reading the raw text and checking length.
 
   // Global rate limit
   if (!checkRateLimit(clientIp)) {
@@ -177,11 +161,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Origin & Sec-Fetch-Site shielding: prevent cross-origin abuse/piggybacking
+  // Origin & Sec-Fetch-Site shielding: prevent cross-origin abuse/piggybacking.
+  // NOTE: sec-fetch-site and origin headers may be absent or transformed by edge CDN.
+  // Only apply checks when the header is definitely present and parseable.
   const origin = req.headers.get("origin");
   const host = req.headers.get("host");
   const secFetchSite = req.headers.get("sec-fetch-site");
 
+  // Only reject cross-site if the header is explicitly set to "cross-site"
+  // (not absent — absence is normal from CDN intermediaries).
   if (secFetchSite === "cross-site") {
     return NextResponse.json(
       { error: "Cross-site requests are forbidden." },
@@ -192,9 +180,13 @@ export async function POST(req: NextRequest) {
   if (origin) {
     try {
       const originHost = new URL(origin).host;
+      // Strip port for comparison (edge proxies may change the port)
+      const normalizeHost = (h: string) => h.replace(/:\d+$/, "");
       const isLocalhost =
         originHost.includes("localhost") || originHost.includes("127.0.0.1");
-      if (host && originHost !== host && !isLocalhost) {
+      const isSameHost =
+        host && normalizeHost(originHost) === normalizeHost(host);
+      if (!isLocalhost && !isSameHost) {
         return NextResponse.json(
           { error: "Unauthorized request origin." },
           { status: 403 }
@@ -208,7 +200,32 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const body = await req.json().catch(() => null);
+  // Read body as text first to enforce a size cap (65 KB), then parse JSON.
+  // This replaces the removed Content-Length header check.
+  let rawBodyText: string;
+  try {
+    rawBodyText = await req.text();
+  } catch {
+    return NextResponse.json(
+      { error: "Could not read request body." },
+      { status: 400 }
+    );
+  }
+
+  if (rawBodyText.length > 65536) {
+    return NextResponse.json(
+      { error: "Request body too large." },
+      { status: 413 }
+    );
+  }
+
+  const body = await (async () => {
+    try {
+      return JSON.parse(rawBodyText);
+    } catch {
+      return null;
+    }
+  })();
 
   // Helper to block private/metadata URLs
   function isBlockedCustomUrl(baseUrl: string): boolean {
