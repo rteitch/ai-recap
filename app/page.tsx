@@ -1867,10 +1867,10 @@ function updateStorage(
               <h1 className="font-serif text-3xl sm:text-4xl font-bold italic text-ink-50">AI Recap</h1>
             </div>
             <p className="text-sm text-ink-400 max-w-xs mx-auto leading-relaxed">
-              Sebelum mulai, pilih tampilan yang paling cocok untukmu.
+              Choose your preferred layout before getting started.
             </p>
             <p className="text-xs text-ink-600">
-              Kamu bisa ganti mode ini kapan saja dari menu Settings.
+              You can switch between modes anytime from the top bar or Settings.
             </p>
           </div>
 
@@ -1889,8 +1889,8 @@ function updateStorage(
                   </svg>
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-ink-50 group-hover:text-highlight transition-colors">Mode Simple</h2>
-                  <p className="text-xs text-ink-500">Cepat & ringan</p>
+                  <h2 className="text-base font-bold text-ink-50 group-hover:text-highlight transition-colors">Simple Mode</h2>
+                  <p className="text-xs text-ink-500">Fast & distraction-free</p>
                 </div>
               </div>
               <ul className="space-y-2 text-sm text-ink-300">
@@ -1898,30 +1898,30 @@ function updateStorage(
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  Paste catatan → satu klik Recap
+                  Paste notes → one-click AI Recap
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  Ringkasan + quiz langsung di bawah
+                  Summary & self-test questions inline below
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  Cocok untuk belajar kilat / mobile
+                  Optimized for quick study & mobile reading
                 </li>
                 <li className="flex items-start gap-2 text-ink-500">
                   <svg className="w-4 h-4 text-ink-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                  Tanpa sidebar, flashcard, atau markdown editor
+                  Minimal: no sidebars, flashcards, or complex editor
                 </li>
               </ul>
               <div className="pt-2">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-highlight text-highlight-text text-xs font-bold group-hover:bg-highlight-hover transition-colors">
-                  Mulai dengan Simple
+                  Start with Simple
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                   </svg>
@@ -1942,8 +1942,8 @@ function updateStorage(
                   </svg>
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-ink-50 group-hover:text-highlight transition-colors">Mode Workstation</h2>
-                  <p className="text-xs text-ink-500">IDE belajar lengkap</p>
+                  <h2 className="text-base font-bold text-ink-50 group-hover:text-highlight transition-colors">Workstation Mode</h2>
+                  <p className="text-xs text-ink-500">Full study IDE & workspace</p>
                 </div>
               </div>
               <ul className="space-y-2 text-sm text-ink-300">
@@ -1951,30 +1951,30 @@ function updateStorage(
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  Markdown editor + preview split
+                  Markdown editor + live KaTeX split preview
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  Library catatan, notebook & tag
+                  Note library, notebooks & tag organization
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  Flashcard, retention score & history
+                  Flashcards, retention score & study history
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  LaTeX, Mermaid diagram, export PDF/MD
+                  LaTeX math, Mermaid diagrams & PDF/MD export
                 </li>
               </ul>
               <div className="pt-2">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ink-800 text-ink-200 text-xs font-bold border border-ink-700 group-hover:bg-highlight group-hover:text-highlight-text group-hover:border-highlight transition-colors">
-                  Mulai dengan Workstation
+                  Start with Workstation
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                   </svg>

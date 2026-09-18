@@ -42,7 +42,7 @@ export const QuizCard = memo(function QuizCard({
         onClick={() => onToggle(index)}
         aria-expanded={isOpen}
         aria-controls={`quiz-answer-${index}`}
-        className="w-full px-4 py-4 text-left text-sm text-ink-50 hover:text-white flex items-center justify-between gap-3 touch-manipulation"
+        className="w-full px-4 py-4 text-left text-sm text-ink-50 hover:text-highlight flex items-center justify-between gap-3 touch-manipulation transition-colors"
       >
         <div className="flex items-center gap-2.5 flex-1 min-w-0">
           {rating === "known" && (

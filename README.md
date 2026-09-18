@@ -20,65 +20,91 @@ Built with **Next.js 16 (App Router, Turbopack)**, **KaTeX Engine**, and deploye
 
 ## ✨ Key Features
 
-#### 🖋️ 1. Inkdrop-Grade Editor with Live KaTeX Split-View & Zen Mode
-- **Three Viewing Modes**:
-  - **Tulis (Zen 1-Pane)**: Clean, distraction-free single-column workspace for rapid note-taking and deep focus.
-  - **Split (Side-by-Side)**: Interactive monospace editor on the left with instant, sub-5ms **Live KaTeX Preview** on the right. Formulas render in real-time as you type.
-  - **Preview**: Full rendered layout with formatted typography and equations.
-  - **Hotkey Cycle**: Press `Ctrl+P` / `Cmd+P` to effortlessly switch between Tulis, Split, and Preview modes.
-- **Smart Typist Interactions**:
-  - **Auto-Pairing**: Typing `$`, `(`, `[`, or `` ` `` automatically inserts the closing symbol and places your cursor between them (`$|$`).
-  - **Wrap Selection**: Select any text and type `$` to immediately wrap it in LaTeX math delimiters (`$selection$`).
-  - **Smart Step-Over**: Typing a closing character when right before one cleanly steps over it without duplicate characters.
-  - **Tab Indentation**: Pressing `Tab` inserts 2 spaces of code indentation instead of jumping form focus.
-  - **Word Wrap Toggle**: Toggle horizontal scrolling vs. word wrap via toolbar button.
-  - **Line Numbers**: Sync-scrolling line numbers gutter in edit and split views.
+### 🎛️ 1. Dual Interface Architecture: Simple Mode & Full Workstation IDE
+- **First-Visit Mode Picker Splash**: First-time visitors are greeted with an intuitive layout selection screen explaining the strengths of each mode. Choices are persisted in `localStorage`.
+- **Mode 1: Simple Mode (`SimpleModeView.tsx`)**:
+  - Centered, minimalist single-column interface tailored for quick study, pasting articles, or mobile usage.
+  - **Live KaTeX & Mermaid Auto-Rendering**: Real-time syntax detection (`∑ KaTeX Active`, `Mermaid Active`) with a 3-way input view switcher:
+    - **Write**: Distraction-free clean textarea.
+    - **Live Split**: Type above, and watch math formulas (`$E=mc^2$`) and Mermaid diagrams render automatically below in real-time.
+    - **Preview**: Full rendered document view.
+  - **Inline Results**: Instant AI summary card, expandable self-test questions with self-grading (*Remembered* / *Review again*), and 1-click transition to Workstation.
+- **Mode 2: Workstation Mode (`NotesInput.tsx` + 4-Column IDE)**:
+  - Complete 4-column academic IDE: Navigation sidebar, notes library, markdown editor, and Study Companion pane.
+  - Quick 1-click `[⚡ Simple Mode]` toggle button in the editor toolbar and desktop MenuBar.
 
-### ⚡ 2. Slash Commands (`/`) & 60+ Formula Autocomplete
+### 🖋️ 2. Inkdrop-Grade Editor with Live KaTeX Split-View & Zen Mode
+- **Three Viewing Modes**:
+  - **Write (Zen 1-Pane)**: Clean, distraction-free single-column workspace for rapid note-taking and deep focus.
+  - **Split (Side-by-Side)**: Interactive monospace editor on the left with instant, sub-5ms **Live KaTeX Preview** on the right. Formulas render in real-time as you type.
+  - **Preview**: Full rendered layout with formatted typography, LaTeX formulas, and Mermaid diagrams.
+  - **Hotkey Cycle**: Press `Ctrl+P` / `Cmd+P` to effortlessly cycle between Write, Split, and Preview modes.
+- **Smart Typist Interactions**:
+  - **Auto-Pairing**: Typing `$`, `(`, `[`, `{`, `"`, or `` ` `` automatically inserts the closing symbol and places your cursor between them (`$|$`).
+  - **Wrap Selection**: Select any text and type `$` or bracket to immediately wrap it (`$selection$`).
+  - **Smart Step-Over**: Typing a closing character when right before one cleanly steps over it without duplicate characters.
+  - **Tab Indentation**: Pressing `Tab` inserts 2 spaces of code indentation; `Shift+Tab` dedents single or multi-line selections.
+  - **Word Wrap Toggle**: Synchronized line-height measurement prevents gutter drift when word wrap is enabled.
+  - **Line Numbers**: Lockstep-scrolling line numbers gutter in both Edit and Split views.
+
+### 🎨 3. 17 Curated Themes & Ergonomic Keycap Editions
+- **12 Classic Developer Presets**:
+  - *Inkdrop Classic*, *GitHub Light / Paper*, *GitHub Dark*, *Tokyo Night*, *Catppuccin Mocha*, *Solarized Light / Paper*, *Solarized Dark*, *Nord Arctic*, *Dracula*, *One Dark Pro*, *Monokai Pro*, *Gruvbox Dark*.
+- **4 Ergonomic Mechanical Keyboard Keycap Editions**:
+  - Directly derived from authentic GMK ABS plastic master codes (`CR`, `N9`, `WS1`, `WS4`, `P3`, `TU2`, `V2`, `L9`, `CP`, `3A`, `N7`):
+  - **GMK Midnight Red**: Slate dark scheme with classic crimson red accent (`#BC251E`).
+  - **GMK Dusk Ocean**: Deep oceanic petrol background with electric cyan accent (`#00A4A9`).
+  - **GMK Forest Slate**: Organic moss charcoal with calming botanical green accent (`#4A9E68`).
+  - **GMK Sand Paper**: IBM Model M retro beige aesthetic with anti-glare warm paper reading comfort and industrial terracotta accent (`#C85312`).
+- **Contrast & Eye-Strain Protection**:
+  - Strictly audited for WCAG AA/AAA compliance across light and dark modes. Zero hardcoded dark-on-dark or yellow-on-white halation.
+- **Theme Search & Instant Filter**:
+  - Filter by `All`, `Dark Schemes`, `Light Paper`, or `⌨️ Keycaps (4)` with real-time keyword search in the Appearance modal.
+
+### ⚡ 4. Slash Commands (`/`) & 60+ Formula Autocomplete
 - **Slash Commands (`/` at start of line)**: Insert structural blocks without memorizing Markdown:
   - Heading 1, 2, 3 (`#`, `##`, `###`)
   - Centered Math Block (`$$\n\n$$`)
   - Bullet List, Numbered List, Checklist (`- [ ]`)
-  - Alert / Catatan Penting (`> `)
+  - Note Callout (`> `)
   - Code Block with syntax highlighting (`` ```typescript``` ``)
   - Comparison Tables & Dividers (`---`)
-  - *Zero-interference design*: `/` only triggers when typed at the beginning of a line, never interrupting Indonesian prose (`dan/atau`, `km/jam`, `1/2`).
 - **60+ Curated LaTeX Science Formulas (`\`)**:
   - Formulas are automatically auto-wrapped in `$..$` or `$$..$$` so KaTeX live preview updates immediately upon selection.
   - Non-intrusive **Docked Candidate Strip** placed below the editor that never covers your text.
   - Fast keyboard navigation: `↑` / `↓`, `Tab` / `Enter`, and `Escape` for instant dismissal.
 
-### 🧭 3. Table of Contents (Outline Navigation Panel)
+### 🧭 5. Table of Contents (Outline Navigation Panel)
 - **Automatic Heading Extraction**: Detects `#`, `##`, and `###` in real-time.
 - **Collapsible Outline**: Click **Outline** in the header toolbar to preview document structure.
 - **Smooth Anchor Scrolling**: Click any section in the TOC to instantly glide to that exact part of your notes.
 
-### 🏷️ 4. Study Status Workflow & Pin to Top (Zero-Token History)
+### 🏷️ 6. Study Status Workflow & Pin to Top (Zero-Token History)
 - **Study Status Lifecycle**: Assign active review statuses to each session:
-  - `Draft Baru` (slate) &bull; `Sedang Belajar` (sky) &bull; `Perlu Diulang` (amber) &bull; `Dikuasai` (emerald)
+  - `In Progress` (sky) &bull; `Needs Review` (amber) &bull; `Mastered` (emerald) &bull; `Not Reviewed` (rose)
 - **Pin to Top**: Pin critical exam topics to the top of your drawer with the SVG pin icon.
-- **Filter Chips**: Filter by `Semua`, `📌 Disematkan`, `⚠️ Perlu Diulang`, `✅ Dikuasai`, or `📝 Draft`.
+- **Filter Chips**: Filter by `All`, `📌 Pinned`, `⚠️ Needs Review`, `✅ Mastered`, or `📝 Draft`.
 - **Notebook Organization**: Create notebooks to group related notes (e.g. "Study & Research", "Projects & Ideas").
 - **Save Draft Without Recap (0 Tokens)**: Save work-in-progress notes to browser storage without consuming AI tokens.
 
-### 💻 5. Advanced Code Block Rendering
+### 💻 7. Advanced Code Block Rendering
 - Fenced code blocks (`` ```lang...``` ``) render with:
   - Language header pill (e.g. `TYPESCRIPT`, `PYTHON`)
-  - 1-Click **Copy Code** button with `✓ Tersalin` confirmation
+  - 1-Click **Copy Code** button with `✓ Copied` confirmation
   - Clean line-number gutters for enhanced readability.
 
-### 🔬 6. KaTeX LaTeX Scientific Formula Engine
+### 🔬 8. KaTeX LaTeX Scientific Formula Engine
 - **Inline & Display Math**: Comprehensive support for inline math (`$...$`) and display equations (`$$...$$`).
 - **Graceful Error Handling**: Fallback boundaries prevent crashes on malformed equations.
 - **High-Performance**: Pure client-side KaTeX rendering (1–5ms per formula) with zero external CDN roundtrips and anti-XSS protection.
 
-### 🧠 7. Spaced Repetition & The 4 Laws of Atomic Habits
+### 🧠 9. Spaced Repetition & The 4 Laws of Atomic Habits
 - **Make it Obvious (Cue)**: Daily Study Streak badge (`● Nd streak`) tracking continuous learning habits in `localStorage`.
-- **Make it Attractive (Craving)**: Elegant dark editorial typography (Slate-Ink & warm gold) with tactile micro-haptic feedback.
+- **Make it Attractive (Craving)**: Elegant dark & light editorial typography with tactile micro-haptic feedback.
 - **Make it Easy (Response)**: 1-Tap sample loader, drag-and-drop file import (`.txt`, `.md`), and keyboard hotkeys (`Ctrl+Enter` to recap).
 - **Make it Satisfying (Reward)**: Retention scorecard percentage with **per-question review time tracking**, **Retest Missed Only** (Leitner repetition), and **Copy Missed** for Notion/Obsidian.
 
-### 🃏 8. Dual Mode: List Accordion & Focus Flashcard Deck
+### 🃏 10. Dual Mode: List Accordion & Focus Flashcard Deck
 - **Interactive Flashcard Mode**:
   - `Space` / `Enter` or Tap to flip and reveal answer.
   - `←` / `→` or Touch Swipe to navigate between cards (30px threshold with visual displacement feedback).
@@ -87,22 +113,22 @@ Built with **Next.js 16 (App Router, Turbopack)**, **KaTeX Engine**, and deploye
 - **Visual Recall Badges in List Mode**: Instantly spot learning gaps via `✓` (emerald) and `⟳` (amber) indicators.
 - **Screen Reader Accessible**: Built with WCAG 2.1 AA compliance (`aria-live="polite"`, `role="region"`, `aria-expanded`).
 
-### 📱 9. Mobile Ergonomics & Offline PWA
+### 📱 11. Mobile Ergonomics & Offline PWA
 - **iOS Safari Auto-Zoom Prevention**: Textarea font sizing (`text-base sm:text-sm`) prevents forced viewport zooming on mobile devices.
 - **Responsive Flex Toolbar**: Clean wrapping on narrow screens with comfortable 44px touch targets.
 - **PWA Service Worker**: Full offline support with connectivity status indicator (`● Offline mode`).
 - **Expanded History**: Stores up to **50 study sessions** with real-time keyword search and notebook filtering.
 
-### 🎙️ 10. Multi-Speed Text-to-Speech (TTS)
-- Web Speech API integration with automatic language detection (Indonesian `id-ID` vs English `en-US`).
+### 🎙️ 12. Multi-Speed Text-to-Speech (TTS)
+- Web Speech API integration with automatic language detection (English `en-US` / Indonesian `id-ID`).
 - Dynamic speech rate cycling (`1.0x` → `1.25x` → `1.5x`) without interrupting playback.
 
-### 🔍 11. Find & Replace, Merge Notes, Command Palette
+### 🔍 13. Find & Replace, Merge Notes, Command Palette
 - **Find & Replace** (`Ctrl+H`): Full-text search and replace within the current note.
 - **Merge Notes** (`Ctrl+M`): Combine multiple notes into one with preview.
-- **Command Palette** (`Ctrl+K`): Quick full-text search across all notes.
+- **Command Palette** (`Ctrl+K`): Quick full-text search across all notes with highlighted query matching.
 
-### ⌨️ 12. Global Keyboard Shortcuts
+### ⌨️ 14. Global Keyboard Shortcuts
 - `Ctrl+S` — Save draft instantly
 - `Ctrl+Z` / `Ctrl+Y` — Global undo/redo across the editor
 - `Ctrl+±` / `Ctrl+0` — Zoom in/out/reset editor font size
@@ -113,16 +139,16 @@ Built with **Next.js 16 (App Router, Turbopack)**, **KaTeX Engine**, and deploye
 - `Ctrl+Shift+L` / `Ctrl+Shift+8` / `Ctrl+Shift+7` — Link / Bullet List / Numbered List
 - `Ctrl+Shift+`` ` `` / `Ctrl+Shift+>` / `Ctrl+Shift+-` — Code Block / Blockquote / Horizontal Rule
 
-### 📤 13. Comprehensive Export & Zero-Token Sharing
+### 📤 15. Comprehensive Export & Zero-Token Sharing
 - **Complete Printable Study Sheet**: Clean `@media print` layout that prints 100% of the core summary, all questions, and all answers with sharp black math and zero blank page jumps.
 - **Zero-Token Share Link**: Encodes recaps directly into a URL hash (`#recap=...`) openable anywhere with 0 AI tokens.
 - **Export to Anki**: Ready-to-import TSV flashcard text files (`#separator:tab`).
-- **Download Markdown**: Clean `.md` file export.
+- **Download Markdown**: Clean `.md` file export with Obsidian/Inkdrop compatible frontmatter.
 - **Export .txt**: Plain text export of notes.
 - **Backup / Restore**: Full `.json` backup with merge-on-restore to avoid duplicates.
 - **Copy Q&A**: 1-click copy for individual questions, complete summaries, or missed items.
 
-### 🖼️ 14. Image Support
+### 🖼️ 16. Image Support
 - **Image Upload**: Via toolbar button, clipboard paste (`Ctrl+V`), or drag-and-drop.
 - **Image Rendering**: Inline images with XSS-safe sanitization via `isomorphic-dompurify`.
 - **Orphan Cleanup**: Automatically removes IndexedDB images no longer referenced in any note.
@@ -139,9 +165,10 @@ ai-recap/
 │   ├── atoms/                          # Pure, stateless UI elements
 │   │   ├── LatexRenderer.tsx           # Safe KaTeX inline ($) & block ($$) renderer
 │   │   ├── FormattedText.tsx           # Combined LaTeX + Markdown + Mermaid parser
-│   │   ├── MermaidRenderer.tsx         # XSS-safe Mermaid diagram renderer
+│   │   ├── MermaidRenderer.tsx         # Dynamic theme-adaptive Mermaid diagram renderer
 │   │   ├── Kbd.tsx                     # Standardized keyboard hotkey badges
-│   │   ├── SonnerToaster.tsx           # Toast notification provider
+│   │   ├── SonnerToaster.tsx           # Theme-responsive toast notification provider
+│   │   ├── ErrorBoundary.tsx           # Resilient class-based crash boundary with zero-loss draft recovery
 │   │   └── ResizerDivider.tsx          # Draggable pane resizer
 │   ├── molecules/                      # Functional atom combinations
 │   │   ├── QuizCard.tsx                # Isolated memoized accordion card with Copy Q&A
@@ -152,30 +179,35 @@ ai-recap/
 │   │   ├── NoteTagBar.tsx              # Interactive tag management bar
 │   │   ├── NotebookDropdown.tsx         # Notebook selector dropdown
 │   │   ├── StudyStatusDropdown.tsx      # Study status lifecycle selector
-│   │   ├── WelcomeBanner.tsx           # Onboarding guide for empty notes
+│   │   ├── WelcomeBanner.tsx           # Theme-responsive onboarding guide for empty notes
 │   │   ├── ConfirmDialog.tsx           # Reusable confirmation modal
 │   │   └── StorageIndicator.tsx        # IndexedDB storage usage indicator
 │   └── organisms/                      # Standalone feature organisms
-│       ├── NotesInput.tsx              # Inkdrop editor: split view, autocomplete, templates, shortcuts
+│       ├── SimpleModeView.tsx          # Mode 1: Clean centered recap UI with live KaTeX/Mermaid preview
+│       ├── NotesInput.tsx              # Mode 2: Workstation editor with split view, autocomplete, templates
+│       ├── MenuBar.tsx                 # Desktop application menu bar with quick mode toggle
 │       ├── FlashcardDeck.tsx           # Focus flashcard deck with touch swipe & 3D flip
 │       ├── RetentionScorecard.tsx      # Retention score, review time tracking, Retest Missed
 │       ├── StudyCompanionPane.tsx      # Right-side AI companion panel
 │       ├── HistoryDrawer.tsx           # 50-item local study history with notebook filter
 │       ├── InkdropNavigation.tsx       # Left sidebar: notebooks, status filters, tags
-│       ├── InkdropNoteList.tsx         # Note list with search, pin, duplicate, delete
+│       ├── InkdropNoteList.tsx         # Note list with search highlighting, pin, duplicate, delete
 │       ├── CommandPalette.tsx          # Ctrl+K full-text search across all notes
 │       ├── FindReplaceModal.tsx        # Ctrl+H find & replace in current note
 │       ├── MergeNotesModal.tsx         # Ctrl+M merge multiple notes with preview
+│       ├── AppearanceModal.tsx         # 17 themes (Classic + GMK Keycaps), font & typography engine
 │       ├── BackupRestoreModal.tsx      # JSON backup/restore with merge-on-restore
 │       ├── CustomApiModal.tsx          # Custom AI API configuration (OpenAI-compatible)
 │       └── ShortcutsModal.tsx          # Keyboard cheat-sheet modal [?]
 ├── hooks/
+│   ├── useAppearance.ts               # Theme, custom CSS variables, and font engine
 │   ├── useStudyStreak.ts              # Daily streak state & habit cycle logic
 │   ├── useSpeech.ts                   # Web Speech API & voice pre-warming
-│   ├── useKeyboardSound.ts            # Cherry MX Black mechanical keyboard sound
+│   ├── useKeyboardSound.ts            # Cherry MX Black mechanical keyboard sound with mobile haptics
 │   ├── useStorageUsage.ts             # IndexedDB storage monitoring
 │   └── useResizablePanes.ts           # Draggable pane resize logic
 ├── lib/
+│   ├── themes.ts                      # 17 color themes, luminance contrast calculator & CSS token builder
 │   ├── types.ts                       # Shared TypeScript definitions (QuizItem, HistoryItem, etc.)
 │   ├── templates.ts                   # Academic study templates with SVG icon mappings
 │   ├── latexAutocomplete.ts           # 60+ curated LaTeX math formulas & autocomplete engine

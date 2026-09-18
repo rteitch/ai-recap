@@ -2117,12 +2117,12 @@ flowchart TD
               type="button"
               onClick={onSwitchToSimple}
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold text-ink-300 hover:text-ink-50 hover:bg-ink-800 border border-ink-700/70 transition-colors shadow-2xs flex-shrink-0"
-              title="Beralih ke Mode Simple (Quick Capture & Focused Recap)"
+              title="Switch to Simple Mode (Quick Capture & Focused Recap)"
             >
               <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h10" />
               </svg>
-              <span className="hidden sm:inline">Mode Simple</span>
+              <span className="hidden sm:inline">Simple Mode</span>
             </button>
           )}
         </div>

@@ -266,7 +266,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                     className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 animate-fade-in"
                     title="KaTeX Math syntax detected ($ or $$)"
                   >
-                    <span>∑</span> KaTeX Aktif
+                    <span>∑</span> KaTeX Active
                   </span>
                 )}
                 {hasMermaid && (
@@ -277,12 +277,12 @@ export const SimpleModeView = memo(function SimpleModeView({
                     <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4" />
                     </svg>
-                    Mermaid Aktif
+                    Mermaid Active
                   </span>
                 )}
               </div>
 
-              {/* View Switcher: Tulis | Live Split | Pratinjau */}
+              {/* View Switcher: Write | Live Split | Preview */}
               <div className="flex items-center rounded-lg border border-app-border bg-app-card p-0.5 text-xs select-none">
                 <button
                   type="button"
@@ -292,9 +292,9 @@ export const SimpleModeView = memo(function SimpleModeView({
                       ? "bg-highlight text-highlight-text font-semibold shadow-xs"
                       : "text-ink-400 hover:text-ink-200"
                   }`}
-                  title="Mode Tulis teks biasa"
+                  title="Plain text writing mode"
                 >
-                  Tulis
+                  Write
                 </button>
                 <button
                   type="button"
@@ -304,7 +304,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                       ? "bg-highlight text-highlight-text font-semibold shadow-xs"
                       : "text-ink-400 hover:text-ink-200"
                   }`}
-                  title="Live Split: Tulis di atas, render rumus & diagram otomatis di bawah saat mengetik"
+                  title="Live Split: Write above, auto-render math & diagrams below as you type"
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
@@ -320,9 +320,9 @@ export const SimpleModeView = memo(function SimpleModeView({
                       ? "bg-highlight text-highlight-text font-semibold shadow-xs"
                       : "text-ink-400 hover:text-ink-200 disabled:opacity-40 disabled:cursor-not-allowed"
                   }`}
-                  title="Pratinjau tampilan penuh"
+                  title="Full rendered document preview"
                 >
-                  Pratinjau
+                  Preview
                 </button>
               </div>
             </div>
@@ -336,18 +336,18 @@ export const SimpleModeView = memo(function SimpleModeView({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
-                    Pratinjau Catatan Rendered (KaTeX & Mermaid)
+                    Rendered Note Preview (KaTeX & Mermaid)
                   </span>
                   <button
                     type="button"
                     onClick={() => setInputView("write")}
                     className="text-highlight hover:underline text-[11px]"
                   >
-                    Edit kembali
+                    Back to edit
                   </button>
                 </div>
                 <div className="pt-1">
-                  <FormattedText text={notes || "*Belum ada catatan.*"} />
+                  <FormattedText text={notes || "*No notes yet.*"} />
                 </div>
               </div>
             ) : (
@@ -357,7 +357,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                   value={notes}
                   onChange={(e) => onNotesChange(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Paste anything you need to remember… Mendukung rumus KaTeX ($E=mc^2$) dan diagram ```mermaid..."
+                  placeholder="Paste anything you need to remember… Supports KaTeX math ($E=mc^2$) and ```mermaid diagrams..."
                   rows={inputView === "split" ? 7 : 10}
                   disabled={loading}
                   aria-label="Your notes to recap"
@@ -380,16 +380,16 @@ export const SimpleModeView = memo(function SimpleModeView({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
-                    Pratinjau Otomatis (Live KaTeX & Mermaid)
+                    Live Preview (KaTeX & Mermaid)
                   </span>
-                  <span className="text-[10px] text-ink-500">Terbaca otomatis saat mengetik</span>
+                  <span className="text-[10px] text-ink-500">Auto-renders live as you type</span>
                 </div>
                 <div className="text-sm leading-relaxed text-ink-100 max-h-[300px] overflow-y-auto pr-1">
                   {notes.trim() ? (
                     <FormattedText text={notes} />
                   ) : (
                     <p className="text-xs text-ink-500 italic py-2">
-                      Ketik rumus seperti <code className="text-highlight font-mono">$E = mc^2$</code> atau diagram mermaid untuk melihat preview langsung.
+                      Type math equations like <code className="text-highlight font-mono">$E = mc^2$</code> or mermaid diagrams to see instant live preview.
                     </p>
                   )}
                 </div>
@@ -417,12 +417,13 @@ export const SimpleModeView = memo(function SimpleModeView({
                     type="button"
                     onClick={onLoadSample}
                     className="text-xs text-ink-500 hover:text-highlight transition-colors"
-                    title="Load contoh catatan dengan rumus KaTeX"
+                    title="Load sample note with math formulas"
                   >
-                    Contoh Catatan
+                    Load Sample
                   </button>
                 ) : null}
               </div>
+
 
               {/* Mobile mode toggles */}
               <div className="flex sm:hidden items-center gap-1.5">

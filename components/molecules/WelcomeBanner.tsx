@@ -16,12 +16,12 @@ export const WelcomeBanner = memo(function WelcomeBanner({
   onDismiss,
 }: WelcomeBannerProps) {
   return (
-    <div className="m-3 sm:m-4 p-4 sm:p-5 rounded-xl border border-highlight/30 bg-gradient-to-br from-[#1c1d29] to-[#14151e] shadow-xl text-ink-100 relative group animate-fade-in">
+    <div className="m-3 sm:m-4 p-4 sm:p-5 rounded-xl border border-app-border bg-app-card shadow-lg text-ink-100 relative group animate-fade-in">
       {onDismiss && (
         <button
           type="button"
           onClick={onDismiss}
-          className="absolute top-3 right-3 text-ink-500 hover:text-ink-200 p-1 rounded-md hover:bg-ink-800 transition-colors"
+          className="absolute top-3 right-3 text-ink-500 hover:text-ink-200 p-1 rounded-md hover:bg-app-surface transition-colors"
           title="Dismiss guide"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,15 +46,15 @@ export const WelcomeBanner = memo(function WelcomeBanner({
               Beginner Guide
             </span>
           </div>
-          <p className="text-xs text-ink-300 leading-relaxed max-w-xl">
+          <p className="text-xs text-ink-400 leading-relaxed max-w-xl">
             Turn your study materials and formulas into concise summaries, flashcards, and active-recall tests with 1 click.
           </p>
         </div>
       </div>
 
       {/* 3 Step Onboarding Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-4 pt-3 border-t border-ink-800/80 text-xs">
-        <div className="p-2.5 rounded-lg bg-ink-900/60 border border-ink-800/80 space-y-1">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-4 pt-3 border-t border-app-border text-xs">
+        <div className="p-2.5 rounded-lg bg-app-surface border border-app-border space-y-1">
           <div className="flex items-center gap-1.5 text-highlight font-semibold text-[11px]">
             <span className="w-4 h-4 rounded-full bg-highlight/20 flex items-center justify-center text-[10px]">1</span>
             <span>Write or Import</span>
@@ -64,9 +64,9 @@ export const WelcomeBanner = memo(function WelcomeBanner({
           </p>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-ink-900/60 border border-ink-800/80 space-y-1">
-          <div className="flex items-center gap-1.5 text-sky-400 font-semibold text-[11px]">
-            <span className="w-4 h-4 rounded-full bg-sky-400/20 flex items-center justify-center text-[10px]">2</span>
+        <div className="p-2.5 rounded-lg bg-app-surface border border-app-border space-y-1">
+          <div className="flex items-center gap-1.5 text-sky-500 dark:text-sky-400 font-semibold text-[11px]">
+            <span className="w-4 h-4 rounded-full bg-sky-500/20 flex items-center justify-center text-[10px]">2</span>
             <span>Click AI Recap</span>
           </div>
           <p className="text-[11px] text-ink-400 leading-normal">
@@ -74,9 +74,9 @@ export const WelcomeBanner = memo(function WelcomeBanner({
           </p>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-ink-900/60 border border-ink-800/80 space-y-1">
-          <div className="flex items-center gap-1.5 text-emerald-400 font-semibold text-[11px]">
-            <span className="w-4 h-4 rounded-full bg-emerald-400/20 flex items-center justify-center text-[10px]">3</span>
+        <div className="p-2.5 rounded-lg bg-app-surface border border-app-border space-y-1">
+          <div className="flex items-center gap-1.5 text-emerald-500 dark:text-emerald-400 font-semibold text-[11px]">
+            <span className="w-4 h-4 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px]">3</span>
             <span>Active Recall Test</span>
           </div>
           <p className="text-[11px] text-ink-400 leading-normal">
@@ -101,7 +101,7 @@ export const WelcomeBanner = memo(function WelcomeBanner({
         <button
           type="button"
           onClick={onOpenTemplates}
-          className="px-3 py-1.5 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 font-medium text-xs border border-ink-700/80 transition-colors flex items-center gap-1.5"
+          className="px-3 py-1.5 rounded-lg bg-app-card hover:bg-app-surface text-ink-200 hover:text-ink-50 font-medium text-xs border border-app-border transition-colors flex items-center gap-1.5 shadow-2xs"
         >
           <svg className="w-3.5 h-3.5 text-ink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
@@ -112,7 +112,7 @@ export const WelcomeBanner = memo(function WelcomeBanner({
         <button
           type="button"
           onClick={onInsertMermaid}
-          className="px-3 py-1.5 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 font-medium text-xs border border-ink-700/80 transition-colors flex items-center gap-1.5"
+          className="px-3 py-1.5 rounded-lg bg-app-card hover:bg-app-surface text-ink-200 hover:text-ink-50 font-medium text-xs border border-app-border transition-colors flex items-center gap-1.5 shadow-2xs"
         >
           <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
@@ -123,3 +123,4 @@ export const WelcomeBanner = memo(function WelcomeBanner({
     </div>
   );
 });
+
