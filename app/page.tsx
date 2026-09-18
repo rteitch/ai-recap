@@ -37,9 +37,11 @@ import { MenuBar } from "@/components/organisms/MenuBar";
 import { BackupRestoreModal } from "@/components/organisms/BackupRestoreModal";
 import { FindReplaceModal } from "@/components/organisms/FindReplaceModal";
 import { MergeNotesModal } from "@/components/organisms/MergeNotesModal";
+import { SimpleModeView } from "@/components/organisms/SimpleModeView";
 import { useAppearance } from "@/hooks/useAppearance";
 import { extractHashtags, normalizeTag } from "@/lib/tags";
 import { ErrorBoundary } from "@/components/atoms/ErrorBoundary";
+
 
 const SAMPLE_NOTE = `In classical thermodynamics and special relativity, mass-energy equivalence is defined by $E = mc^2$, where $c$ is the speed of light ($c \\approx 3 \\times 10^8\\text{ m/s}$). For quadratic algebra, roots of the polynomial equation $ax^2 + bx + c = 0$ are solved using:
 $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
@@ -77,6 +79,33 @@ export default function Home() {
   const [showAppearanceModal, setShowAppearanceModal] = useState(false);
   const showAppearanceModalRef = useRef(showAppearanceModal);
   showAppearanceModalRef.current = showAppearanceModal;
+
+  // App mode: "simple" (clean centered UI) | "workstation" (full IDE)
+  // Lazy initializer reads from localStorage so preference persists across sessions.
+  const [appMode, setAppMode] = useState<"simple" | "workstation">(() => {
+    if (typeof window === "undefined") return "simple";
+    try {
+      const saved = localStorage.getItem("ai_recap_app_mode");
+      if (saved === "workstation" || saved === "simple") return saved;
+      // Default: returning users with existing history go straight to workstation
+      const hasHistory = localStorage.getItem("ai_recap_history");
+      if (hasHistory) {
+        const parsed = JSON.parse(hasHistory);
+        if (Array.isArray(parsed) && parsed.length > 0) return "workstation";
+      }
+    } catch {}
+    return "simple";
+  });
+
+  const handleSwitchToWorkstation = useCallback(() => {
+    setAppMode("workstation");
+    try { localStorage.setItem("ai_recap_app_mode", "workstation"); } catch {}
+  }, []);
+
+  const handleSwitchToSimple = useCallback(() => {
+    setAppMode("simple");
+    try { localStorage.setItem("ai_recap_app_mode", "simple"); } catch {}
+  }, []);
 
   // Appearance & Typography engine
   const {
@@ -1797,6 +1826,54 @@ function updateStorage(
 
   return (
     <ErrorBoundary draftText={notes} fallbackTitle="Workstation Fault Isolated">
+      {/* ── SIMPLE MODE ── */}
+      {appMode === "simple" && (
+        <>
+          <SimpleModeView
+            notes={notes}
+            onNotesChange={handleNotesChange}
+            loading={loading}
+            error={error}
+            result={result}
+            onRecap={handleRecap}
+            onClear={handleClear}
+            dailyRemaining={dailyRemaining}
+            customApiConfig={customApiConfig}
+            recapMode={recapMode}
+            onSetRecapMode={setRecapMode}
+            quizCount={quizCount}
+            onSetQuizCount={setQuizCount}
+            ratings={ratings}
+            onRate={handleRate}
+            onSwitchToWorkstation={handleSwitchToWorkstation}
+            onOpenSettings={handleOpenSettings}
+            onOpenAppearance={handleOpenAppearance}
+          />
+          {/* Modals still need to be available in simple mode */}
+          <CustomApiModal
+            isOpen={showCustomApiModal}
+            onClose={() => setShowCustomApiModal(false)}
+            config={customApiConfig}
+            onSave={handleSaveCustomApiConfig}
+          />
+          <AppearanceModal
+            isOpen={showAppearanceModal}
+            onClose={() => setShowAppearanceModal(false)}
+            appearance={appearance}
+            activeColors={activeColors}
+            onSelectTheme={setTheme}
+            onUpdateCustomTheme={setCustomTheme}
+            onSelectEditorFont={setEditorFont}
+            onSelectUIFont={setUIFont}
+            onSetCustomSystemFont={setCustomSystemFont}
+            onSelectFontSize={setFontSize}
+            onReset={resetAppearance}
+          />
+        </>
+      )}
+
+      {/* ── WORKSTATION MODE ── */}
+      {appMode === "workstation" && (
       <div className="h-[100dvh] w-screen flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{srMessage}</div>
       {/* Mobile Top App Bar (< lg) */}
@@ -1873,6 +1950,18 @@ function updateStorage(
               </button>
             ))}
           </div>
+          {/* Switch to Simple Mode */}
+          <button
+            type="button"
+            onClick={handleSwitchToSimple}
+            className="p-1.5 rounded text-ink-400 hover:text-ink-100 hover:bg-ink-800 transition-colors flex-shrink-0"
+            title="Switch to Simple Mode"
+            aria-label="Switch to Simple Mode"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h10" />
+            </svg>
+          </button>
         </div>
       </header>
 
@@ -2121,6 +2210,7 @@ function updateStorage(
             onOpenSettings={handleOpenSettings}
             onOpenAppearance={handleOpenAppearance}
             onOpenShortcuts={handleOpenShortcuts}
+            onSwitchToSimple={handleSwitchToSimple}
           />
           <NotesInput
             ref={notesInputRef}
@@ -2428,6 +2518,7 @@ function updateStorage(
         }}
       />
       </div>
+      )} {/* end appMode === "workstation" */}
     </ErrorBoundary>
   );
 }
