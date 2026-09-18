@@ -2000,6 +2000,7 @@ function updateStorage(
             result={result}
             onRecap={handleRecap}
             onClear={handleClear}
+            onLoadSample={handleLoadSample}
             dailyRemaining={dailyRemaining}
             customApiConfig={customApiConfig}
             recapMode={recapMode}
@@ -2405,6 +2406,7 @@ function updateStorage(
             onAddTag={handleAddTag}
             onRemoveTag={handleRemoveTag}
             onSelectTag={handleSelectTag}
+            onSwitchToSimple={handleSwitchToSimple}
           />
         </main>
 

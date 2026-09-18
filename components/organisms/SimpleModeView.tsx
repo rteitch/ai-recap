@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, memo } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import { RecapResult, RatingType } from "@/lib/types";
 import { FormattedText } from "@/components/atoms/FormattedText";
@@ -14,6 +14,7 @@ type SimpleModeViewProps = {
   result: RecapResult | null;
   onRecap: () => void;
   onClear: () => void;
+  onLoadSample?: () => void;
   dailyRemaining: number | null;
   customApiConfig: CustomApiConfig;
   recapMode: "brief" | "detailed";
@@ -42,6 +43,7 @@ export const SimpleModeView = memo(function SimpleModeView({
   result,
   onRecap,
   onClear,
+  onLoadSample,
   dailyRemaining,
   customApiConfig,
   recapMode,
@@ -57,7 +59,12 @@ export const SimpleModeView = memo(function SimpleModeView({
   const [openIndices, setOpenIndices] = useState<number[]>([]);
   const [copiedSummary, setCopiedSummary] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
+  const [inputView, setInputView] = useState<"write" | "split" | "preview">("write");
   const resultRef = useRef<HTMLDivElement>(null);
+
+  // Auto-detect math & diagrams
+  const hasLatex = useMemo(() => /([$]{1,2}[^$]+[$]{1,2}|\\\(|\\\[)/.test(notes), [notes]);
+  const hasMermaid = useMemo(() => /```mermaid[\s\S]*?```/i.test(notes), [notes]);
   const loadingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const wordCount = notes.trim() ? notes.trim().split(/\s+/).filter(Boolean).length : 0;
@@ -246,39 +253,157 @@ export const SimpleModeView = memo(function SimpleModeView({
 
           {/* Note input section */}
           <section className="space-y-2">
-            <label
-              htmlFor="simple-notes"
-              className="block text-sm font-semibold text-ink-300"
-            >
-              Your notes
-            </label>
-            <div className="relative">
-              <textarea
-                id="simple-notes"
-                value={notes}
-                onChange={(e) => onNotesChange(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Paste anything you need to remember…"
-                rows={10}
-                disabled={loading}
-                aria-label="Your notes to recap"
-                className={`w-full rounded-xl border px-4 py-3.5 text-sm leading-relaxed resize-none font-[inherit] transition-all bg-app-card text-ink-100 placeholder:text-ink-500 focus:outline-none focus:ring-2 ${
-                  isOverLimit
-                    ? "border-red-500/60 focus:ring-red-500/30 focus:border-red-500"
-                    : "border-app-border focus:ring-highlight/30 focus:border-highlight"
-                } disabled:opacity-60`}
-                style={{ minHeight: "200px" }}
-              />
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <label
+                  htmlFor="simple-notes"
+                  className="block text-sm font-semibold text-ink-300"
+                >
+                  Your notes
+                </label>
+                {hasLatex && (
+                  <span
+                    className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 animate-fade-in"
+                    title="KaTeX Math syntax detected ($ or $$)"
+                  >
+                    <span>∑</span> KaTeX Aktif
+                  </span>
+                )}
+                {hasMermaid && (
+                  <span
+                    className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 animate-fade-in"
+                    title="Mermaid diagram code detected"
+                  >
+                    <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4" />
+                    </svg>
+                    Mermaid Aktif
+                  </span>
+                )}
+              </div>
+
+              {/* View Switcher: Tulis | Live Split | Pratinjau */}
+              <div className="flex items-center rounded-lg border border-app-border bg-app-card p-0.5 text-xs select-none">
+                <button
+                  type="button"
+                  onClick={() => setInputView("write")}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                    inputView === "write"
+                      ? "bg-highlight text-highlight-text font-semibold shadow-xs"
+                      : "text-ink-400 hover:text-ink-200"
+                  }`}
+                  title="Mode Tulis teks biasa"
+                >
+                  Tulis
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputView("split")}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all flex items-center gap-1 ${
+                    inputView === "split"
+                      ? "bg-highlight text-highlight-text font-semibold shadow-xs"
+                      : "text-ink-400 hover:text-ink-200"
+                  }`}
+                  title="Live Split: Tulis di atas, render rumus & diagram otomatis di bawah saat mengetik"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                  </svg>
+                  <span>Live Split</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputView("preview")}
+                  disabled={!notes.trim()}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                    inputView === "preview"
+                      ? "bg-highlight text-highlight-text font-semibold shadow-xs"
+                      : "text-ink-400 hover:text-ink-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                  }`}
+                  title="Pratinjau tampilan penuh"
+                >
+                  Pratinjau
+                </button>
+              </div>
             </div>
 
+            {/* Input / Preview Area */}
+            {inputView === "preview" ? (
+              <div className="w-full rounded-xl border border-app-border bg-app-card px-5 py-4 text-sm leading-relaxed text-ink-100 min-h-[220px] max-h-[500px] overflow-y-auto space-y-2 animate-fade-in">
+                <div className="flex items-center justify-between pb-2 border-b border-app-border/60 text-xs text-ink-400 font-mono">
+                  <span className="flex items-center gap-1.5 text-highlight font-semibold">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Pratinjau Catatan Rendered (KaTeX & Mermaid)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setInputView("write")}
+                    className="text-highlight hover:underline text-[11px]"
+                  >
+                    Edit kembali
+                  </button>
+                </div>
+                <div className="pt-1">
+                  <FormattedText text={notes || "*Belum ada catatan.*"} />
+                </div>
+              </div>
+            ) : (
+              <div className="relative">
+                <textarea
+                  id="simple-notes"
+                  value={notes}
+                  onChange={(e) => onNotesChange(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Paste anything you need to remember… Mendukung rumus KaTeX ($E=mc^2$) dan diagram ```mermaid..."
+                  rows={inputView === "split" ? 7 : 10}
+                  disabled={loading}
+                  aria-label="Your notes to recap"
+                  className={`w-full rounded-xl border px-4 py-3.5 text-sm leading-relaxed resize-none font-[inherit] transition-all bg-app-card text-ink-100 placeholder:text-ink-500 focus:outline-none focus:ring-2 ${
+                    isOverLimit
+                      ? "border-red-500/60 focus:ring-red-500/30 focus:border-red-500"
+                      : "border-app-border focus:ring-highlight/30 focus:border-highlight"
+                  } disabled:opacity-60`}
+                  style={{ minHeight: inputView === "split" ? "160px" : "200px" }}
+                />
+              </div>
+            )}
+
+            {/* Live Split Preview Box — Automatically updates as user types */}
+            {inputView === "split" && (
+              <div className="rounded-xl border border-app-border bg-app-card/80 p-4 space-y-2 animate-fade-in">
+                <div className="flex items-center justify-between text-xs text-ink-400 font-mono pb-2 border-b border-app-border/60">
+                  <span className="flex items-center gap-1.5 text-highlight font-semibold">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Pratinjau Otomatis (Live KaTeX & Mermaid)
+                  </span>
+                  <span className="text-[10px] text-ink-500">Terbaca otomatis saat mengetik</span>
+                </div>
+                <div className="text-sm leading-relaxed text-ink-100 max-h-[300px] overflow-y-auto pr-1">
+                  {notes.trim() ? (
+                    <FormattedText text={notes} />
+                  ) : (
+                    <p className="text-xs text-ink-500 italic py-2">
+                      Ketik rumus seperti <code className="text-highlight font-mono">$E = mc^2$</code> atau diagram mermaid untuk melihat preview langsung.
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Footer bar below textarea */}
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-3 pt-1">
               <div className="flex items-center gap-3">
                 <span className={`text-xs tabular-nums ${isOverLimit ? "text-red-400" : "text-ink-500"}`}>
                   {wordCount.toLocaleString()} words
                   {isOverLimit && " — too long, will be trimmed"}
                 </span>
-                {notes.trim() && (
+                {notes.trim() ? (
                   <button
                     type="button"
                     onClick={onClear}
@@ -287,7 +412,16 @@ export const SimpleModeView = memo(function SimpleModeView({
                   >
                     Clear
                   </button>
-                )}
+                ) : onLoadSample ? (
+                  <button
+                    type="button"
+                    onClick={onLoadSample}
+                    className="text-xs text-ink-500 hover:text-highlight transition-colors"
+                    title="Load contoh catatan dengan rumus KaTeX"
+                  >
+                    Contoh Catatan
+                  </button>
+                ) : null}
               </div>
 
               {/* Mobile mode toggles */}

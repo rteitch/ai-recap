@@ -410,15 +410,28 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
         </div>
       ))}
 
-      {/* Right: status */}
-      <div className="ml-auto flex items-center gap-3 pr-3 text-[11px] text-ink-500">
+      {/* Right: status and Mode Switch */}
+      <div className="ml-auto flex items-center gap-2.5 pr-3 text-[11px] text-ink-500">
         {charCount > 0 && (
-          <span className="font-mono">{charCount.toLocaleString()} chars</span>
+          <span className="font-mono hidden sm:inline">{charCount.toLocaleString()} chars</span>
         )}
         {customApiConfig?.enabled && (
-          <span className="px-1.5 py-0.5 rounded bg-highlight/15 text-ink-100 dark:text-highlight text-[10px] font-mono border border-highlight/30 font-medium">
+          <span className="px-1.5 py-0.5 rounded bg-highlight/15 text-ink-100 dark:text-highlight text-[10px] font-mono border border-highlight/30 font-medium hidden md:inline">
             {customApiConfig.model || customApiConfig.provider}
           </span>
+        )}
+        {onSwitchToSimple && (
+          <button
+            type="button"
+            onClick={act(onSwitchToSimple)}
+            className="flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold text-ink-300 hover:text-ink-50 hover:bg-ink-800 border border-ink-700/70 transition-colors"
+            title="Switch to Simple Mode (Quick capture & recap)"
+          >
+            <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h10" />
+            </svg>
+            <span>Simple Mode</span>
+          </button>
         )}
       </div>
     </div>
