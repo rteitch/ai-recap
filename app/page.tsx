@@ -2038,7 +2038,7 @@ function updateStorage(
 
       {/* ── WORKSTATION MODE ── */}
       {!showModePicker && appMode === "workstation" && (
-      <div className="h-[100dvh] w-screen flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
+      <div className="h-[100dvh] w-full flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{srMessage}</div>
       {/* Mobile Top App Bar (< lg) */}
       <header className="lg:hidden h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-sidebar flex-shrink-0 select-none print:hidden">
@@ -2059,16 +2059,16 @@ function updateStorage(
             alt="AI Recap Logo"
             width={20}
             height={20}
-            className="rounded"
+            className="rounded flex-shrink-0"
           />
-          <span className="font-serif font-bold text-sm text-ink-100">AI Recap</span>
+          <span className="hidden sm:inline font-serif font-bold text-sm text-ink-100">AI Recap</span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 min-w-0 flex-shrink-0">
           <button
             type="button"
             onClick={handleNewNote}
-            className="px-2 py-1 rounded bg-highlight text-highlight-text text-xs font-semibold hover:bg-highlight-hover transition-colors flex items-center gap-1 shadow-xs"
+            className="px-2 py-1 rounded bg-highlight text-highlight-text text-xs font-semibold hover:bg-highlight-hover transition-colors flex items-center gap-1 shadow-xs flex-shrink-0"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -2078,8 +2078,22 @@ function updateStorage(
           <StudyStreakBadge streak={studyStreak} />
           <OfflineBadge isOnline={isOnline} />
           <StorageIndicator />
-          {/* Recap Mode — pill toggle */}
-          <div className="flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
+          {/* Open AI Companion - mobile only, show when result exists */}
+          {result && (
+            <button
+              type="button"
+              onClick={() => setIsCompanionOpen(true)}
+              className="xl:hidden flex-shrink-0 p-1.5 rounded-md bg-highlight/15 border border-highlight/40 text-highlight hover:bg-highlight/25 transition-colors"
+              title="Open AI Study Companion"
+              aria-label="Open AI Study Companion"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </button>
+          )}
+          {/* Recap Mode — pill toggle (compact on mobile) */}
+          <div className="hidden sm:flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
             {(["detailed", "brief"] as const).map((mode) => (
               <button
                 key={mode}
@@ -2096,8 +2110,8 @@ function updateStorage(
               </button>
             ))}
           </div>
-          {/* Quiz Count — pill toggle */}
-          <div className="flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
+          {/* Quiz Count — pill toggle (compact on mobile) */}
+          <div className="hidden sm:flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
             {([3, 5, 10] as const).map((count) => (
               <button
                 key={count}

@@ -350,7 +350,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                     <div className="flex items-center gap-1">
                       {/* Notebook Rename & Delete Actions */}
                       {nb.id !== "Inbox" && (
-                        <div className="opacity-0 group-hover:opacity-100 flex items-center gap-0.5 transition-opacity">
+                        <div className="opacity-80 sm:opacity-0 sm:group-hover:opacity-100 flex items-center gap-0.5 transition-opacity">
                           <button
                             type="button"
                             onClick={(e) => {

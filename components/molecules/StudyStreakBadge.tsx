@@ -28,7 +28,8 @@ export const StudyStreakBadge = memo(function StudyStreakBadge({
           clipRule="evenodd"
         />
       </svg>
-      <span>{streak}d streak</span>
+      <span className="hidden sm:inline">{streak}d streak</span>
+      <span className="sm:hidden">{streak}d</span>
     </span>
   );
 });

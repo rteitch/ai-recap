@@ -97,39 +97,6 @@ export const CommandPalette = memo(function CommandPalette({
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, [isOpen, onClose]);
 
-  // Focus trap and initial focus when modal opens
-  useEffect(() => {
-    if (!isOpen) return;
-    const modal = document.querySelector('[role="dialog"]');
-    if (!modal) return;
-    const focusable = modal.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    const focusableArray = Array.from(focusable).filter(
-      (el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true'
-    );
-    if (focusableArray.length) focusableArray[0].focus();
-
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onClose();
-      }
-      if (e.key === 'Tab') {
-        const first = focusableArray[0];
-        const last = focusableArray[focusableArray.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    }
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [isOpen, onClose]);
 
   // Build items catalogue
   const allItems = useMemo<PaletteItem[]>(() => {

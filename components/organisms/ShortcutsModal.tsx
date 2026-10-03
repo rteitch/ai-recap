@@ -103,12 +103,11 @@ export const ShortcutsModal = memo(function ShortcutsModal({
             </div>
             <div className="space-y-1.5 flex-1">
               <div className="flex items-center justify-between py-1 border-b border-ink-850/60">
-                <span className="text-ink-300">Quick Switch Note</span>
-                <Kbd>Ctrl + P</Kbd>
+                <span className="text-ink-300">Command Palette</span>
+                <Kbd>Ctrl + K</Kbd>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-ink-850/60">
-                <span className="text-ink-300">Command Palette</span>
-                <span className="text-ink-300">Cycle View Mode</span>
+                <span className="text-ink-300">Quick Switch Note / View</span>
                 <Kbd>Ctrl + P</Kbd>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-ink-850/60">

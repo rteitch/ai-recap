@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import {
   ThemeId,
   EditorFontId,
@@ -45,6 +45,15 @@ export const AppearanceModal = memo(function AppearanceModal({
   const [activeTab, setActiveTab] = useState<"themes" | "typography">("themes");
   const [themeFilter, setThemeFilter] = useState<"all" | "keycaps" | "dark" | "light">("all");
   const [themeSearch, setThemeSearch] = useState("");
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 

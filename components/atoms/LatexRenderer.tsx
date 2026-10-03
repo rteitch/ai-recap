@@ -55,7 +55,7 @@ export const LatexRenderer = memo(function LatexRenderer({
     <span
       role="math"
       aria-label={math}
-      className="inline-block px-0.5 text-ink-50 align-baseline"
+      className="inline-block max-w-full overflow-x-auto px-0.5 text-ink-50 align-baseline scrollbar-none"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

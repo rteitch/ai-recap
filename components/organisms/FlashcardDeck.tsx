@@ -108,7 +108,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
               {isCardFlipped ? "Answer" : "Question"}
             </span>
             <span className="text-[11px] text-ink-400 group-hover:text-ink-200 transition-colors">
-              {isCardFlipped ? "Click or Space to flip back" : "Click or Space to reveal"}
+              {isCardFlipped ? "Tap or Space to flip back" : "Tap or Space to reveal"}
             </span>
           </div>
 
@@ -163,7 +163,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
           </div>
         ) : (
           <div className="mt-6 flex items-center justify-between text-xs text-ink-400">
-            <span>Press Space to reveal answer</span>
+            <span>Tap or Space to reveal answer</span>
             {ratings[activeCardIndex] && (
               <span
                 className={`text-[11px] font-semibold inline-flex items-center gap-1 ${

@@ -283,7 +283,7 @@ export const SimpleModeView = memo(function SimpleModeView({
               </div>
 
               {/* View Switcher: Write | Live Split | Preview */}
-              <div className="flex items-center rounded-lg border border-app-border bg-app-card p-0.5 text-xs select-none">
+              <div className="flex items-center rounded-lg border border-app-border bg-app-card p-0.5 text-xs select-none flex-shrink-0">
                 <button
                   type="button"
                   onClick={() => setInputView("write")}
@@ -397,7 +397,7 @@ export const SimpleModeView = memo(function SimpleModeView({
             )}
 
             {/* Footer bar below textarea */}
-            <div className="flex items-center justify-between gap-3 pt-1">
+            <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
               <div className="flex items-center gap-3">
                 <span className={`text-xs tabular-nums ${isOverLimit ? "text-red-400" : "text-ink-500"}`}>
                   {wordCount.toLocaleString()} words
@@ -424,66 +424,68 @@ export const SimpleModeView = memo(function SimpleModeView({
                 ) : null}
               </div>
 
+              {/* Right: Mobile mode toggles & Action button */}
+              <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+                {/* Mobile mode toggles */}
+                <div className="flex sm:hidden items-center gap-1.5">
+                  <div className="flex items-center rounded-md border border-app-border overflow-hidden text-[10px]">
+                    {(["detailed", "brief"] as const).map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        onClick={() => onSetRecapMode(m)}
+                        className={`px-2 py-0.5 font-semibold transition-colors capitalize ${
+                          recapMode === m
+                            ? "bg-highlight text-highlight-text"
+                            : "text-ink-400 bg-app-card"
+                        }`}
+                      >
+                        {m === "detailed" ? "D" : "B"}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex items-center rounded-md border border-app-border overflow-hidden text-[10px]">
+                    {([3, 5, 10] as const).map((n) => (
+                      <button
+                        key={n}
+                        type="button"
+                        onClick={() => onSetQuizCount(n)}
+                        className={`px-1.5 py-0.5 font-semibold font-mono transition-colors ${
+                          quizCount === n
+                            ? "bg-highlight text-highlight-text"
+                            : "text-ink-400 bg-app-card"
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-              {/* Mobile mode toggles */}
-              <div className="flex sm:hidden items-center gap-1.5">
-                <div className="flex items-center rounded-md border border-app-border overflow-hidden text-[10px]">
-                  {(["detailed", "brief"] as const).map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => onSetRecapMode(m)}
-                      className={`px-2 py-0.5 font-semibold transition-colors capitalize ${
-                        recapMode === m
-                          ? "bg-highlight text-highlight-text"
-                          : "text-ink-400 bg-app-card"
-                      }`}
-                    >
-                      {m === "detailed" ? "D" : "B"}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex items-center rounded-md border border-app-border overflow-hidden text-[10px]">
-                  {([3, 5, 10] as const).map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => onSetQuizCount(n)}
-                      className={`px-1.5 py-0.5 font-semibold font-mono transition-colors ${
-                        quizCount === n
-                          ? "bg-highlight text-highlight-text"
-                          : "text-ink-400 bg-app-card"
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
+                <button
+                  type="button"
+                  onClick={onRecap}
+                  disabled={loading || notes.trim().length < 40}
+                  className="flex items-center gap-2 px-5 py-2 rounded-xl bg-highlight text-highlight-text font-semibold text-sm shadow transition-all active:scale-95 hover:bg-highlight-hover disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex-shrink-0"
+                  title={loading ? "Generating…" : "Ctrl+Enter to recap"}
+                >
+                  {loading ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      <span>Recapping…</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      <span>Recap this</span>
+                    </>
+                  )}
+                </button>
               </div>
-
-              <button
-                type="button"
-                onClick={onRecap}
-                disabled={loading || notes.trim().length < 40}
-                className="flex items-center gap-2 px-5 py-2 rounded-xl bg-highlight text-highlight-text font-semibold text-sm shadow transition-all active:scale-95 hover:bg-highlight-hover disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex-shrink-0"
-                title={loading ? "Generating…" : "Ctrl+Enter to recap"}
-              >
-                {loading ? (
-                  <>
-                    <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    <span>Recapping…</span>
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    <span>Recap this</span>
-                  </>
-                )}
-              </button>
             </div>
 
             {/* Daily quota hint */}
@@ -651,7 +653,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                               <div className="text-sm leading-relaxed text-ink-200">
                                 <FormattedText text={item.answer} />
                               </div>
-                              <div className="flex items-center gap-2 pt-1 border-t border-app-border/50">
+                              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-app-border/50">
                                 <span className="text-[11px] text-ink-500">Did you recall this?</span>
                                 <button
                                   type="button"

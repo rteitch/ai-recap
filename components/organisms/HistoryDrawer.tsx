@@ -241,7 +241,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
 
             {/* Filter Chips */}
             <div className="flex items-center justify-between gap-1.5 pb-1">
-              <div className="flex items-center gap-1.5 overflow-x-auto text-[11px]">
+              <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] scrollbar-none [&::-webkit-scrollbar]:hidden">
               <button
                 type="button"
                 onClick={() => setActiveFilter("all")}

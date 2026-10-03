@@ -418,7 +418,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                             onClick={() => setShowRegenMenu(false)}
                             onTouchStart={() => setShowRegenMenu(false)}
                           />
-                          <div className="absolute right-0 top-full mt-1 z-50 w-48 rounded-xl border border-ink-700/80 bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in text-xs space-y-0.5">
+                          <div className="absolute right-0 top-full mt-1 z-50 w-48 max-w-[calc(100vw-32px)] rounded-xl border border-ink-700/80 bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in text-xs space-y-0.5">
                             <div className="px-2 py-1 text-[10px] font-mono text-highlight font-semibold border-b border-ink-800 mb-0.5">
                               Question Count
                             </div>

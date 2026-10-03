@@ -452,6 +452,16 @@ a {
   touch-action: manipulation;
 }
 
+/* Prevent iOS Safari involuntary zoom on focus when font-size < 16px */
+@media (max-width: 640px) {
+  input[type="text"],
+  input[type="search"],
+  input[type="password"],
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
 button,
 [role="button"] {
   user-select: none;

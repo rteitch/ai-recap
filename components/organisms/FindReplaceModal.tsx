@@ -15,8 +15,6 @@ export function FindReplaceModal({
   text,
   onReplace,
 }: FindReplaceModalProps) {
-  if (!isOpen) return null;
-
   const [searchQuery, setSearchQuery] = useState("");
   const [replaceQuery, setReplaceQuery] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(false);
@@ -87,13 +85,20 @@ export function FindReplaceModal({
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Find and replace"
-      className="fixed top-4 right-4 z-50 w-full max-w-sm bg-app-surface border border-app-border rounded-xl p-4 shadow-2xl animate-fade-up overscroll-contain select-none"
-      onKeyDown={handleKeyDown}
-    >
+    <>
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs"
+            onClick={onClose}
+          />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Find and replace"
+        className="fixed top-4 left-4 right-4 sm:left-auto sm:right-4 z-50 max-w-sm bg-app-surface border border-app-border rounded-xl p-4 shadow-2xl animate-fade-up overscroll-contain select-none"
+        onKeyDown={handleKeyDown}
+      >
       <div className="flex items-center justify-between pb-2 border-b border-app-border">
         <h2 className="text-sm font-semibold text-ink-100">Find &amp; Replace</h2>
         <button
@@ -197,7 +202,10 @@ export function FindReplaceModal({
             Replace All
           </button>
         </div>
+        </div>
       </div>
-    </div>
+        </>
+      )}
+    </>
   );
 }

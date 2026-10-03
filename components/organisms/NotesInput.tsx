@@ -2111,18 +2111,18 @@ flowchart TD
             </button>
           )}
 
-          {/* Switch to Simple Mode Toggle */}
+          {/* Switch to Simple Mode Toggle (Desktop & Tablet) */}
           {onSwitchToSimple && (
             <button
               type="button"
               onClick={onSwitchToSimple}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold text-ink-300 hover:text-ink-50 hover:bg-ink-800 border border-ink-700/70 transition-colors shadow-2xs flex-shrink-0"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold text-ink-300 hover:text-ink-50 hover:bg-ink-800 border border-ink-700/70 transition-colors shadow-2xs flex-shrink-0"
               title="Switch to Simple Mode (Quick Capture & Focused Recap)"
             >
               <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h10" />
               </svg>
-              <span className="hidden sm:inline">Simple Mode</span>
+              <span>Simple Mode</span>
             </button>
           )}
         </div>
@@ -2499,10 +2499,10 @@ flowchart TD
       </div>
 
       {/* IDE-STYLE BOTTOM WORKSTATION STATUS BAR */}
-      <footer className="h-6 px-3 border-t border-ink-800/80 bg-app-card text-[10px] font-mono text-ink-400 flex items-center justify-between select-none flex-shrink-0">
-        <div className="flex items-center gap-2">
+      <footer className="h-6 px-3 border-t border-ink-800/80 bg-app-card text-[10px] font-mono text-ink-400 flex items-center justify-between select-none flex-shrink-0 overflow-hidden">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           {/* Live Auto-save indicator */}
-          <span className="flex items-center gap-1.5 pr-1 border-r border-ink-800">
+          <span className="flex items-center gap-1.5 pr-1 border-r border-ink-800 flex-shrink-0">
             <span
               className={`w-1.5 h-1.5 rounded-full ${
                 saveStatus === "saved"
@@ -2517,13 +2517,13 @@ flowchart TD
             </span>
           </span>
 
-          <span className="text-ink-300">
+          <span className="text-ink-300 flex-shrink-0">
             Ln {cursorLine}, Col {cursorCol}
           </span>
-          <span className="text-ink-700">&bull;</span>
-          <span className="text-ink-400">UTF-8</span>
-          <span className="text-ink-700">&bull;</span>
-          <span className="text-highlight font-semibold">Markdown</span>
+          <span className="text-ink-700 hidden sm:inline">&bull;</span>
+          <span className="text-ink-400 hidden sm:inline">UTF-8</span>
+          <span className="text-ink-700 hidden sm:inline">&bull;</span>
+          <span className="text-highlight font-semibold hidden sm:inline">Markdown</span>
         </div>
 
         <div className="hidden md:flex items-center gap-2 text-ink-500">
@@ -2534,10 +2534,10 @@ flowchart TD
           <span className="text-highlight">```mermaid</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <span>{wordCount} words</span>
-          <span className="text-ink-700">&bull;</span>
-          <span>{estimatedReadMins}m read</span>
+          <span className="text-ink-700 hidden sm:inline">&bull;</span>
+          <span className="hidden sm:inline">{estimatedReadMins}m read</span>
           <span className="text-ink-700">&bull;</span>
           <span className={isOverLimit ? "text-highlight font-bold" : ""}>
             {charCount}/20k chars

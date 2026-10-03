@@ -42,7 +42,12 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
     );
     if (focusable.length > 0) focusable[0].focus();
 
-    function handleTab(e: KeyboardEvent) {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
       if (e.key !== "Tab") return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
@@ -54,9 +59,9 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
         first.focus();
       }
     }
-    document.addEventListener("keydown", handleTab);
-    return () => document.removeEventListener("keydown", handleTab);
-  }, [isOpen]);
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [isOpen, onClose]);
 
   const handleExport = useCallback(() => {
     const data: Record<string, string> = {};

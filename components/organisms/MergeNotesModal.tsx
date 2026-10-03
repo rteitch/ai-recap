@@ -32,6 +32,15 @@ export const MergeNotesModal = memo(function MergeNotesModal({
     }
   }, [isOpen, availableNotes]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   const handleMerge = useCallback(() => {
     if (!targetId) return;
     onMerge(currentNoteId, targetId, separator);
