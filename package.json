@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "tsc --noEmit",
+    "test": "node scripts/verify-safety.mjs"
   },
   "dependencies": {
     "isomorphic-dompurify": "^3.19.0",
