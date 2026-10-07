@@ -184,10 +184,20 @@ export default function Home() {
   const activeNoteIdRef = useRef(activeNoteId);
   activeNoteIdRef.current = activeNoteId;
   const historySyncTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const recapAbortControllerRef = useRef<AbortController | null>(null);
+  const quizAbortControllerRef = useRef<AbortController | null>(null);
   const notesInputRef = useRef<NotesInputHandle>(null);
   const syncMenuBarState = useCallback(() => {
     const s = notesInputRef.current?.getState();
     if (s) setMenuBarEditorState(s);
+  }, []);
+
+  // Cancel any active network calls on unmount
+  useEffect(() => {
+    return () => {
+      recapAbortControllerRef.current?.abort();
+      quizAbortControllerRef.current?.abort();
+    };
   }, []);
 
 
@@ -1027,17 +1037,23 @@ function updateStorage(
   }, [activeNoteId]);
 
   const handleRegenerateQuiz = useCallback(async () => {
+    if (isRegeneratingQuiz || loading) return;
     if (!result || !notes.trim()) return;
     if (typeof navigator !== "undefined" && !navigator.onLine) {
       toast.error("You appear to be offline. Check internet connection.");
       return;
     }
 
+    quizAbortControllerRef.current?.abort();
+    const controller = new AbortController();
+    quizAbortControllerRef.current = controller;
+
     setIsRegeneratingQuiz(true);
     try {
       const res = await fetch("/api/recap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           notes,
           customConfig: customApiConfig,
@@ -1065,11 +1081,14 @@ function updateStorage(
         toast.success(`Generated ${data.quiz.length} fresh self-test questions!`);
       }
     } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") {
+        return;
+      }
       toast.error(err instanceof Error ? err.message : "Could not regenerate quiz.");
     } finally {
       setIsRegeneratingQuiz(false);
     }
-  }, [result, notes, customApiConfig, saveToHistory]);
+  }, [result, notes, customApiConfig, saveToHistory, isRegeneratingQuiz, loading]);
 
   const handleSelectNote = useCallback((item: HistoryItem) => {
     stopSpeech();
@@ -1300,7 +1319,6 @@ function updateStorage(
         }
         historySyncTimerRef.current = setTimeout(() => {
           flushActiveNoteToHistory(activeNoteId, val);
-          updateStorage(val, resultDataRef.current, {});
         }, 350);
       }
     },
@@ -1686,6 +1704,7 @@ function updateStorage(
   }, [result, handleCopyShareLink]);
 
   const handleRecap = useCallback(async () => {
+    if (loading) return;
     if (typeof navigator !== "undefined" && !navigator.onLine) {
       setError("You appear to be offline. Please check your internet connection.");
       return;
@@ -1695,6 +1714,10 @@ function updateStorage(
       setError("Paste a bit more text first \u2014 at least a few sentences (min 40 characters).");
       return;
     }
+
+    recapAbortControllerRef.current?.abort();
+    const controller = new AbortController();
+    recapAbortControllerRef.current = controller;
 
     stopSpeech();
     setLoading(true);
@@ -1708,12 +1731,13 @@ function updateStorage(
       const res = await fetch("/api/recap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            notes,
-            customConfig: customApiConfig,
-            recapMode,
-            quizCount,
-          }),
+        signal: controller.signal,
+        body: JSON.stringify({
+          notes,
+          customConfig: customApiConfig,
+          recapMode,
+          quizCount,
+        }),
       });
 
       if (!res.ok) {
@@ -1754,6 +1778,9 @@ function updateStorage(
         resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 300);
     } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") {
+        return;
+      }
       if (
         err instanceof TypeError &&
         (err.message.toLowerCase().includes("fetch") ||
@@ -1771,7 +1798,7 @@ function updateStorage(
     } finally {
       setLoading(false);
     }
-  }, [notes, customApiConfig, stopSpeech, saveToHistory, recordStudyActivity]);
+  }, [notes, customApiConfig, stopSpeech, saveToHistory, recordStudyActivity, loading, recapMode, quizCount]);
 
   const reviewedCount = Object.keys(ratings).length;
   const knownCount = Object.values(ratings).filter((r) => r === "known").length;

@@ -20,6 +20,26 @@ const MODEL_CHAIN = [
 
 type QuizItem = { question: string; answer: string };
 
+// Trusted Edge IP extractor (prioritizes CDN edge headers over spoofable client headers)
+function getClientIp(req: NextRequest): string {
+  const eoIp = req.headers.get("eo-real-ip")?.trim();
+  if (eoIp) return eoIp;
+  const cfIp = req.headers.get("cf-connecting-ip")?.trim();
+  if (cfIp) return cfIp;
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    const ips = forwardedFor.split(",").map((ip) => ip.trim()).filter(Boolean);
+    if (ips.length > 0) {
+      return ips[ips.length - 1];
+    }
+  }
+
+  return "client-default";
+}
+
 // In-memory sliding-window rate limiter (10 requests per 60 seconds per IP)
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 10;
@@ -38,7 +58,7 @@ function checkRateLimit(ip: string): boolean {
   validTimestamps.push(now);
   ipRequestHistory.set(ip, validTimestamps);
 
-  // Periodically clean up stale IPs to prevent memory leak
+  // Periodically clean up stale IPs with hard cap to prevent memory leak
   if (ipRequestHistory.size > 500) {
     for (const [key, times] of ipRequestHistory.entries()) {
       const active = times.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
@@ -47,6 +67,10 @@ function checkRateLimit(ip: string): boolean {
       } else {
         ipRequestHistory.set(key, active);
       }
+    }
+    if (ipRequestHistory.size > 1000) {
+      const excess = Array.from(ipRequestHistory.keys()).slice(0, 300);
+      for (const k of excess) ipRequestHistory.delete(k);
     }
   }
 
@@ -140,11 +164,22 @@ function normalizeChatUrl(baseUrl: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  // 0. Emergency Kill Switch / Maintenance Circuit Breaker
+  if (
+    process.env.AI_KILL_SWITCH === "true" ||
+    process.env.MAINTENANCE_MODE === "true"
+  ) {
+    return NextResponse.json(
+      {
+        error:
+          "AI Recap service is temporarily paused for maintenance. Please check back shortly.",
+      },
+      { status: 503, headers: { "Retry-After": "300" } }
+    );
+  }
+
   // Rate limiting defense (applies to all POST requests)
-  const clientIp =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "client-default";
+  const clientIp = getClientIp(req);
 
   // NOTE: Do NOT block on Transfer-Encoding or require Content-Length — edge CDN
   // platforms (EdgeOne, Vercel, Cloudflare) may strip or rewrite these headers before
@@ -487,7 +522,7 @@ export async function POST(req: NextRequest) {
       const upstream = await fetch(targetUrl, {
         method: "POST",
         headers,
-        signal: AbortSignal.timeout(35000),
+        signal: AbortSignal.timeout(25000),
         body: JSON.stringify({
           model: chosenModel,
           temperature: 0.4,
@@ -505,36 +540,42 @@ export async function POST(req: NextRequest) {
         rawContent = data?.choices?.[0]?.message?.content || null;
         modelUsed = chosenModel;
       } else {
-        // Retry without response_format if model does not support it
-        const retryRes = await fetch(targetUrl, {
-          method: "POST",
-          headers,
-          signal: AbortSignal.timeout(35000),
-          body: JSON.stringify({
-            model: chosenModel,
-            temperature: 0.4,
-            max_tokens: 2200,
-            messages: [
-              { role: "system", content: systemPrompt },
-              { role: "user", content: `<user_notes>\n${trimmedNotes}\n</user_notes>` },
-            ],
-          }),
-        });
+        // Only retry without response_format if status indicates schema incompatibility (400 or 422)
+        // If 401 (auth), 404 (not found), or 429 (rate limit), retrying is futile.
+        if (upstream.status === 400 || upstream.status === 422) {
+          const retryRes = await fetch(targetUrl, {
+            method: "POST",
+            headers,
+            signal: AbortSignal.timeout(25000),
+            body: JSON.stringify({
+              model: chosenModel,
+              temperature: 0.4,
+              max_tokens: 2200,
+              messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: `<user_notes>\n${trimmedNotes}\n</user_notes>` },
+              ],
+            }),
+          });
 
-        if (retryRes.ok) {
-          const data = await retryRes.json();
-          rawContent = data?.choices?.[0]?.message?.content || null;
-          modelUsed = chosenModel;
+          if (retryRes.ok) {
+            const data = await retryRes.json();
+            rawContent = data?.choices?.[0]?.message?.content || null;
+            modelUsed = chosenModel;
+          } else {
+            const errTxt = await retryRes.text().catch(() => "");
+            lastError = new Error(`Custom provider returned ${retryRes.status}: ${errTxt.slice(0, 100)}`);
+          }
         } else {
-          await retryRes.text().catch(() => "");
-          lastError = new Error(`Custom provider returned ${retryRes.status}`);
+          const errTxt = await upstream.text().catch(() => "");
+          lastError = new Error(`Custom provider returned ${upstream.status}: ${errTxt.slice(0, 100)}`);
         }
       }
     } catch (err) {
       lastError = err;
     }
   } else {
-    // 3B. Default Gateway Execution
+    // 3B. Default Gateway Execution with Fail-Fast & Global Timeout Budget
     const apiKey = process.env.AI_GATEWAY_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -543,7 +584,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    for (const currentModel of MODEL_CHAIN) {
+    const requestStartTime = Date.now();
+    const MAX_GATEWAY_BUDGET_MS = 25000;
+    // Cap fallback attempts to at most 1 fallback model to eliminate cascading retry storms
+    const candidateModels = [PRIMARY_MODEL, ...FALLBACK_MODELS.slice(0, 1)].filter(
+      (m, idx, arr) => arr.indexOf(m) === idx
+    );
+
+    for (let i = 0; i < candidateModels.length; i++) {
+      const currentModel = candidateModels[i];
+      const elapsed = Date.now() - requestStartTime;
+      const remainingTime = MAX_GATEWAY_BUDGET_MS - elapsed;
+      if (remainingTime < 6000) {
+        console.warn("Gateway request budget exhausted before model call:", currentModel);
+        break;
+      }
+
+      const modelTimeout = Math.min(18000, remainingTime);
+
       try {
         const upstream = await fetch(`${GATEWAY_BASE_URL}/chat/completions`, {
           method: "POST",
@@ -551,7 +609,7 @@ export async function POST(req: NextRequest) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${apiKey}`,
           },
-          signal: AbortSignal.timeout(20000),
+          signal: AbortSignal.timeout(modelTimeout),
           body: JSON.stringify({
             model: currentModel,
             temperature: 0.4,
@@ -565,11 +623,33 @@ export async function POST(req: NextRequest) {
         });
 
         if (!upstream.ok) {
-          const errBody = await upstream.text();
+          const errBody = await upstream.text().catch(() => "");
+          const status = upstream.status;
+
+          // Non-retryable errors: fail-fast immediately!
+          // Trying subsequent models on 401 (bad key), 429 (quota exhausted), or 400 (bad format)
+          // guarantees repeated failure and wastes execution budget.
+          if (status === 401 || status === 403) {
+            console.error(`Gateway authentication failed with status ${status}:`, errBody);
+            lastError = new Error(`Gateway authentication failed (${status})`);
+            break;
+          }
+          if (status === 429) {
+            console.error(`Gateway quota exhausted (429):`, errBody);
+            lastError = new Error("Gateway rate limit / quota exceeded (429)");
+            break;
+          }
+          if (status === 400) {
+            console.error(`Gateway rejected request (400):`, errBody);
+            lastError = new Error(`Gateway rejected request format (400): ${errBody.slice(0, 100)}`);
+            break;
+          }
+
+          // Transient server error (502/503/504) -> try next fallback model if available
           console.warn(
-            `Model ${currentModel} returned ${upstream.status}: ${errBody}. Trying fallback...`
+            `Model ${currentModel} returned transient ${status}: ${errBody.slice(0, 80)}. Trying fallback if budget permits...`
           );
-          lastError = new Error(`Model ${currentModel} returned ${upstream.status}`);
+          lastError = new Error(`Model ${currentModel} returned ${status}`);
           continue;
         }
 
@@ -592,11 +672,20 @@ export async function POST(req: NextRequest) {
     console.error("All candidate models failed. Last error:", lastError);
     if (
       lastError instanceof Error &&
-      (lastError.name === "TimeoutError" || lastError.name === "AbortError")
+      (lastError.name === "TimeoutError" ||
+        lastError.name === "AbortError" ||
+        lastError.message.includes("timed out") ||
+        lastError.message.includes("budget exhausted"))
     ) {
       return NextResponse.json(
         { error: "The request took too long to process. Please try again." },
         { status: 504 }
+      );
+    }
+    if (lastError instanceof Error && lastError.message.includes("429")) {
+      return NextResponse.json(
+        { error: "AI service is currently rate limited. Please try again in a moment." },
+        { status: 429 }
       );
     }
     return NextResponse.json(
