@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import DOMPurify from "isomorphic-dompurify";
+import { createHash } from "node:crypto";
 
 // EdgeOne Makers exposes an OpenAI-compatible model gateway. These three
 // env vars are set in the Makers console (Project Settings -> Environment
@@ -19,6 +20,125 @@ const MODEL_CHAIN = [
 ];
 
 type QuizItem = { question: string; answer: string };
+
+// In-memory SHA-256 LRU Content-Hash Cache (15-min TTL, 100 entries max)
+interface CacheEntry {
+  data: {
+    summary?: string;
+    quiz: QuizItem[];
+    modelUsed: string;
+  };
+  expiresAt: number;
+}
+
+const RECAP_CACHE_MAX_ENTRIES = 100;
+const RECAP_CACHE_TTL_MS = 15 * 60 * 1000;
+const recapCache = new Map<string, CacheEntry>();
+
+function generateContentHash(payload: {
+  trimmedNotes: string;
+  recapMode: string;
+  quizCount: number;
+  isRegenerateQuiz: boolean;
+  providerKey: string;
+}): string {
+  const serialized = JSON.stringify(payload);
+  return createHash("sha256").update(serialized).digest("hex");
+}
+
+function getCachedRecap(hash: string): CacheEntry["data"] | null {
+  const entry = recapCache.get(hash);
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) {
+    recapCache.delete(hash);
+    return null;
+  }
+  // Refresh recency for LRU
+  recapCache.delete(hash);
+  recapCache.set(hash, entry);
+  return entry.data;
+}
+
+function setCachedRecap(hash: string, data: CacheEntry["data"]): void {
+  // Prune oldest if at capacity
+  if (recapCache.size >= RECAP_CACHE_MAX_ENTRIES) {
+    const oldestKey = recapCache.keys().next().value;
+    if (oldestKey) recapCache.delete(oldestKey);
+  }
+  recapCache.set(hash, {
+    data,
+    expiresAt: Date.now() + RECAP_CACHE_TTL_MS,
+  });
+}
+
+// Adaptive Circuit Breaker for upstream gateway resiliency
+type CircuitState = "CLOSED" | "OPEN" | "HALF_OPEN";
+
+interface GatewayCircuitBreaker {
+  state: CircuitState;
+  consecutiveFailures: number;
+  lastFailureTime: number;
+  halfOpenInFlight: boolean;
+}
+
+const CIRCUIT_FAILURE_THRESHOLD = 4;
+const CIRCUIT_OPEN_COOLDOWN_MS = 30 * 1000;
+
+const gatewayCircuitBreaker: GatewayCircuitBreaker = {
+  state: "CLOSED",
+  consecutiveFailures: 0,
+  lastFailureTime: 0,
+  halfOpenInFlight: false,
+};
+
+function checkCircuitBreaker(): { allowed: boolean; reason?: string } {
+  const now = Date.now();
+  if (gatewayCircuitBreaker.state === "OPEN") {
+    if (now - gatewayCircuitBreaker.lastFailureTime >= CIRCUIT_OPEN_COOLDOWN_MS) {
+      gatewayCircuitBreaker.state = "HALF_OPEN";
+      gatewayCircuitBreaker.halfOpenInFlight = true;
+      return { allowed: true };
+    }
+    return {
+      allowed: false,
+      reason:
+        "Gateway circuit breaker is OPEN due to repeated upstream failures. Fast-failing to preserve resources.",
+    };
+  }
+
+  if (gatewayCircuitBreaker.state === "HALF_OPEN") {
+    if (gatewayCircuitBreaker.halfOpenInFlight) {
+      return {
+        allowed: false,
+        reason:
+          "Gateway circuit breaker is in HALF_OPEN trial. Concurrent probe in progress.",
+      };
+    }
+    gatewayCircuitBreaker.halfOpenInFlight = true;
+    return { allowed: true };
+  }
+
+  return { allowed: true };
+}
+
+function recordCircuitSuccess(): void {
+  gatewayCircuitBreaker.state = "CLOSED";
+  gatewayCircuitBreaker.consecutiveFailures = 0;
+  gatewayCircuitBreaker.halfOpenInFlight = false;
+}
+
+function recordCircuitFailure(): void {
+  gatewayCircuitBreaker.consecutiveFailures += 1;
+  gatewayCircuitBreaker.lastFailureTime = Date.now();
+  gatewayCircuitBreaker.halfOpenInFlight = false;
+
+  if (
+    gatewayCircuitBreaker.consecutiveFailures >= CIRCUIT_FAILURE_THRESHOLD ||
+    gatewayCircuitBreaker.state === "HALF_OPEN"
+  ) {
+    gatewayCircuitBreaker.state = "OPEN";
+  }
+}
 
 // Trusted Edge IP extractor (prioritizes CDN edge headers over spoofable client headers)
 function getClientIp(req: NextRequest): string {
@@ -80,6 +200,7 @@ function checkRateLimit(ip: string): boolean {
 // Daily Fair-Use & Quota Protection Limits (10 recaps/day per user, 100 total system capacity)
 const MAX_DAILY_PER_IP = 10;
 const MAX_DAILY_GLOBAL = 100;
+const MAX_DAILY_IP_ENTRIES = 1000;
 
 type DailyUsageTracker = {
   date: string;
@@ -118,6 +239,14 @@ function checkAndIncrementDailyLimit(ip: string): {
 
   dailyTracker.globalCount += 1;
   dailyTracker.ipCounts.set(ip, currentUsage + 1);
+
+  // Bound tracker size to prevent memory leak across high IP volume
+  if (dailyTracker.ipCounts.size > MAX_DAILY_IP_ENTRIES) {
+    const keysToPrune = Array.from(dailyTracker.ipCounts.keys()).slice(0, 200);
+    for (const k of keysToPrune) {
+      dailyTracker.ipCounts.delete(k);
+    }
+  }
 
   return {
     allowed: true,
@@ -421,9 +550,78 @@ export async function POST(req: NextRequest) {
     body?.customConfig?.enabled && body?.customConfig?.baseUrl
   );
 
-  // Daily Fair-Use & Global Safety Cap check (applies only to default community gateway)
+  // Smart sentence-boundary truncation: avoid cutting words or sentences in half
+  let trimmedNotes = notes;
+  if (notes.length > 20000) {
+    const candidate = notes.slice(0, 20000);
+    const lastBoundary = candidate.search(/([.?!]\s|\n)[^.?!]*$/);
+    if (lastBoundary > 18500) {
+      trimmedNotes = candidate.slice(0, lastBoundary + 1).trim();
+    } else {
+      trimmedNotes = candidate;
+    }
+  }
+
+  // Parse quizCount and action
+  const rawQuizCount = Number(body?.quizCount);
+  const quizCount =
+    !isNaN(rawQuizCount) && rawQuizCount >= 3 && rawQuizCount <= 12
+      ? Math.floor(rawQuizCount)
+      : 4;
+
+  // Recap mode handling: "brief" for shorter summary, "detailed" default
+  const recapMode: "brief" | "detailed" =
+    body?.recapMode === "brief" ? "brief" : "detailed";
+  const isRegenerateQuiz = body?.action === "regenerate_quiz";
+
+  // Compute Content Hash for deterministic LRU cache check
+  const providerKey = isCustomConfig
+    ? `${body.customConfig.baseUrl}:${body.customConfig.model || "default"}`
+    : "default-makers";
+
+  const contentHash = generateContentHash({
+    trimmedNotes,
+    recapMode,
+    quizCount,
+    isRegenerateQuiz,
+    providerKey,
+  });
+
+  // 2A. Check In-Memory Content Cache (0 tokens, 0 upstream calls on hit)
+  const cachedData = getCachedRecap(contentHash);
+  if (cachedData) {
+    const res = NextResponse.json(cachedData);
+    res.headers.set("X-Cache", "HIT");
+    if (!isCustomConfig) {
+      const currentUsage = dailyTracker.ipCounts.get(clientIp) || 0;
+      res.headers.set(
+        "X-Daily-Remaining",
+        String(Math.max(0, MAX_DAILY_PER_IP - currentUsage))
+      );
+    }
+    return res;
+  }
+
+  // 2B. Circuit Breaker & Daily Quota Guard (applies to default community gateway)
   let remainingQuota = 10;
   if (!isCustomConfig) {
+    const circuitStatus = checkCircuitBreaker();
+    if (!circuitStatus.allowed) {
+      return NextResponse.json(
+        {
+          error:
+            "AI service is temporarily recovering from upstream errors. Please try again in 30 seconds.",
+        },
+        {
+          status: 503,
+          headers: {
+            "Retry-After": "30",
+            "X-Circuit-Breaker": "OPEN",
+          },
+        }
+      );
+    }
+
     const dailyCheck = checkAndIncrementDailyLimit(clientIp);
     if (!dailyCheck.allowed) {
       if (dailyCheck.reason === "ip_limit") {
@@ -451,30 +649,6 @@ export async function POST(req: NextRequest) {
     }
     remainingQuota = dailyCheck.remainingForIp;
   }
-
-  // Smart sentence-boundary truncation: avoid cutting words or sentences in half
-  let trimmedNotes = notes;
-  if (notes.length > 20000) {
-    const candidate = notes.slice(0, 20000);
-    const lastBoundary = candidate.search(/([.?!]\s|\n)[^.?!]*$/);
-    if (lastBoundary > 18500) {
-      trimmedNotes = candidate.slice(0, lastBoundary + 1).trim();
-    } else {
-      trimmedNotes = candidate;
-    }
-  }
-
-  // Parse quizCount and action
-  const rawQuizCount = Number(body?.quizCount);
-  const quizCount =
-    !isNaN(rawQuizCount) && rawQuizCount >= 3 && rawQuizCount <= 12
-      ? Math.floor(rawQuizCount)
-      : 4;
-
-  // Recap mode handling: "brief" for shorter summary, "detailed" default
-  const recapMode: "brief" | "detailed" =
-    body?.recapMode === "brief" ? "brief" : "detailed";
-  const isRegenerateQuiz = body?.action === "regenerate_quiz";
 
   const systemPrompt = isRegenerateQuiz
     ? [
@@ -659,6 +833,7 @@ export async function POST(req: NextRequest) {
         if (content) {
           rawContent = content;
           modelUsed = currentModel;
+          recordCircuitSuccess();
           break;
         }
       } catch (err) {
@@ -669,6 +844,9 @@ export async function POST(req: NextRequest) {
   }
 
   if (!rawContent) {
+    if (!isCustomConfig) {
+      recordCircuitFailure();
+    }
     console.error("All candidate models failed. Last error:", lastError);
     if (
       lastError instanceof Error &&
@@ -707,7 +885,7 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const res = NextResponse.json({
+      const responsePayload = {
         quiz: parsed.quiz
           .slice(0, quizCount)
           .map((q) => ({
@@ -715,7 +893,11 @@ export async function POST(req: NextRequest) {
             answer: sanitizeModelText(String(q.answer), 1000),
           })),
         modelUsed,
-      });
+      };
+      setCachedRecap(contentHash, responsePayload);
+
+      const res = NextResponse.json(responsePayload);
+      res.headers.set("X-Cache", "MISS");
       res.headers.set("X-Daily-Remaining", String(remainingQuota));
       return res;
     }
@@ -733,14 +915,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const res = NextResponse.json({
+    const responsePayload = {
       summary: sanitizeModelText(String(parsed.summary), 2000),
       quiz: parsed.quiz.slice(0, quizCount).map((q) => ({
         question: sanitizeModelText(String(q.question), 400),
         answer: sanitizeModelText(String(q.answer), 1000),
       })),
       modelUsed,
-    });
+    };
+    setCachedRecap(contentHash, responsePayload);
+
+    const res = NextResponse.json(responsePayload);
+    res.headers.set("X-Cache", "MISS");
     res.headers.set("X-Daily-Remaining", String(remainingQuota));
     return res;
   } catch (err) {
