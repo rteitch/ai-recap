@@ -528,16 +528,16 @@ export const CommandPalette = memo(function CommandPalette({
         <div className="px-4 py-2 border-t border-app-border bg-app-card flex items-center justify-between text-[10px] text-ink-400 font-mono">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <kbd className="px-1 py-0.2 bg-ink-800 rounded border border-ink-700">↑</kbd>
-              <kbd className="px-1 py-0.2 bg-ink-800 rounded border border-ink-700">↓</kbd>
+              <kbd className="px-1.5 py-0.5 bg-app-card rounded border border-app-border text-ink-300">↑</kbd>
+              <kbd className="px-1.5 py-0.5 bg-app-card rounded border border-app-border text-ink-300">↓</kbd>
               <span>Navigate</span>
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1 py-0.2 bg-ink-800 rounded border border-ink-700">↵</kbd>
+              <kbd className="px-1.5 py-0.5 bg-app-card rounded border border-app-border text-ink-300">↵</kbd>
               <span>Select</span>
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1 py-0.2 bg-ink-800 rounded border border-ink-700">Esc</kbd>
+              <kbd className="px-1.5 py-0.5 bg-app-card rounded border border-app-border text-ink-300">Esc</kbd>
               <span>Close</span>
             </span>
           </div>

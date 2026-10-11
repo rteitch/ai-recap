@@ -78,7 +78,7 @@ function Kbd({ keys }: { keys: string }) {
 }
 
 function MenuDivider() {
-  return <div className="my-0.5 h-px bg-ink-800" />;
+  return <div className="my-0.5 h-px bg-app-border" />;
 }
 
 type MenuItemProps = {
@@ -106,7 +106,7 @@ function MenuItem({ label, onClick, shortcut, disabled, icon, badge, danger }: M
       {icon && <span className="w-3.5 h-3.5 flex-shrink-0 flex items-center justify-center opacity-70">{icon}</span>}
       <span className="flex-1">{label}</span>
       {badge && (
-        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-ink-800 text-ink-400 border border-ink-700">
+        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-app-card text-ink-400 border border-app-border">
           {badge}
         </span>
       )}
@@ -222,12 +222,12 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
     { id: "settings", label: "Settings" },
   ];
 
-  const dp = "absolute top-full left-0 mt-0.5 min-w-[210px] w-max max-w-[290px] z-[200] bg-app-surface border border-ink-700 rounded-xl shadow-2xl p-1.5 space-y-px animate-fade-in backdrop-blur-md";
+  const dp = "absolute top-full left-0 mt-0.5 min-w-[210px] w-max max-w-[290px] z-[200] bg-app-surface border border-app-border rounded-xl shadow-2xl p-1.5 space-y-px animate-fade-in backdrop-blur-md";
 
   return (
     <div
       ref={barRef}
-      className="hidden lg:flex h-7 items-stretch bg-app-card border-b border-ink-800/80 px-1 select-none flex-shrink-0 text-[12px]"
+      className="hidden lg:flex h-7 items-stretch bg-app-card border-b border-app-border px-1 select-none flex-shrink-0 text-[12px]"
       role="menubar"
     >
       {menus.map(({ id, label }) => (

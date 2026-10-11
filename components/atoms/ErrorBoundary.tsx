@@ -104,7 +104,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <button
               type="button"
               onClick={this.handleReset}
-              className="px-2 py-0.5 rounded bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 border border-ink-600/60 transition-colors text-[11px]"
+              className="px-2 py-0.5 rounded bg-app-card hover:bg-ink-800 text-ink-200 hover:text-ink-50 border border-app-border transition-colors text-[11px]"
             >
               Retry
             </button>
@@ -121,7 +121,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         role="alert"
         className="min-h-screen w-full bg-app-bg text-ink-100 flex items-center justify-center p-4 select-text"
       >
-        <div className="w-full max-w-lg bg-app-surface border border-ink-700 rounded-2xl p-6 sm:p-7 shadow-2xl space-y-5 animate-fade-up">
+        <div className="w-full max-w-lg bg-app-surface border border-app-border rounded-2xl p-6 sm:p-7 shadow-2xl space-y-5 animate-fade-up">
           <div className="flex items-start gap-3.5">
             <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-500 flex items-center justify-center flex-shrink-0">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,7 +138,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-ink-800">
+          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-app-border">
             <button
               type="button"
               onClick={this.handleCopyDraft}
@@ -153,7 +153,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <button
               type="button"
               onClick={this.handleReset}
-              className="px-3.5 py-1.5 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 font-medium text-xs border border-ink-700 transition-colors"
+              className="px-3.5 py-1.5 rounded-lg bg-app-card hover:bg-ink-800 text-ink-200 hover:text-ink-50 font-medium text-xs border border-app-border transition-colors"
             >
               Recover View
             </button>
@@ -161,14 +161,14 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <button
               type="button"
               onClick={this.handleReload}
-              className="px-3.5 py-1.5 rounded-lg bg-ink-850 hover:bg-ink-800 text-ink-400 hover:text-ink-200 font-medium text-xs border border-ink-700/60 transition-colors"
+              className="px-3.5 py-1.5 rounded-lg bg-app-card hover:bg-ink-800 text-ink-400 hover:text-ink-200 font-medium text-xs border border-app-border transition-colors"
             >
               Reload Page
             </button>
           </div>
 
           {error && (
-            <details className="mt-2 text-xs border border-ink-800/80 rounded-lg bg-ink-950/60 p-2 text-ink-400">
+            <details className="mt-2 text-xs border border-app-border rounded-lg bg-app-card p-2 text-ink-400">
               <summary className="cursor-pointer select-none font-mono text-[11px] hover:text-ink-200">
                 Technical Error Details ({error.name})
               </summary>

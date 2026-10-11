@@ -47,8 +47,8 @@ export const TocPanel = memo(function TocPanel({
       />
 
       {/* Floating TOC Card */}
-      <div className="fixed top-24 right-4 sm:right-10 z-50 w-72 max-w-[calc(100vw-32px)] rounded-xl border border-ink-700/90 bg-app-surface/98 p-3.5 shadow-2xl backdrop-blur-md transition-all animate-fade-in text-xs">
-        <div className="flex items-center justify-between pb-2 mb-2 border-b border-ink-800">
+      <div className="fixed top-24 right-4 sm:right-10 z-50 w-72 max-w-[calc(100vw-32px)] rounded-xl border border-app-border bg-app-surface/98 p-3.5 shadow-2xl backdrop-blur-md transition-all animate-fade-in text-xs">
+        <div className="flex items-center justify-between pb-2 mb-2 border-b border-app-border">
           <div className="flex items-center gap-2">
             <svg
               className="w-4 h-4 text-highlight flex-shrink-0"
@@ -67,7 +67,7 @@ export const TocPanel = memo(function TocPanel({
             <span className="font-semibold text-ink-100 uppercase tracking-wider text-[11px]">
               Table of Contents
             </span>
-            <span className="text-[10px] bg-ink-800 text-ink-400 px-1.5 py-0.2 rounded border border-ink-700 font-mono">
+            <span className="text-[10px] bg-app-card text-ink-400 px-1.5 py-0.2 rounded border border-app-border font-mono">
               {entries.length}
             </span>
           </div>

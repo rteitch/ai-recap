@@ -190,10 +190,10 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
         onClick={onClose}
       >
       <div
-        className="w-full max-w-md bg-ink-900 border border-ink-600 rounded-xl p-5 sm:p-6 shadow-2xl animate-fade-up overscroll-contain"
+        className="w-full max-w-md bg-app-surface border border-app-border rounded-2xl p-5 sm:p-6 shadow-2xl animate-fade-up overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between pb-3.5 border-b border-ink-600/70">
+        <div className="flex items-center justify-between pb-3.5 border-b border-app-border">
           <h2
             id="backup-restore-title"
             className="text-sm font-medium text-ink-50 flex items-center gap-2"
@@ -297,7 +297,7 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
                 className={`w-full px-4 py-6 rounded-lg border-2 border-dashed transition-colors cursor-pointer text-center ${
                   isDragging
                     ? "border-highlight bg-highlight/10"
-                    : "border-ink-600 hover:border-ink-500 hover:bg-ink-800/50"
+                    : "border-app-border hover:border-highlight/50 hover:bg-ink-800/30"
                 }`}
               >
                 <svg
@@ -321,7 +321,7 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="p-3 rounded-lg bg-ink-800/50 border border-ink-600">
+                <div className="p-3 rounded-lg bg-app-card border border-app-border">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-ink-400">Backup Preview</span>
                     <button
@@ -402,11 +402,11 @@ export const BackupRestoreModal = memo(function BackupRestoreModal({
           </div>
         </div>
 
-        <div className="pt-3 border-t border-ink-600/70 text-right">
+        <div className="pt-3 border-t border-app-border text-right">
           <button
             type="button"
             onClick={onClose}
-            className="px-3.5 py-1.5 rounded-md bg-ink-800 hover:bg-ink-700 text-ink-200 text-xs transition-colors touch-manipulation"
+            className="px-3.5 py-1.5 rounded-lg bg-ink-800 hover:bg-ink-700 border border-app-border text-ink-200 text-xs transition-colors touch-manipulation"
           >
             Close
           </button>

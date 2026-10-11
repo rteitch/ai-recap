@@ -35,7 +35,7 @@ export const QuizCard = memo(function QuizCard({
   }
 
   return (
-    <li className="rounded-md bg-ink-800 overflow-hidden transition-all">
+    <li className="rounded-md bg-app-card border border-app-border overflow-hidden transition-all">
       <button
         type="button"
         id={`quiz-question-btn-${index}`}
@@ -99,12 +99,12 @@ export const QuizCard = memo(function QuizCard({
           id={`quiz-answer-${index}`}
           role="region"
           aria-labelledby={`quiz-question-btn-${index}`}
-          className="border-t border-ink-600/70 px-4 py-3 bg-ink-900/40"
+          className="border-t border-app-border px-4 py-3 bg-app-bg/40"
         >
           <div className="text-sm leading-relaxed text-ink-200">
             <FormattedText text={item.answer} />
           </div>
-          <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-ink-600/40 pt-2.5 text-xs no-print">
+          <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-app-border/60 pt-2.5 text-xs no-print">
             <div className="flex items-center gap-2">
               <span className="text-ink-400">Did you recall this?</span>
               <button
@@ -128,7 +128,7 @@ export const QuizCard = memo(function QuizCard({
                 className={`rounded px-2.5 py-1.5 transition-all active:scale-95 touch-manipulation flex items-center gap-1.5 ${
                   rating === "known"
                     ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-medium border border-emerald-500/40"
-                    : "bg-ink-800 text-ink-300 hover:text-ink-50 border border-ink-600"
+                    : "bg-app-card text-ink-300 hover:text-ink-50 border border-app-border"
                 }`}
               >
                 <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,7 +142,7 @@ export const QuizCard = memo(function QuizCard({
                 className={`rounded px-2.5 py-1.5 transition-all active:scale-95 touch-manipulation flex items-center gap-1.5 ${
                   rating === "learning"
                     ? "bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold border border-amber-500/40"
-                    : "bg-ink-800 text-ink-300 hover:text-ink-50 border border-ink-600"
+                    : "bg-app-card text-ink-300 hover:text-ink-50 border border-app-border"
                 }`}
               >
                 <svg className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

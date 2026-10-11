@@ -81,11 +81,11 @@ export const AppearanceModal = memo(function AppearanceModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl bg-ink-900 border border-ink-700/80 rounded-2xl shadow-2xl p-5 sm:p-6 text-ink-100 max-h-[90vh] flex flex-col overflow-hidden"
+        className="w-full max-w-3xl bg-app-surface border border-app-border rounded-2xl shadow-2xl p-5 sm:p-6 text-ink-100 max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-ink-800 flex-shrink-0">
+        <div className="flex items-center justify-between pb-4 border-b border-app-border flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-highlight/15 border border-highlight/30 flex items-center justify-center text-highlight">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +120,7 @@ export const AppearanceModal = memo(function AppearanceModal({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 pt-3 pb-2 border-b border-ink-800/80 flex-shrink-0">
+        <div className="flex items-center gap-2 pt-3 pb-2 border-b border-app-border flex-shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab("themes")}
@@ -299,8 +299,8 @@ export const AppearanceModal = memo(function AppearanceModal({
                         onClick={() => onSelectTheme(preset.id)}
                         className={`p-3 rounded-xl border text-left transition-all relative group flex flex-col justify-between ${
                           isSelected
-                            ? "border-highlight bg-ink-800/90 shadow-md ring-1 ring-highlight/50"
-                            : "border-ink-800 bg-ink-950/60 hover:bg-ink-800/40 hover:border-ink-700"
+                            ? "border-highlight bg-app-card shadow-md ring-1 ring-highlight/50"
+                            : "border-app-border bg-app-card/60 hover:bg-app-card hover:border-highlight/50"
                         }`}
                       >
                         <div className="flex items-start justify-between mb-2.5">
@@ -329,22 +329,22 @@ export const AppearanceModal = memo(function AppearanceModal({
                       {/* Swatch chips */}
                       <div className="flex items-center gap-1.5 pt-1">
                         <span
-                          className="w-5 h-5 rounded-md border border-ink-700 flex-shrink-0"
+                          className="w-5 h-5 rounded-md border border-app-border flex-shrink-0"
                           style={{ backgroundColor: preset.bgApp }}
                           title="App Background"
                         />
                         <span
-                          className="w-5 h-5 rounded-md border border-ink-700 flex-shrink-0"
+                          className="w-5 h-5 rounded-md border border-app-border flex-shrink-0"
                           style={{ backgroundColor: preset.bgSurface }}
                           title="Surface Card"
                         />
                         <span
-                          className="w-5 h-5 rounded-md border border-ink-700 flex-shrink-0"
+                          className="w-5 h-5 rounded-md border border-app-border flex-shrink-0"
                           style={{ backgroundColor: preset.ink100 }}
                           title="Text Ink"
                         />
                         <span
-                          className="w-5 h-5 rounded-md border border-ink-700 flex-shrink-0"
+                          className="w-5 h-5 rounded-md border border-app-border flex-shrink-0"
                           style={{ backgroundColor: preset.highlight }}
                           title="Highlight Brand"
                         />
@@ -368,7 +368,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                         type="checkbox"
                         checked={appearance.customTheme.isDark}
                         onChange={(e) => onUpdateCustomTheme({ isDark: e.target.checked })}
-                        className="rounded border-ink-600 text-highlight focus:ring-0"
+                        className="rounded border-app-border text-highlight focus:ring-0"
                       />
                     </label>
                   </div>
@@ -383,7 +383,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                           type="color"
                           value={appearance.customTheme.bgApp}
                           onChange={(e) => onUpdateCustomTheme({ bgApp: e.target.value })}
-                          className="w-8 h-8 rounded border border-ink-700 bg-transparent cursor-pointer"
+                          className="w-8 h-8 rounded border border-app-border bg-transparent cursor-pointer"
                         />
                         <span className="font-mono text-xs text-ink-300">
                           {appearance.customTheme.bgApp}
@@ -400,7 +400,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                           type="color"
                           value={appearance.customTheme.bgSidebar}
                           onChange={(e) => onUpdateCustomTheme({ bgSidebar: e.target.value })}
-                          className="w-8 h-8 rounded border border-ink-700 bg-transparent cursor-pointer"
+                          className="w-8 h-8 rounded border border-app-border bg-transparent cursor-pointer"
                         />
                         <span className="font-mono text-xs text-ink-300">
                           {appearance.customTheme.bgSidebar}
@@ -417,7 +417,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                           type="color"
                           value={appearance.customTheme.bgSurface}
                           onChange={(e) => onUpdateCustomTheme({ bgSurface: e.target.value })}
-                          className="w-8 h-8 rounded border border-ink-700 bg-transparent cursor-pointer"
+                          className="w-8 h-8 rounded border border-app-border bg-transparent cursor-pointer"
                         />
                         <span className="font-mono text-xs text-ink-300">
                           {appearance.customTheme.bgSurface}
@@ -434,7 +434,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                           type="color"
                           value={appearance.customTheme.highlight}
                           onChange={(e) => onUpdateCustomTheme({ highlight: e.target.value })}
-                          className="w-8 h-8 rounded border border-ink-700 bg-transparent cursor-pointer"
+                          className="w-8 h-8 rounded border border-app-border bg-transparent cursor-pointer"
                         />
                         <span className="font-mono text-xs text-ink-300">
                           {appearance.customTheme.highlight}
@@ -468,8 +468,8 @@ export const AppearanceModal = memo(function AppearanceModal({
                         onClick={() => onSelectEditorFont(font.id)}
                         className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                           isSelected
-                            ? "border-highlight bg-ink-800/90 ring-1 ring-highlight/50 shadow-sm"
-                            : "border-ink-800 bg-ink-950/60 hover:bg-ink-800/40 hover:border-ink-700"
+                            ? "border-highlight bg-app-card ring-1 ring-highlight/50 shadow-sm"
+                            : "border-app-border bg-app-card/60 hover:bg-app-card hover:border-highlight/50"
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -482,7 +482,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                           {font.description}
                         </span>
                         <div
-                          className="text-xs text-highlight bg-ink-900/90 px-2 py-1 rounded border border-ink-700/50"
+                          className="text-xs text-highlight bg-app-card px-2 py-1 rounded border border-app-border"
                           style={{ fontFamily: font.family }}
                         >
                           const recall = (n) =&gt; n &gt;= 0.85;
@@ -494,7 +494,7 @@ export const AppearanceModal = memo(function AppearanceModal({
 
                 {/* Custom system font input */}
                 {appearance.editorFont === "custom" && (
-                  <div className="p-3 rounded-xl border border-ink-700 bg-ink-950/80 space-y-2">
+                  <div className="p-3 rounded-xl border border-app-border bg-app-card space-y-2">
                     <label className="text-xs font-medium text-ink-300 block">
                       Local Installed System Font Name
                     </label>
@@ -503,7 +503,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                       value={appearance.customSystemFont}
                       onChange={(e) => onSetCustomSystemFont(e.target.value)}
                       placeholder="e.g. Cascadia Code, SF Pro, Consolas, Menlo"
-                      className="w-full px-3 py-1.5 text-xs bg-ink-900 border border-ink-700 rounded-lg text-ink-100 focus:outline-none focus:border-highlight"
+                      className="w-full px-3 py-1.5 text-xs bg-app-card border border-app-border rounded-lg text-ink-100 focus:outline-none focus:border-highlight"
                     />
                     <span className="text-[10px] text-ink-500 block">
                       Zero browser memory overhead. Uses any font already installed on your operating system.
@@ -513,7 +513,7 @@ export const AppearanceModal = memo(function AppearanceModal({
               </div>
 
               {/* UI & Reading Font */}
-              <div className="space-y-3 pt-4 border-t border-ink-800/80">
+              <div className="space-y-3 pt-4 border-t border-app-border">
                 <div>
                   <label className="text-xs font-bold text-ink-200 uppercase tracking-wider block">
                     UI &amp; Study Reading Font
@@ -533,8 +533,8 @@ export const AppearanceModal = memo(function AppearanceModal({
                         onClick={() => onSelectUIFont(font.id)}
                         className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                           isSelected
-                            ? "border-highlight bg-ink-800/90 ring-1 ring-highlight/50 shadow-sm"
-                            : "border-ink-800 bg-ink-950/60 hover:bg-ink-800/40 hover:border-ink-700"
+                            ? "border-highlight bg-app-card ring-1 ring-highlight/50 shadow-sm"
+                            : "border-app-border bg-app-card/60 hover:bg-app-card hover:border-highlight/50"
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -547,7 +547,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                           {font.description}
                         </span>
                         <div
-                          className="text-xs text-ink-100 bg-ink-900/90 px-2 py-1 rounded border border-ink-700/50"
+                          className="text-xs text-ink-100 bg-app-card px-2 py-1 rounded border border-app-border"
                           style={{ fontFamily: font.family }}
                         >
                           Active Recall: 4 quiz cards mastered
@@ -559,7 +559,7 @@ export const AppearanceModal = memo(function AppearanceModal({
               </div>
 
               {/* Font Size Selector */}
-              <div className="space-y-2 pt-4 border-t border-ink-800/80">
+              <div className="space-y-2 pt-4 border-t border-app-border">
                 <label className="text-xs font-bold text-ink-200 uppercase tracking-wider block">
                   Interface &amp; Editor Text Size
                 </label>
@@ -574,7 +574,7 @@ export const AppearanceModal = memo(function AppearanceModal({
                         className={`py-2 px-3 rounded-xl border text-center transition-all ${
                           isSelected
                             ? "border-highlight bg-highlight text-highlight-text font-bold shadow-sm"
-                            : "border-ink-800 bg-ink-950/60 text-ink-300 hover:bg-ink-800/50 hover:text-ink-100"
+                            : "border-app-border bg-app-card text-ink-300 hover:bg-ink-800/50 hover:text-ink-100"
                         }`}
                       >
                         <span className="text-xs block">{size.name}</span>
@@ -589,7 +589,7 @@ export const AppearanceModal = memo(function AppearanceModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-3 border-t border-ink-800 flex-shrink-0">
+        <div className="flex items-center justify-between pt-3 border-t border-app-border flex-shrink-0">
           <button
             type="button"
             onClick={onReset}

@@ -1769,9 +1769,9 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-72 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700 bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1"
+                    className="fixed z-50 w-72 max-w-[calc(100vw-24px)] rounded-xl border border-app-border bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1"
                   >
-                    <div className="px-2 py-1 text-[11px] font-semibold text-highlight border-b border-ink-800 mb-1 flex items-center justify-between">
+                    <div className="px-2 py-1 text-[11px] font-semibold text-highlight border-b border-app-border mb-1 flex items-center justify-between">
                       <span>Study Note Templates</span>
                       <button
                         type="button"
@@ -1833,9 +1833,9 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-80 sm:w-96 max-w-[calc(100vw-24px)] max-h-[75vh] overflow-y-auto rounded-xl border border-ink-700 bg-app-surface/98 p-3 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
+                    className="fixed z-50 w-80 sm:w-96 max-w-[calc(100vw-24px)] max-h-[75vh] overflow-y-auto rounded-xl border border-app-border bg-app-surface/98 p-3 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
                   >
-                    <div className="flex items-center justify-between pb-1.5 border-b border-ink-800">
+                    <div className="flex items-center justify-between pb-1.5 border-b border-app-border">
                       <span className="text-xs font-semibold text-ink-100 flex items-center gap-1.5">
                         <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12h2l3 9 4-18 3 9h4" />
@@ -1859,7 +1859,7 @@ flowchart TD
                       value={formulaSearch}
                       onChange={(e) => setFormulaSearch(e.target.value)}
                       placeholder="Search formula (e.g. integral, square root, matrix)..."
-                      className="w-full bg-ink-850 border border-ink-700/80 rounded-md px-2.5 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight"
+                      className="w-full bg-app-card border border-app-border rounded-md px-2.5 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight"
                     />
 
                     <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-thin">
@@ -1871,7 +1871,7 @@ flowchart TD
                           className={`flex-shrink-0 px-2 py-0.5 rounded text-[10px] transition-colors ${
                             selectedCategory === tab.id
                               ? "bg-highlight text-highlight-text font-bold"
-                              : "bg-ink-800 text-ink-400 hover:text-ink-200"
+                              : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border/40"
                           }`}
                         >
                           {tab.label}
@@ -1893,7 +1893,7 @@ flowchart TD
                             </code>
                             <div className="text-[11px] text-ink-300 truncate">{item.label}</div>
                           </div>
-                          <span className="text-[9px] uppercase px-1 rounded bg-ink-800 text-ink-400 font-mono border border-ink-700">
+                          <span className="text-[9px] uppercase px-1 rounded bg-app-card text-ink-400 font-mono border border-app-border">
                             {item.category}
                           </span>
                         </button>
@@ -1935,15 +1935,15 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-96 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700/90 bg-app-surface/98 p-2.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
+                    className="fixed z-50 w-96 max-w-[calc(100vw-24px)] rounded-xl border border-app-border bg-app-surface/98 p-2.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
                   >
-                    <div className="flex items-center justify-between pb-1.5 border-b border-ink-800">
+                    <div className="flex items-center justify-between pb-1.5 border-b border-app-border">
                       <div className="flex items-center gap-1.5">
                         <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
                         </svg>
                         <span className="text-xs font-semibold text-highlight">Mermaid Diagram Gallery</span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-ink-800 text-ink-400 border border-ink-750">
+                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-app-card text-ink-400 border border-app-border">
                           {MERMAID_TEMPLATES.length} templates
                         </span>
                       </div>
@@ -1962,7 +1962,7 @@ flowchart TD
                       placeholder="Search diagram templates (flowchart, mindmap, erd...)"
                       value={mermaidSearch}
                       onChange={(e) => setMermaidSearch(e.target.value)}
-                      className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-ink-900 border border-ink-700 text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight"
+                      className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-app-card border border-app-border text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight"
                     />
 
                     {/* Category Filter Tabs */}
@@ -1975,7 +1975,7 @@ flowchart TD
                           className={`px-2 py-0.5 rounded-md font-mono whitespace-nowrap transition-colors ${
                             mermaidCategory === cat
                               ? "bg-highlight text-highlight-text font-bold"
-                              : "bg-ink-850 text-ink-300 hover:bg-ink-800 hover:text-ink-100 border border-ink-750"
+                              : "bg-app-card text-ink-300 hover:bg-ink-800 hover:text-ink-100 border border-app-border"
                           }`}
                         >
                           {cat}
@@ -1990,7 +1990,7 @@ flowchart TD
                           key={tmpl.id}
                           type="button"
                           onClick={() => handleInsertMermaid(tmpl.code, tmpl.name)}
-                          className="w-full text-left p-2 rounded-lg hover:bg-ink-800 transition-colors group flex items-start justify-between gap-2 border border-transparent hover:border-ink-700"
+                          className="w-full text-left p-2 rounded-lg hover:bg-ink-800 transition-colors group flex items-start justify-between gap-2 border border-transparent hover:border-app-border"
                         >
                           <div className="min-w-0 flex-1">
                             <div className="font-semibold text-xs text-ink-100 group-hover:text-highlight truncate">
@@ -2000,7 +2000,7 @@ flowchart TD
                               {tmpl.description}
                             </div>
                           </div>
-                          <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-ink-850 text-ink-400 font-mono border border-ink-750 flex-shrink-0">
+                          <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-app-card text-ink-400 font-mono border border-app-border flex-shrink-0">
                             {tmpl.category}
                           </span>
                         </button>
@@ -2289,7 +2289,7 @@ flowchart TD
         </div>
 
         {effectiveMode === "split" ? (
-          <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-ink-800/80 overflow-hidden">
+          <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-app-border overflow-hidden">
             {/* Left: Textarea with Line Numbers */}
             <div className="flex-1 min-h-0 flex overflow-hidden">
               <div
@@ -2297,7 +2297,7 @@ flowchart TD
                 onWheel={(e) => {
                   if (activeTextareaRef.current) activeTextareaRef.current.scrollTop += e.deltaY;
                 }}
-                className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0"
+                className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-app-border/40 overflow-hidden flex-shrink-0"
                 style={{
                   paddingTop: "16px",
                   paddingBottom: "16px",
@@ -2380,7 +2380,7 @@ flowchart TD
 
             {/* Right: Live KaTeX Preview */}
             <div className="flex-1 min-h-0 p-4 overflow-y-auto scrollbar-thin bg-app-surface/50 select-text">
-              <div className="text-[10px] font-mono text-ink-400 uppercase tracking-wider mb-2 border-b border-ink-800/60 pb-1 flex items-center justify-between">
+              <div className="text-[10px] font-mono text-ink-400 uppercase tracking-wider mb-2 border-b border-app-border/60 pb-1 flex items-center justify-between">
                 <span>Live KaTeX Preview</span>
                 <span className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-sans text-[10px] font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
@@ -2404,7 +2404,7 @@ flowchart TD
               onWheel={(e) => {
                 if (activeTextareaRef.current) activeTextareaRef.current.scrollTop += e.deltaY;
               }}
-              className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-ink-850 overflow-hidden flex-shrink-0"
+              className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-app-border/40 overflow-hidden flex-shrink-0"
               style={{
                 paddingTop: "16px",
                 paddingBottom: "16px",
@@ -2499,10 +2499,10 @@ flowchart TD
       </div>
 
       {/* IDE-STYLE BOTTOM WORKSTATION STATUS BAR */}
-      <footer className="h-6 px-3 border-t border-ink-800/80 bg-app-card text-[10px] font-mono text-ink-400 flex items-center justify-between select-none flex-shrink-0 overflow-hidden">
+      <footer className="h-6 px-3 border-t border-app-border bg-app-card text-[10px] font-mono text-ink-400 flex items-center justify-between select-none flex-shrink-0 overflow-hidden">
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           {/* Live Auto-save indicator */}
-          <span className="flex items-center gap-1.5 pr-1 border-r border-ink-800 flex-shrink-0">
+          <span className="flex items-center gap-1.5 pr-1 border-r border-app-border flex-shrink-0">
             <span
               className={`w-1.5 h-1.5 rounded-full ${
                 saveStatus === "saved"
@@ -2548,7 +2548,7 @@ flowchart TD
       {/* Safe Template Insertion Modal (Append to Bottom vs Replace Note) */}
       {pendingTemplate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-fade-in">
-          <div className="bg-app-surface border border-ink-700 rounded-2xl p-5 max-w-md w-full shadow-2xl space-y-4">
+          <div className="bg-app-surface border border-app-border rounded-2xl p-5 max-w-md w-full shadow-2xl space-y-4">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2.5">
                 <span className="p-2 rounded-lg bg-highlight/15 border border-highlight/30 flex-shrink-0">
@@ -2574,9 +2574,9 @@ flowchart TD
             </div>
 
             {/* Template description & snippet preview */}
-            <div className="p-3 rounded-xl bg-app-card border border-ink-800 text-xs space-y-2">
+            <div className="p-3 rounded-xl bg-app-card border border-app-border text-xs space-y-2">
               <p className="text-ink-300 font-medium">{pendingTemplate.description}</p>
-              <div className="text-[11px] font-mono text-ink-400 line-clamp-3 bg-app-bg/80 p-2 rounded-lg border border-ink-700/50">
+              <div className="text-[11px] font-mono text-ink-400 line-clamp-3 bg-app-bg/80 p-2 rounded-lg border border-app-border/60">
                 {pendingTemplate.content.slice(0, 180)}...
               </div>
             </div>
@@ -2601,7 +2601,7 @@ flowchart TD
                   const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
                   setViewMode(isMobile ? "preview" : "split");
                 }}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-ink-800 hover:bg-ink-700 text-ink-100 border border-ink-700 transition-colors"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-app-card hover:bg-ink-800 text-ink-100 border border-app-border transition-colors"
                 title="Keep existing notes and append this template at the bottom"
               >
                 Append to Bottom

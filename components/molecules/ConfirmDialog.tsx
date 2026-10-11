@@ -49,7 +49,7 @@ export const ConfirmDialog = memo(function ConfirmDialog({
       onClick={onCancel}
     >
       <div
-        className="w-full max-w-sm rounded-xl border border-ink-700 bg-ink-900 p-5 shadow-2xl space-y-4 animate-fade-up select-none"
+        className="w-full max-w-sm rounded-xl border border-app-border bg-app-surface p-5 shadow-2xl space-y-4 animate-fade-up select-none"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start gap-3">
@@ -90,11 +90,11 @@ export const ConfirmDialog = memo(function ConfirmDialog({
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2 pt-2 border-t border-ink-800/80">
+        <div className="flex items-center justify-end gap-2 pt-2 border-t border-app-border">
           <button
             type="button"
             onClick={onCancel}
-            className="px-3 py-1.5 rounded-md text-xs font-medium text-ink-300 hover:text-ink-100 hover:bg-ink-800 border border-ink-700/60 transition-colors"
+            className="px-3 py-1.5 rounded-md text-xs font-medium text-ink-300 hover:text-ink-100 hover:bg-ink-800 border border-app-border transition-colors"
           >
             {cancelLabel}
           </button>

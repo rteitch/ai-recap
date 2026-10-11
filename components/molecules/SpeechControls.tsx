@@ -57,7 +57,7 @@ export const SpeechControls = memo(function SpeechControls({
       <button
         type="button"
         onClick={onCycleRate}
-        className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-ink-900/60 border border-ink-600/70 text-ink-300 hover:text-ink-100 transition-colors touch-manipulation"
+        className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-app-card border border-app-border text-ink-300 hover:text-ink-100 transition-colors touch-manipulation"
         title="Change playback speed (1x, 1.25x, 1.5x)"
       >
         {speechRate}x

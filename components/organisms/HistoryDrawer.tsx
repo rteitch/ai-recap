@@ -175,11 +175,11 @@ export const HistoryDrawer = memo(function HistoryDrawer({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-ink-900 border-l border-ink-600 h-full p-5 sm:p-6 pb-[max(1.5rem,env(safe-area-inset-bottom,1.5rem))] flex flex-col shadow-2xl animate-slide-left overscroll-contain"
+        className="w-full max-w-md bg-app-surface border-l border-app-border h-full p-5 sm:p-6 pb-[max(1.5rem,env(safe-area-inset-bottom,1.5rem))] flex flex-col shadow-2xl animate-slide-left overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-ink-700/70">
+        <div className="flex items-center justify-between pb-3 border-b border-app-border">
           <div className="flex items-center gap-2">
             <svg className="w-4 h-4 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -190,7 +190,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 className="text-sm font-semibold text-ink-50 flex items-center gap-2"
               >
                 <span>Notes History</span>
-                <span className="text-[10px] bg-ink-800 text-ink-300 px-1.5 py-0.2 rounded border border-ink-700 font-mono">
+                <span className="text-[10px] bg-app-card text-ink-300 px-1.5 py-0.2 rounded border border-app-border font-mono">
                   {history.length}/50
                 </span>
               </h2>
@@ -248,7 +248,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap ${
                   activeFilter === "all"
                     ? "bg-highlight/20 text-highlight border border-highlight/40 font-medium"
-                    : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
+                    : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border"
                 }`}
               >
                 All ({history.length})
@@ -259,7 +259,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap flex items-center gap-1 ${
                   activeFilter === "pinned"
                     ? "bg-highlight/15 text-highlight border border-highlight/40 font-medium"
-                    : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
+                    : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border"
                 }`}
               >
                 <svg className="w-3 h-3 text-highlight" fill="currentColor" viewBox="0 0 20 20">
@@ -273,7 +273,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap ${
                   activeFilter === "perlu-diulang"
                     ? "bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-500/30 font-medium"
-                    : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
+                    : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border"
                 }`}
               >
                 Needs Review ({history.filter((h) => h.status === "perlu-diulang").length})
@@ -284,7 +284,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap ${
                   activeFilter === "dikuasai"
                     ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 font-medium"
-                    : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
+                    : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border"
                 }`}
               >
                 Mastered ({history.filter((h) => h.status === "dikuasai").length})
@@ -294,8 +294,8 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 onClick={() => setActiveFilter("draft")}
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap ${
                   activeFilter === "draft"
-                    ? "bg-ink-700 text-ink-100 border border-ink-500 font-medium"
-                    : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
+                    ? "bg-ink-700 text-ink-100 border border-app-border font-medium"
+                    : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border"
                 }`}
               >
                 Draft ({history.filter((h) => h.result.quiz.length === 0).length})
@@ -304,7 +304,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
               <button
                 type="button"
                 onClick={() => setSortMode((s) => s === "date" ? "title" : "date")}
-                className="ml-auto flex-shrink-0 px-2 py-0.5 rounded text-[11px] text-ink-400 hover:text-ink-200 bg-ink-800 border border-ink-700 transition-colors"
+                className="ml-auto flex-shrink-0 px-2 py-0.5 rounded text-[11px] text-ink-400 hover:text-ink-200 bg-app-card border border-app-border transition-colors"
                 title={sortMode === "date" ? "Sort by date (newest first)" : "Sort by title (A-Z)"}
                 aria-label="Toggle sort mode"
               >
@@ -314,7 +314,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 <select
                   value={activeNotebook}
                   onChange={(e) => setActiveNotebook(e.target.value)}
-                  className="ml-1 px-1.5 py-0.5 rounded text-[11px] text-ink-400 bg-ink-800 border border-ink-700 cursor-pointer focus:outline-none focus:border-highlight/50"
+                  className="ml-1 px-1.5 py-0.5 rounded text-[11px] text-ink-400 bg-app-card border border-app-border cursor-pointer focus:outline-none focus:border-highlight/50"
                   title="Filter by notebook"
                   aria-label="Filter by notebook"
                 >
@@ -389,7 +389,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                   className={`group cursor-pointer rounded-lg border p-3 hover:border-highlight/50 hover:bg-ink-800 transition-all active:scale-[0.99] touch-manipulation ${
                     item.pinned
                       ? "border-highlight/40 bg-ink-850/90 shadow-sm"
-                      : "border-ink-700/80 bg-ink-800/70"
+                      : "border-app-border bg-app-card"
                   } ${isFocused ? "ring-1 ring-highlight/50 border-highlight/40" : ""}`}
                 >
                   <div className="flex items-center justify-between gap-2 text-xs text-ink-400 mb-1.5">
@@ -450,7 +450,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                           Draft
                         </span>
                       ) : (
-                        <span className="text-[10px] bg-ink-900 px-1.5 py-0.5 rounded text-ink-300 border border-ink-700">
+                        <span className="text-[10px] bg-app-card px-1.5 py-0.5 rounded text-ink-300 border border-app-border">
                           {item.result.quiz.length} Q
                         </span>
                       )}
@@ -519,7 +519,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                   {(item.notebook || (item.tags && item.tags.length > 0)) && (
                     <div className="flex items-center gap-1.5 text-[10px] text-ink-400 flex-wrap pt-0.5">
                       {item.notebook && (
-                        <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-ink-900 border border-ink-700 text-ink-300">
+                        <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-app-card border border-app-border text-ink-300">
                           {item.notebook}
                         </span>
                       )}
@@ -528,7 +528,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                           {item.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="font-mono text-[9px] px-1 py-0.2 rounded bg-ink-900/80 border border-ink-700/60 text-highlight"
+                              className="font-mono text-[9px] px-1 py-0.2 rounded bg-app-card border border-app-border text-highlight"
                             >
                               #{tag}
                             </span>
@@ -550,7 +550,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
 
         {/* Footer */}
         {history.length > 0 && (
-          <div className="pt-3 border-t border-ink-600/70 flex items-center justify-between text-xs">
+          <div className="pt-3 border-t border-app-border flex items-center justify-between text-xs">
             <span className="text-ink-500 text-[11px]">Max. 50 local notes</span>
             <button
               type="button"

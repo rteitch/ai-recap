@@ -137,7 +137,7 @@ export function FindReplaceModal({
               setSearchQuery(e.target.value);
               setCurrentIndex(0);
             }}
-            className="w-full px-2.5 py-1.5 bg-ink-850 text-ink-100 placeholder-ink-400 border border-ink-700 rounded-lg focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 text-xs transition-colors"
+            className="w-full px-2.5 py-1.5 bg-ink-950 text-ink-100 placeholder-ink-400 border border-app-border rounded-lg focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 text-xs transition-colors"
             placeholder="Search…"
           />
         </div>
@@ -150,7 +150,7 @@ export function FindReplaceModal({
             type="text"
             value={replaceQuery}
             onChange={(e) => setReplaceQuery(e.target.value)}
-            className="w-full px-2.5 py-1.5 bg-ink-850 text-ink-100 placeholder-ink-400 border border-ink-700 rounded-lg focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 text-xs transition-colors"
+            className="w-full px-2.5 py-1.5 bg-ink-950 text-ink-100 placeholder-ink-400 border border-app-border rounded-lg focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight/30 text-xs transition-colors"
             placeholder="Replace with…"
           />
         </div>
@@ -158,7 +158,7 @@ export function FindReplaceModal({
           <button
             type="button"
             onClick={() => setCaseSensitive((c) => !c)}
-            className="px-2.5 py-1 rounded-md bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 border border-ink-700 transition-colors font-medium text-xs"
+            className="px-2.5 py-1 rounded-md bg-app-card hover:bg-ink-800 text-ink-200 hover:text-ink-50 border border-app-border transition-colors font-medium text-xs"
           >
             {caseSensitive ? "Case Sensitive" : "Case Insensitive"}
           </button>
@@ -173,7 +173,7 @@ export function FindReplaceModal({
             type="button"
             onClick={handlePrev}
             disabled={matches.length === 0}
-            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 border border-ink-700 disabled:opacity-40 transition-colors font-medium"
+            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-app-card hover:bg-ink-800 text-ink-200 hover:text-ink-50 border border-app-border disabled:opacity-40 transition-colors font-medium"
           >
             Previous
           </button>
@@ -181,7 +181,7 @@ export function FindReplaceModal({
             type="button"
             onClick={handleNext}
             disabled={matches.length === 0}
-            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 border border-ink-700 disabled:opacity-40 transition-colors font-medium"
+            className="flex-1 px-2.5 py-1 text-xs rounded-md bg-app-card hover:bg-ink-800 text-ink-200 hover:text-ink-50 border border-app-border disabled:opacity-40 transition-colors font-medium"
           >
             Next
           </button>

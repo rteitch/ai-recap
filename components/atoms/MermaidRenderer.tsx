@@ -216,8 +216,8 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
 
   if (renderError && !svgContent) {
     return (
-      <div className="my-3 rounded-lg border border-ink-700 bg-ink-950 overflow-hidden shadow-md text-xs font-mono">
-        <div className="flex items-center justify-between px-3 py-1.5 bg-ink-900 border-b border-ink-800 text-ink-400">
+      <div className="my-3 rounded-lg border border-app-border bg-app-surface overflow-hidden shadow-md text-xs font-mono">
+        <div className="flex items-center justify-between px-3 py-1.5 bg-app-card border-b border-app-border text-ink-400">
           <div className="flex items-center gap-1.5 text-highlight">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -240,9 +240,9 @@ export const MermaidRenderer = memo(function MermaidRenderer({ code }: MermaidRe
   }
 
   return (
-    <div className="my-4 rounded-xl border border-ink-700/80 bg-app-surface overflow-hidden shadow-lg group print:bg-white print:border-gray-200 print:shadow-none print:my-3 print:break-inside-avoid print:page-break-inside-avoid">
+    <div className="my-4 rounded-xl border border-app-border bg-app-surface overflow-hidden shadow-lg group print:bg-white print:border-gray-200 print:shadow-none print:my-3 print:break-inside-avoid print:page-break-inside-avoid">
       {/* Header bar */}
-      <div className="flex items-center justify-between px-3 py-1.5 bg-app-card border-b border-ink-800/80 text-ink-400 print:hidden">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-app-card border-b border-app-border text-ink-400 print:hidden">
         <div className="flex items-center gap-2">
           <svg className="w-3.5 h-3.5 text-highlight flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />

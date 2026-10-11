@@ -107,7 +107,7 @@ export const NoteTagBar = memo(function NoteTagBar({
         return (
           <span
             key={tag}
-            className="group/chip inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-ink-850 border border-ink-700/80 text-[10px] text-ink-200 hover:border-highlight/50 transition-all select-none flex-shrink-0 whitespace-nowrap"
+            className="group/chip inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-app-card border border-app-border text-[10px] text-ink-200 hover:border-highlight/50 transition-all select-none flex-shrink-0 whitespace-nowrap"
           >
             <span className={`w-1.5 h-1.5 rounded-full ${dotColor} flex-shrink-0`} />
             <button
@@ -144,7 +144,7 @@ export const NoteTagBar = memo(function NoteTagBar({
         className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all border flex-shrink-0 whitespace-nowrap ${
           isOpen
             ? "bg-highlight text-highlight-text border-highlight font-semibold shadow-xs"
-            : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
+            : "text-ink-300 hover:text-ink-100 bg-app-card hover:bg-ink-800 border-app-border"
         }`}
         title="Add tag to note"
         aria-label="Add tag to note"
@@ -174,9 +174,9 @@ export const NoteTagBar = memo(function NoteTagBar({
               top: `${popoverPos.top}px`,
               left: `${popoverPos.left}px`,
             }}
-            className="fixed z-50 w-56 max-w-[calc(100vw-24px)] rounded-lg border border-ink-700 bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1.5"
+            className="fixed z-50 w-56 max-w-[calc(100vw-24px)] rounded-lg border border-app-border bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1.5"
           >
-            <div className="flex items-center justify-between pb-1 border-b border-ink-800 text-[11px] font-semibold text-ink-300">
+            <div className="flex items-center justify-between pb-1 border-b border-app-border text-[11px] font-semibold text-ink-300">
               <span>Add or Create Tag</span>
               <span className="text-[9px] text-ink-500 font-mono">Esc to close</span>
             </div>
@@ -200,7 +200,7 @@ export const NoteTagBar = memo(function NoteTagBar({
                   }
                 }}
                 placeholder="e.g. physics, exam..."
-                className="w-full bg-ink-900 border border-ink-700 rounded pl-5 pr-2 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight transition-colors"
+                className="w-full bg-app-card border border-app-border rounded pl-5 pr-2 py-1 text-xs text-ink-100 placeholder-ink-500 focus:outline-none focus:border-highlight transition-colors"
               />
             </div>
 
@@ -242,7 +242,7 @@ export const NoteTagBar = memo(function NoteTagBar({
             )}
 
             {/* Tip */}
-            <div className="pt-1 border-t border-ink-800/80 text-[10px] text-ink-500 italic px-1">
+            <div className="pt-1 border-t border-app-border text-[10px] text-ink-500 italic px-1">
               Tip: Type <code className="text-highlight">#tag</code> in note to auto-tag
             </div>
           </div>

@@ -99,7 +99,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
             }
           }
         }}
-        className="group relative min-h-[220px] rounded-lg border border-ink-600 bg-ink-800 p-6 sm:p-7 flex flex-col justify-between cursor-pointer hover:border-highlight/50 transition-all active:scale-[0.99] touch-manipulation shadow-lg focus:outline-none focus:ring-2 focus:ring-highlight select-none"
+        className="group relative min-h-[220px] rounded-lg border border-app-border bg-app-card p-6 sm:p-7 flex flex-col justify-between cursor-pointer hover:border-highlight/50 transition-all active:scale-[0.99] touch-manipulation shadow-lg focus:outline-none focus:ring-2 focus:ring-highlight select-none"
         style={{ transform: `translateX(${swipeOffset}px)`, transition: swipeOffset === 0 ? "transform 0.25s ease-out" : "none" }}
       >
         <div>
@@ -126,7 +126,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
         {/* Rating / Prompt on flipped card */}
         {isCardFlipped ? (
           <div
-            className="mt-6 pt-4 border-t border-ink-600/60 flex flex-wrap items-center justify-between gap-2.5 no-print"
+            className="mt-6 pt-4 border-t border-app-border/60 flex flex-wrap items-center justify-between gap-2.5 no-print"
             onClick={(e) => e.stopPropagation()}
           >
             <span className="text-xs text-ink-400">Did you recall this?</span>
@@ -137,7 +137,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                 className={`rounded px-3 py-1.5 transition-all active:scale-95 touch-manipulation flex items-center gap-1.5 ${
                   ratings[activeCardIndex] === "known"
                     ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-medium border border-emerald-500/30"
-                    : "bg-ink-900 text-ink-300 hover:text-ink-50 border border-ink-600"
+                    : "bg-app-card text-ink-300 hover:text-ink-50 border border-app-border"
                 }`}
               >
                 <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,7 +151,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                 className={`rounded px-3 py-1.5 transition-all active:scale-95 touch-manipulation flex items-center gap-1.5 ${
                   ratings[activeCardIndex] === "learning"
                     ? "bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold border border-amber-500/40"
-                    : "bg-ink-900 text-ink-300 hover:text-ink-50 border border-ink-600"
+                    : "bg-app-card text-ink-300 hover:text-ink-50 border border-app-border"
                 }`}
               >
                 <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,7 +202,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
             triggerHaptic(8);
             onPrevCard();
           }}
-          className="rounded-md border border-ink-600 bg-ink-800 px-3.5 py-1.5 text-xs text-ink-200 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors touch-manipulation flex items-center gap-1"
+          className="rounded-md border border-app-border bg-app-card px-3.5 py-1.5 text-xs text-ink-200 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors touch-manipulation flex items-center gap-1"
         >
           <svg
             className="w-3.5 h-3.5"
@@ -230,7 +230,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
             triggerHaptic(8);
             onNextCard();
           }}
-          className="rounded-md border border-ink-600 bg-ink-800 px-3.5 py-1.5 text-xs text-ink-200 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors touch-manipulation flex items-center gap-1"
+          className="rounded-md border border-app-border bg-app-card px-3.5 py-1.5 text-xs text-ink-200 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors touch-manipulation flex items-center gap-1"
         >
           <span>Next</span>
           <svg

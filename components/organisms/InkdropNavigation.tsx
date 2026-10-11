@@ -114,12 +114,12 @@ export const InkdropNavigation = memo(function InkdropNavigation({
   return (
     <aside
       style={{ width: width ? `${width}px` : undefined }}
-      className={`h-full flex flex-col bg-app-sidebar border-r border-ink-800/80 text-ink-200 select-none flex-shrink-0 text-[13px] transition-all duration-75 ${
+      className={`h-full flex flex-col bg-app-sidebar text-ink-200 select-none flex-shrink-0 text-[13px] transition-all duration-75 ${
         width ? "" : "w-full"
       }`}
     >
       {/* Top Header: App Branding */}
-      <div className={`h-11 px-3.5 items-center justify-between border-b border-ink-800/80 bg-app-sidebar ${hideHeader ? "hidden sm:flex" : "flex"}`}>
+      <div className={`h-11 px-3.5 items-center justify-between border-b border-app-border bg-app-sidebar ${hideHeader ? "hidden sm:flex" : "flex"}`}>
         <div className="flex items-center gap-2">
           <Image
             src="/android-chrome-192x192.png"
@@ -131,7 +131,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
           <span className="font-serif font-bold text-sm text-ink-100 tracking-tight">
             AI Recap
           </span>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-ink-800/80 text-ink-400 border border-ink-700/50">
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-ink-800/80 text-ink-400 border border-app-border/60">
             v2.1
           </span>
         </div>
@@ -217,7 +217,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
             <div className="space-y-0.5 mt-0.5">
               {/* Inline Add Notebook Input */}
               {isAddingNotebook && (
-                <div className="px-2 py-1.5 bg-ink-900 border border-ink-700 rounded-md my-1 animate-fade-in">
+                <div className="px-2 py-1.5 bg-ink-900 border border-app-border rounded-md my-1 animate-fade-in">
                   <input
                     type="text"
                     value={newNotebookName}
@@ -236,7 +236,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                     }}
                     className="w-full bg-transparent text-xs text-ink-100 placeholder-ink-500 focus:outline-none"
                   />
-                  <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-ink-800 text-[10px]">
+                  <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border/60 text-[10px]">
                     <button
                       type="button"
                       onClick={() => setIsAddingNotebook(false)}
@@ -285,7 +285,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                         }}
                         className="w-full bg-transparent text-xs text-ink-100 focus:outline-none"
                       />
-                      <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-ink-800 text-[10px]">
+                      <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border/60 text-[10px]">
                         <button
                           type="button"
                           onClick={() => setEditingNotebookId(null)}
@@ -512,7 +512,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                 }}
                 className="w-full bg-transparent text-xs text-ink-100 focus:outline-none"
               />
-              <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-ink-800 text-[10px]">
+              <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border/60 text-[10px]">
                 <button
                   type="button"
                   onClick={() => {
@@ -580,7 +580,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
       </div>
 
       {/* Bottom Footer: Enterprise Utility Dock */}
-      <div className="p-2 border-t border-ink-800/80 bg-app-bg space-y-1.5 flex-shrink-0">
+      <div className="p-2 border-t border-app-border bg-app-bg space-y-1.5 flex-shrink-0">
         {/* Quick Utility Tools */}
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-0.5">

@@ -157,7 +157,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
   return (
     <aside
       style={{ width: width ? `${width}px` : undefined }}
-      className={`h-full flex flex-col bg-app-sidebar border-l border-app-border text-ink-100 flex-shrink-0 select-none transition-all duration-75 ${
+      className={`h-full flex flex-col bg-app-sidebar text-ink-100 flex-shrink-0 select-none transition-all duration-75 ${
         width ? "" : "w-full"
       }`}
     >
@@ -187,7 +187,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
 
         <div className="flex items-center gap-1.5">
           {dailyRemaining !== null && (
-            <span className="text-[10px] font-mono text-ink-400 bg-ink-800/80 px-1.5 py-0.5 rounded border border-ink-700/50">
+            <span className="text-[10px] font-mono text-ink-400 bg-app-card px-1.5 py-0.5 rounded border border-app-border">
               {dailyRemaining}/10
             </span>
           )}
@@ -240,7 +240,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
 
             {/* Shimmer Skeleton Cards */}
             <div className="space-y-3">
-              <div className="p-3.5 rounded-xl bg-ink-850/80 border border-ink-800 space-y-2.5 relative overflow-hidden">
+              <div className="p-3.5 rounded-xl bg-app-card border border-app-border space-y-2.5 relative overflow-hidden">
                 <div className="h-3 w-28 bg-ink-700/60 rounded" />
                 <div className="h-3 w-full bg-ink-700/40 rounded" />
                 <div className="h-3 w-5/6 bg-ink-700/40 rounded" />
@@ -249,7 +249,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
               <div className="space-y-2">
                 <div className="h-3 w-32 bg-ink-700/60 rounded px-1" />
                 {[1, 2, 3, 4].map((n) => (
-                  <div key={n} className="h-14 rounded-xl bg-ink-850/70 border border-ink-800 p-3 space-y-2">
+                  <div key={n} className="h-14 rounded-xl bg-app-card border border-app-border p-3 space-y-2">
                     <div className="h-2.5 w-3/4 bg-ink-700/50 rounded" />
                     <div className="h-2 w-1/2 bg-ink-700/30 rounded" />
                   </div>
@@ -289,7 +289,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
 
             {/* Feature Pills with SVG Icons */}
             <div className="grid grid-cols-1 gap-2 w-full pt-2 text-left">
-              <div className="p-2.5 rounded-md bg-ink-850/60 border border-ink-800 text-[11px] text-ink-300 flex items-center gap-2">
+              <div className="p-2.5 rounded-md bg-app-card border border-app-border text-[11px] text-ink-300 flex items-center gap-2">
                 <span className="text-sky-400 flex-shrink-0">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -297,7 +297,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                 </span>
                 <span>Core Summary & Text-to-Speech</span>
               </div>
-              <div className="p-2.5 rounded-md bg-ink-850/60 border border-ink-800 text-[11px] text-ink-300 flex items-center gap-2">
+              <div className="p-2.5 rounded-md bg-app-card border border-app-border text-[11px] text-ink-300 flex items-center gap-2">
                 <span className="text-highlight flex-shrink-0">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="9" strokeWidth={2} />
@@ -307,7 +307,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                 </span>
                 <span>Active Recall Quiz & Scorecard</span>
               </div>
-              <div className="p-2.5 rounded-md bg-ink-850/60 border border-ink-800 text-[11px] text-ink-300 flex items-center gap-2">
+              <div className="p-2.5 rounded-md bg-app-card border border-app-border text-[11px] text-ink-300 flex items-center gap-2">
                 <span className="text-emerald-400 flex-shrink-0">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <rect x="3" y="5" width="14" height="15" rx="2" strokeWidth={1.75} />
@@ -380,7 +380,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                   {/* Regenerate Quiz with Question Count Picker */}
                   {onRegenerateQuiz && (
                     <div className="relative inline-flex items-center" ref={regenMenuRef}>
-                      <div className="inline-flex items-center rounded-md bg-ink-900 border border-ink-750 overflow-hidden text-[11px]">
+                      <div className="inline-flex items-center rounded-md bg-app-card border border-app-border overflow-hidden text-[11px]">
                         <button
                           type="button"
                           disabled={isRegeneratingQuiz}
@@ -402,7 +402,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                           type="button"
                           disabled={isRegeneratingQuiz}
                           onClick={() => setShowRegenMenu((v) => !v)}
-                          className="px-1 py-0.5 border-l border-ink-750 text-ink-400 hover:text-ink-200 hover:bg-ink-800 transition-colors"
+                          className="px-1 py-0.5 border-l border-app-border text-ink-400 hover:text-ink-200 hover:bg-ink-800 transition-colors"
                           title="Choose number of questions to regenerate"
                         >
                           <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -418,8 +418,8 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                             onClick={() => setShowRegenMenu(false)}
                             onTouchStart={() => setShowRegenMenu(false)}
                           />
-                          <div className="absolute right-0 top-full mt-1 z-50 w-48 max-w-[calc(100vw-32px)] rounded-xl border border-ink-700/80 bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in text-xs space-y-0.5">
-                            <div className="px-2 py-1 text-[10px] font-mono text-highlight font-semibold border-b border-ink-800 mb-0.5">
+                          <div className="absolute right-0 top-full mt-1 z-50 w-48 max-w-[calc(100vw-32px)] rounded-xl border border-app-border bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in text-xs space-y-0.5">
+                            <div className="px-2 py-1 text-[10px] font-mono text-highlight font-semibold border-b border-app-border mb-0.5">
                               Question Count
                             </div>
                             {[
@@ -455,14 +455,14 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                     </div>
                   )}
 
-                  {/* View Mode Switcher: List vs Cards (Inkdrop Matte Style) */}
-                  <div className="inline-flex rounded-md bg-ink-900 p-0.5 border border-ink-700/60 text-[10px]">
+                  {/* View Mode Switcher: List vs Cards */}
+                  <div className="inline-flex rounded-md bg-app-card p-0.5 border border-app-border text-[10px]">
                     <button
                       type="button"
                       onClick={() => onChangeQuizViewMode("list")}
                       className={`px-2 py-0.5 rounded transition-all ${
                         quizViewMode === "list"
-                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-ink-600/40"
+                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-app-border/60"
                           : "text-ink-400 hover:text-ink-200"
                       }`}
                     >
@@ -473,7 +473,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                       onClick={() => onChangeQuizViewMode("card")}
                       className={`px-2 py-0.5 rounded transition-all ${
                         quizViewMode === "card"
-                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-ink-600/40"
+                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-app-border/60"
                           : "text-ink-400 hover:text-ink-200"
                       }`}
                     >
@@ -562,11 +562,11 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
 
       {/* Pane Bottom Footer Bar: Export & Print Actions */}
       {result && !loading && (
-        <div className="h-11 px-3 border-t border-ink-800/80 bg-app-bg flex items-center justify-between gap-2 flex-shrink-0">
+        <div className="h-11 px-3 border-t border-app-border bg-app-bg flex items-center justify-between gap-2 flex-shrink-0">
           <button
             type="button"
             onClick={onShare}
-            className="flex-1 py-1.5 px-2.5 rounded-md bg-ink-850 hover:bg-ink-800 border border-ink-700/60 text-ink-300 hover:text-ink-100 flex items-center justify-center gap-1.5 transition-colors text-xs font-medium"
+            className="flex-1 py-1.5 px-2.5 rounded-md bg-app-card hover:bg-ink-800 border border-app-border text-ink-300 hover:text-ink-100 flex items-center justify-center gap-1.5 transition-colors text-xs font-medium"
             title="Share study recap or copy share link"
           >
             <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -578,7 +578,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
           <button
             type="button"
             onClick={onPrint}
-            className="flex-1 py-1.5 px-2.5 rounded-md bg-ink-850 hover:bg-ink-800 border border-ink-700/60 text-ink-300 hover:text-ink-100 flex items-center justify-center gap-1.5 transition-colors text-xs font-medium"
+            className="flex-1 py-1.5 px-2.5 rounded-md bg-app-card hover:bg-ink-800 border border-app-border text-ink-300 hover:text-ink-100 flex items-center justify-center gap-1.5 transition-colors text-xs font-medium"
             title="Print study sheet or save PDF"
           >
             <svg className="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -157,9 +157,9 @@ export const StudyStatusDropdown = memo(function StudyStatusDropdown({
               top: `${dropdownPos.top}px`,
               left: `${dropdownPos.left}px`,
             }}
-            className="fixed z-50 w-64 max-w-[calc(100vw-24px)] rounded-xl border border-ink-700 bg-app-surface/98 backdrop-blur-md p-1.5 shadow-2xl animate-fade-in space-y-1"
+            className="fixed z-50 w-64 max-w-[calc(100vw-24px)] rounded-xl border border-app-border bg-app-surface/98 backdrop-blur-md p-1.5 shadow-2xl animate-fade-in space-y-1"
           >
-            <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink-400 border-b border-ink-800">
+            <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink-400 border-b border-app-border">
               Select Study Status
             </div>
 
@@ -175,7 +175,7 @@ export const StudyStatusDropdown = memo(function StudyStatusDropdown({
                 }}
                 className={`w-full flex items-start gap-2.5 p-2 rounded-lg text-left transition-all ${
                   isSelected
-                    ? "bg-ink-800/90 border border-ink-600/60"
+                    ? "bg-ink-800/90 border border-app-border"
                     : "hover:bg-ink-800/50 border border-transparent"
                 }`}
               >

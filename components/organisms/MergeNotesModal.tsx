@@ -58,10 +58,10 @@ export const MergeNotesModal = memo(function MergeNotesModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-ink-900 border border-ink-600 rounded-xl p-5 sm:p-6 shadow-2xl animate-fade-up overscroll-contain"
+        className="w-full max-w-md bg-app-surface border border-app-border rounded-2xl p-5 sm:p-6 shadow-2xl animate-fade-up overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between pb-3.5 border-b border-ink-600/70">
+        <div className="flex items-center justify-between pb-3.5 border-b border-app-border">
           <h2
             id="merge-notes-title"
             className="text-sm font-medium text-ink-50 flex items-center gap-2"
@@ -95,7 +95,7 @@ export const MergeNotesModal = memo(function MergeNotesModal({
                 <select
                   value={targetId}
                   onChange={(e) => setTargetId(e.target.value)}
-                  className="w-full px-2 py-1.5 text-xs bg-ink-800 border border-ink-600 rounded text-ink-100 focus:outline-none focus:border-highlight"
+                  className="w-full px-2 py-1.5 text-xs bg-app-card border border-app-border rounded-lg text-ink-100 focus:outline-none focus:border-highlight"
                 >
                   {availableNotes.map((n) => (
                     <option key={n.id} value={n.id}>
@@ -111,10 +111,10 @@ export const MergeNotesModal = memo(function MergeNotesModal({
                   <button
                     type="button"
                     onClick={() => setSeparator("\n\n")}
-                    className={`flex-1 px-2 py-1.5 text-xs rounded border transition-colors ${
+                    className={`flex-1 px-2 py-1.5 text-xs rounded-lg border transition-colors ${
                       separator === "\n\n"
-                        ? "bg-highlight/10 border-highlight/40 text-highlight"
-                        : "bg-ink-800 border-ink-600 text-ink-300 hover:bg-ink-700"
+                        ? "bg-highlight/10 border-highlight/40 text-highlight font-medium"
+                        : "bg-app-card border-app-border text-ink-300 hover:bg-ink-800"
                     }`}
                   >
                     Blank Line
@@ -122,10 +122,10 @@ export const MergeNotesModal = memo(function MergeNotesModal({
                   <button
                     type="button"
                     onClick={() => setSeparator("\n---\n")}
-                    className={`flex-1 px-2 py-1.5 text-xs rounded border transition-colors ${
+                    className={`flex-1 px-2 py-1.5 text-xs rounded-lg border transition-colors ${
                       separator === "\n---\n"
-                        ? "bg-highlight/10 border-highlight/40 text-highlight"
-                        : "bg-ink-800 border-ink-600 text-ink-300 hover:bg-ink-700"
+                        ? "bg-highlight/10 border-highlight/40 text-highlight font-medium"
+                        : "bg-app-card border-app-border text-ink-300 hover:bg-ink-800"
                     }`}
                   >
                     Divider Line
@@ -134,14 +134,14 @@ export const MergeNotesModal = memo(function MergeNotesModal({
               </div>
 
               <div className="space-y-2">
-                <div className="p-2 rounded bg-ink-800/50 border border-ink-700">
+                <div className="p-2.5 rounded-lg bg-app-card border border-app-border">
                   <p className="text-[10px] text-ink-400 mb-1">Source:</p>
                   <p className="text-xs text-ink-200 line-clamp-3">
                     {(currentNote?.notes || "").slice(0, 200) || "Empty"}
                   </p>
                 </div>
                 <div className="text-center text-[10px] text-ink-500">↓ + ↓</div>
-                <div className="p-2 rounded bg-ink-800/50 border border-ink-700">
+                <div className="p-2.5 rounded-lg bg-app-card border border-app-border">
                   <p className="text-[10px] text-ink-400 mb-1">Target:</p>
                   <p className="text-xs text-ink-200 line-clamp-3">
                     {(targetNote?.notes || "").slice(0, 200) || "Empty"}
@@ -152,7 +152,7 @@ export const MergeNotesModal = memo(function MergeNotesModal({
           )}
         </div>
 
-        <div className="pt-3 border-t border-ink-600/70 flex items-center justify-end gap-2">
+        <div className="pt-3 border-t border-app-border flex items-center justify-end gap-2">
           <button
             type="button"
             onClick={onClose}

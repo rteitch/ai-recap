@@ -1963,7 +1963,7 @@ function updateStorage(
               className="group text-left rounded-2xl border-2 border-app-border bg-app-card hover:border-highlight hover:bg-highlight/5 transition-all p-6 space-y-4 focus:outline-none focus:ring-2 focus:ring-highlight active:scale-[0.98]"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-ink-800 border border-ink-700 flex items-center justify-center text-ink-300 group-hover:text-highlight group-hover:bg-highlight/15 group-hover:border-highlight/30 flex-shrink-0 transition-all">
+                <div className="w-10 h-10 rounded-xl bg-app-card border border-app-border flex items-center justify-center text-ink-300 group-hover:text-highlight group-hover:bg-highlight/15 group-hover:border-highlight/30 flex-shrink-0 transition-all">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10-10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zm0 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
                   </svg>
@@ -2000,7 +2000,7 @@ function updateStorage(
                 </li>
               </ul>
               <div className="pt-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ink-800 text-ink-200 text-xs font-bold border border-ink-700 group-hover:bg-highlight group-hover:text-highlight-text group-hover:border-highlight transition-colors">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-app-card text-ink-200 text-xs font-bold border border-app-border group-hover:bg-highlight group-hover:text-highlight-text group-hover:border-highlight transition-colors">
                   Start with Workstation
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -2068,7 +2068,7 @@ function updateStorage(
       <div className="h-[100dvh] w-full flex flex-col bg-app-bg text-ink-100 overflow-hidden font-sans print:h-auto print:overflow-visible print:bg-white print:text-black">
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{srMessage}</div>
       {/* Mobile Top App Bar (< lg) */}
-      <header className="lg:hidden h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-sidebar flex-shrink-0 select-none print:hidden">
+      <header className="lg:hidden h-11 px-3 flex items-center justify-between border-b border-app-border bg-app-sidebar flex-shrink-0 select-none print:hidden">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -2120,7 +2120,7 @@ function updateStorage(
             </button>
           )}
           {/* Recap Mode — pill toggle (compact on mobile) */}
-          <div className="hidden sm:flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
+          <div className="hidden sm:flex items-center rounded-md border border-app-border overflow-hidden flex-shrink-0">
             {(["detailed", "brief"] as const).map((mode) => (
               <button
                 key={mode}
@@ -2138,7 +2138,7 @@ function updateStorage(
             ))}
           </div>
           {/* Quiz Count — pill toggle (compact on mobile) */}
-          <div className="hidden sm:flex items-center rounded-md border border-ink-700 overflow-hidden flex-shrink-0">
+          <div className="hidden sm:flex items-center rounded-md border border-app-border overflow-hidden flex-shrink-0">
             {([3, 5, 10] as const).map((count) => (
               <button
                 key={count}
@@ -2221,12 +2221,12 @@ function updateStorage(
             onClick={() => setIsMobileNavOpen(false)}
           >
             <div
-              className="flex flex-col sm:flex-row h-full w-[88vw] max-w-sm sm:max-w-none sm:w-[560px] shadow-2xl animate-slide-right overflow-hidden bg-app-sidebar border-r border-ink-800"
+              className="flex flex-col sm:flex-row h-full w-[88vw] max-w-sm sm:max-w-none sm:w-[560px] shadow-2xl animate-slide-right overflow-hidden bg-app-sidebar border-r border-app-border"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Phone Tab Switcher (< sm) with SVG Icons */}
-              <div className="sm:hidden h-11 px-2.5 bg-app-bg border-b border-ink-800/80 flex items-center justify-between gap-2 flex-shrink-0">
-                <div className="inline-flex rounded-md bg-ink-900 p-0.5 border border-ink-700/60 text-xs">
+              <div className="sm:hidden h-11 px-2.5 bg-app-bg border-b border-app-border flex items-center justify-between gap-2 flex-shrink-0">
+                <div className="inline-flex rounded-md bg-ink-900 p-0.5 border border-app-border text-xs">
                   <button
                     type="button"
                     onClick={() => setMobileNavTab("nav")}
@@ -2275,7 +2275,7 @@ function updateStorage(
               {/* Navigation Pane */}
               <div
                 className={`h-full flex-col ${
-                  mobileNavTab === "nav" ? "flex flex-1" : "hidden sm:flex sm:w-64 sm:border-r sm:border-ink-800"
+                  mobileNavTab === "nav" ? "flex flex-1" : "hidden sm:flex sm:w-64 sm:border-r sm:border-app-border"
                 }`}
               >
                 <InkdropNavigation

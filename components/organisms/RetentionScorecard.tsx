@@ -148,7 +148,7 @@ export const RetentionScorecard = memo(function RetentionScorecard({
         <button
           type="button"
           onClick={() => onRetest(false)}
-          className="text-xs bg-ink-800 hover:bg-ink-700 text-ink-100 border border-ink-600 rounded px-3 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5"
+          className="text-xs bg-app-card hover:bg-ink-800 text-ink-100 border border-app-border rounded-lg px-3 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5"
         >
           <svg
             className="w-3.5 h-3.5 text-ink-400"

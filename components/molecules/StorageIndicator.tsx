@@ -60,7 +60,7 @@ export const StorageIndicator = memo(function StorageIndicator() {
       {showDetails && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setShowDetails(false)} />
-          <div className="absolute right-0 top-full mt-1 z-50 bg-ink-900 border border-ink-700/60 rounded-lg shadow-xl p-3 min-w-[200px]">
+          <div className="absolute right-0 top-full mt-1 z-50 bg-app-surface border border-app-border rounded-lg shadow-xl p-3 min-w-[200px]">
             <div className="text-xs font-semibold text-ink-200 mb-2">Storage</div>
             <div className="space-y-1.5 text-[11px] text-ink-400">
               <div className="flex justify-between">

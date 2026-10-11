@@ -171,13 +171,13 @@ export const InkdropNoteList = memo(function InkdropNoteList({
   return (
     <section
       style={{ width: width ? `${width}px` : undefined }}
-      className={`h-full flex flex-col bg-app-surface border-r border-ink-800/80 text-ink-200 select-none flex-shrink-0 transition-all duration-75 ${
+      className={`h-full flex flex-col bg-app-surface text-ink-200 select-none flex-shrink-0 transition-all duration-75 ${
         width ? "" : "w-full"
       }`}
     >
       {/* Column 2 Top Header */}
       {!hideHeader && (
-        <div className="h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-card">
+        <div className="h-11 px-3 flex items-center justify-between border-b border-app-border bg-app-card">
           <div className="flex items-center gap-2 min-w-0">
             {onToggleSidebar && (
               <button
@@ -249,7 +249,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
             <button
               type="button"
               onClick={onOpenCommandPalette}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-ink-400 hover:text-ink-100 bg-ink-800 hover:bg-ink-700 px-1.5 py-0.5 rounded border border-ink-700/80 transition-colors"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-ink-400 hover:text-ink-100 bg-app-card hover:bg-ink-800 px-1.5 py-0.5 rounded border border-app-border transition-colors"
               title="Open Command Palette (Ctrl+K)"
             >
               Ctrl+K
@@ -259,7 +259,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
       </div>
 
       {/* Note Items List */}
-      <div className="flex-1 overflow-y-auto divide-y divide-ink-800/60 scrollbar-thin">
+      <div className="flex-1 overflow-y-auto divide-y divide-app-border/40 scrollbar-thin">
         {sortedAndFiltered.length === 0 ? (
           <div className="p-6 text-center text-xs text-ink-400 space-y-2">
             <svg className="w-8 h-8 text-ink-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,14 +282,14 @@ export const InkdropNoteList = memo(function InkdropNoteList({
           noteGroups.map((group) => (
             <div key={group.label} className="relative">
               {/* Group Sticky Header */}
-              <div className="sticky top-0 z-10 px-3 py-1 bg-app-card/95 backdrop-blur-xs border-y border-ink-800/70 text-[10px] font-semibold uppercase tracking-wider text-ink-400 flex items-center justify-between">
+              <div className="sticky top-0 z-10 px-3 py-1 bg-app-card/95 backdrop-blur-xs border-y border-app-border text-[10px] font-semibold uppercase tracking-wider text-ink-400 flex items-center justify-between">
                 <span>{group.label}</span>
                 <span className="font-mono text-[9px] opacity-70 bg-ink-800 px-1 py-0.2 rounded">
                   {group.items.length}
                 </span>
               </div>
 
-              <div className="divide-y divide-ink-800/40">
+              <div className="divide-y divide-app-border/40">
                 {group.items.map((item) => {
                   const isActive = item.id === activeNoteId;
                   const title = item.title || extractTitle(item.notes, item.preview);
@@ -427,7 +427,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                       {quizCount} questions
                     </span>
                   ) : (
-                    <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-ink-800 text-ink-400 border border-ink-700">
+                    <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-app-card text-ink-400 border border-app-border">
                       draft
                     </span>
                   )}
@@ -454,7 +454,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                             e.stopPropagation();
                             onSelectTag?.(tag);
                           }}
-                          className="text-[9px] px-1.5 py-0.5 rounded bg-ink-800/90 hover:bg-ink-700 text-ink-300 hover:text-ink-50 font-mono transition-colors border border-ink-700/50"
+                          className="text-[9px] px-1.5 py-0.5 rounded bg-app-card hover:bg-ink-800 text-ink-300 hover:text-ink-50 font-mono transition-colors border border-app-border"
                           title={`Filter notes by #${tag}`}
                         >
                           #{tag}

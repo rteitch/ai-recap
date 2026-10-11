@@ -109,8 +109,8 @@ function CodeBlockView({ language, code }: { language: string; code: string }) {
   const lines = code.split("\n");
 
   return (
-    <div className="my-3 rounded-lg border border-ink-700 bg-ink-950 overflow-hidden shadow-md text-xs font-mono print:bg-white print:border-gray-300 print:text-black print:shadow-none print:break-inside-avoid print:page-break-inside-avoid">
-      <div className="flex items-center justify-between px-3 py-1.5 bg-ink-900 border-b border-ink-800 text-ink-400 print:bg-gray-100 print:border-gray-200 print:text-gray-700">
+    <div className="my-3 rounded-lg border border-app-border bg-app-surface overflow-hidden shadow-md text-xs font-mono print:bg-white print:border-gray-300 print:text-black print:shadow-none print:break-inside-avoid print:page-break-inside-avoid">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-app-card border-b border-app-border text-ink-400 print:bg-gray-100 print:border-gray-200 print:text-gray-700">
         <span className="text-[11px] font-medium uppercase tracking-wider text-highlight print:text-gray-900">
           {language || "code"}
         </span>
@@ -143,7 +143,7 @@ function CodeBlockView({ language, code }: { language: string; code: string }) {
         </button>
       </div>
       <div className="overflow-x-auto p-3 text-ink-200 flex print:text-black print:bg-white">
-        <div className="select-none pr-3 text-right text-ink-600 border-r border-ink-800/80 mr-3 text-[11px] print:border-gray-200 print:text-gray-400">
+        <div className="select-none pr-3 text-right text-ink-600 border-r border-app-border mr-3 text-[11px] print:border-gray-200 print:text-gray-400">
           {lines.map((_, i) => (
             <div key={i}>{i + 1}</div>
           ))}
@@ -206,7 +206,7 @@ function ImageBlock({ id, alt }: { id: number; alt: string }) {
 
   if (!src) {
     return (
-      <div className="my-2 px-3 py-2 rounded border border-ink-700 bg-ink-900 text-ink-400 text-xs animate-pulse">
+      <div className="my-2 px-3 py-2 rounded border border-app-border bg-app-card text-ink-400 text-xs animate-pulse">
         Loading image...
       </div>
     );
@@ -217,7 +217,7 @@ function ImageBlock({ id, alt }: { id: number; alt: string }) {
       <img
         src={src}
         alt={alt}
-        className="max-w-full h-auto rounded-lg border border-ink-700/60 shadow-md"
+        className="max-w-full h-auto rounded-lg border border-app-border shadow-md"
         loading="lazy"
       />
       {alt && (
@@ -270,7 +270,7 @@ function parseInlineTokens(segment: string) {
       return (
         <code
           key={index}
-          className="font-mono text-xs px-1.5 py-0.5 rounded bg-ink-900 text-highlight border border-ink-600/50"
+          className="font-mono text-xs px-1.5 py-0.5 rounded bg-app-card text-highlight border border-app-border"
         >
           {part.slice(1, -1)}
         </code>
@@ -411,10 +411,10 @@ function parseMarkdownLines(text: string) {
       nodes.push(
         <div
           key={`table-${i}`}
-          className="my-3 overflow-x-auto rounded-lg border border-ink-700/80 shadow-sm print:border-gray-300 print:my-2"
+          className="my-3 overflow-x-auto rounded-lg border border-app-border shadow-sm print:border-gray-300 print:my-2"
         >
           <table className="w-full text-xs border-collapse">
-            <thead className="bg-app-card text-ink-100 font-semibold border-b border-ink-700 print:bg-gray-100 print:text-black">
+            <thead className="bg-app-card text-ink-100 font-semibold border-b border-app-border print:bg-gray-100 print:text-black">
               <tr>
                 {headerCells.map((h, cIdx) => (
                   <th
@@ -427,7 +427,7 @@ function parseMarkdownLines(text: string) {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-ink-800/80 print:divide-gray-200">
+            <tbody className="divide-y divide-app-border/70 print:divide-gray-200">
               {rows.map((row, rIdx) => (
                 <tr key={rIdx} className="hover:bg-ink-800/30 transition-colors">
                   {row.map((cell, cIdx) => (
@@ -506,7 +506,7 @@ function parseMarkdownLines(text: string) {
 
     // 4. Horizontal Rule: --- or ***
     if (/^(\-{3,}|\*{3,})$/.test(trimmed)) {
-      nodes.push(<hr key={`hr-${i}`} className="my-3 border-ink-700/60" />);
+      nodes.push(<hr key={`hr-${i}`} className="my-3 border-app-border" />);
       i++;
       continue;
     }
@@ -523,7 +523,7 @@ function parseMarkdownLines(text: string) {
           <h1
             key={`h1-${i}`}
             id={anchorId}
-            className="text-lg sm:text-xl font-bold text-ink-50 mt-4 mb-2 pb-1 border-b border-ink-700/60 scroll-mt-6"
+            className="text-lg sm:text-xl font-bold text-ink-50 mt-4 mb-2 pb-1 border-b border-app-border scroll-mt-6"
           >
             {parseInlineTokens(headingText)}
           </h1>
@@ -563,7 +563,7 @@ function parseMarkdownLines(text: string) {
             type="checkbox"
             checked={isChecked}
             readOnly
-            className="rounded border-ink-600 text-highlight focus:ring-0 cursor-default"
+            className="rounded border-app-border text-highlight focus:ring-0 cursor-default"
           />
           <span className={isChecked ? "line-through text-ink-500" : ""}>
             {parseInlineTokens(checkMatch[2])}

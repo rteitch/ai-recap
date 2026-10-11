@@ -601,20 +601,20 @@ export const SimpleModeView = memo(function SimpleModeView({
                       </button>
                     )}
                   </div>
-                  <ul className="space-y-2">
+                  <ul className="rounded-xl border border-app-border bg-app-card overflow-hidden divide-y divide-app-border/70 shadow-2xs">
                     {result.quiz.map((item, idx) => {
                       const isOpen = openIndices.includes(idx);
                       const rating = ratings[idx];
                       return (
                         <li
                           key={idx}
-                          className="rounded-xl border border-app-border bg-app-card overflow-hidden transition-all"
+                          className="transition-all"
                         >
                           <button
                             type="button"
                             onClick={() => toggleQuiz(idx)}
                             aria-expanded={isOpen}
-                            className="w-full px-4 py-3.5 text-left text-sm text-ink-100 hover:text-ink-50 flex items-center justify-between gap-3 transition-colors hover:bg-ink-800/30"
+                            className="w-full px-4 py-3.5 text-left text-sm text-ink-100 hover:text-ink-50 flex items-center justify-between gap-3 transition-colors hover:bg-app-bg/50"
                           >
                             <div className="flex items-center gap-2.5 flex-1 min-w-0">
                               <span className="flex-shrink-0 w-5 h-5 rounded-full bg-highlight/15 border border-highlight/30 text-highlight text-[10px] font-bold font-mono flex items-center justify-center">
@@ -649,7 +649,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                           </button>
 
                           {isOpen && (
-                            <div className="border-t border-app-border px-4 py-3 bg-app-bg/40 space-y-3">
+                            <div className="border-t border-app-border/70 px-4 py-3 bg-app-bg/40 space-y-3">
                               <div className="text-sm leading-relaxed text-ink-200">
                                 <FormattedText text={item.answer} />
                               </div>
@@ -661,7 +661,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                                   className={`flex items-center gap-1 rounded px-2.5 py-1 text-xs transition-all active:scale-95 ${
                                     rating === "known"
                                       ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 font-semibold"
-                                      : "bg-ink-800 text-ink-400 hover:text-ink-100 border border-app-border"
+                                      : "bg-app-card text-ink-400 hover:text-ink-100 border border-app-border"
                                   }`}
                                 >
                                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -675,7 +675,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                                   className={`flex items-center gap-1 rounded px-2.5 py-1 text-xs transition-all active:scale-95 ${
                                     rating === "learning"
                                       ? "bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 font-semibold"
-                                      : "bg-ink-800 text-ink-400 hover:text-ink-100 border border-app-border"
+                                      : "bg-app-card text-ink-400 hover:text-ink-100 border border-app-border"
                                   }`}
                                 >
                                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

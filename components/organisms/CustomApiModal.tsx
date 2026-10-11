@@ -164,11 +164,11 @@ export const CustomApiModal = memo(function CustomApiModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl bg-app-surface border border-ink-700 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-5 text-ink-100 max-h-[92vh] overflow-y-auto scrollbar-thin"
+        className="w-full max-w-2xl bg-app-surface border border-app-border rounded-2xl p-5 sm:p-6 shadow-2xl space-y-5 text-ink-100 max-h-[92vh] overflow-y-auto scrollbar-thin"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-ink-800 pb-4">
+        <div className="flex items-start justify-between border-b border-app-border pb-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-highlight-soft border border-highlight/40 flex items-center justify-center text-highlight">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,7 +213,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                   className={`p-2.5 rounded-xl border text-left transition-all ${
                     isSelected
                       ? "bg-highlight/10 border-highlight/60 shadow-sm"
-                      : "bg-ink-900/60 border-ink-800 hover:border-ink-700 hover:bg-ink-850"
+                      : "bg-app-card border-app-border hover:border-highlight/50 hover:bg-ink-800"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -238,7 +238,7 @@ export const CustomApiModal = memo(function CustomApiModal({
         </div>
 
         {/* Dynamic Form for Selected Provider */}
-        <div className="p-4 rounded-xl bg-ink-900/80 border border-ink-800 space-y-4">
+        <div className="p-4 rounded-xl bg-app-card border border-app-border space-y-4">
           {provider === "default" ? (
             <div className="flex items-center gap-3 py-2">
               <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
@@ -275,7 +275,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                   value={baseUrl}
                   onChange={(e) => setBaseUrl(e.target.value)}
                   placeholder={currentPreset.defaultBaseUrl || "https://api.example.com/v1"}
-                  className="w-full bg-ink-950 border border-ink-700/80 rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
+                  className="w-full bg-ink-950 border border-app-border rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
                 />
               </div>
 
@@ -301,7 +301,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                         ? "sk-..."
                         : "Optional (leave blank for local Ollama/LM Studio)"
                     }
-                    className="w-full bg-ink-950 border border-ink-700/80 rounded-lg pl-3 pr-9 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
+                    className="w-full bg-ink-950 border border-app-border rounded-lg pl-3 pr-9 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
                   />
                   <button
                     type="button"
@@ -345,7 +345,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   placeholder="e.g. gpt-4o-mini, llama3.2, deepseek-r1"
-                  className="w-full bg-ink-950 border border-ink-700/80 rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
+                  className="w-full bg-ink-950 border border-app-border rounded-lg px-3 py-2 text-xs text-ink-100 font-mono placeholder-ink-600 focus:outline-none focus:border-highlight"
                 />
 
                 {/* Suggested Model Pills */}
@@ -359,7 +359,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                         className={`text-[10px] font-mono px-2 py-0.5 rounded border transition-colors ${
                           model === sm
                             ? "bg-highlight text-highlight-text font-bold border-highlight"
-                            : "bg-ink-800 text-ink-300 border-ink-700 hover:text-ink-100"
+                            : "bg-ink-800 text-ink-300 border-app-border hover:text-ink-100"
                         }`}
                       >
                         {sm}
@@ -372,12 +372,12 @@ export const CustomApiModal = memo(function CustomApiModal({
           )}
 
           {/* Test Connection Button & Result Banner */}
-          <div className="pt-2 border-t border-ink-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="pt-2 border-t border-app-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <button
               type="button"
               disabled={testing}
               onClick={handleTestConnection}
-              className="px-3 py-1.5 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 text-xs font-medium border border-ink-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+              className="px-3 py-1.5 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-200 hover:text-ink-50 text-xs font-medium border border-app-border transition-colors flex items-center gap-2 disabled:opacity-50"
             >
               {testing ? (
                 <>
@@ -428,7 +428,7 @@ export const CustomApiModal = memo(function CustomApiModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-ink-800">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-app-border">
           <div className="flex items-center gap-3">
             <button
               type="button"

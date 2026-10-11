@@ -92,7 +92,7 @@ export const NotebookDropdown = memo(function NotebookDropdown({
         className={`inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded border transition-all flex-shrink-0 whitespace-nowrap ${
           isOpen
             ? "bg-app-card border-highlight/50 text-highlight shadow-xs"
-            : "bg-ink-850 border-ink-750 text-ink-300 hover:text-ink-100 hover:border-ink-600 hover:bg-ink-800"
+            : "bg-app-card border-app-border text-ink-300 hover:text-ink-100 hover:border-highlight/50 hover:bg-ink-800"
         }`}
         title={`Notebook: ${currentNb.label} (Click to change)`}
       >
@@ -124,10 +124,10 @@ export const NotebookDropdown = memo(function NotebookDropdown({
           />
           <div
             style={{ top: `${menuPos.top}px`, left: `${menuPos.left}px` }}
-            className="fixed z-50 w-52 rounded-xl border border-ink-700/80 bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-0.5"
+            className="fixed z-50 w-52 rounded-xl border border-app-border bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-0.5"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-2 py-1 text-[10px] font-semibold text-highlight border-b border-ink-800 mb-1 flex items-center justify-between">
+            <div className="px-2 py-1 text-[10px] font-semibold text-highlight border-b border-app-border mb-1 flex items-center justify-between">
               <span>Move Note to Notebook</span>
               <button
                 type="button"
