@@ -92,10 +92,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return (
         <div
           role="alert"
-          className="my-3 p-3.5 rounded-xl border border-rose-500/30 bg-rose-950/20 text-ink-100 flex flex-col gap-2 animate-fade-in text-xs font-sans"
+          className="my-3 p-3.5 rounded-xl border border-rose-500/30 bg-rose-500/10 text-ink-100 flex flex-col gap-2 animate-fade-in text-xs font-sans"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-rose-400 font-semibold">
+            <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-semibold">
               <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
@@ -172,7 +172,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <summary className="cursor-pointer select-none font-mono text-[11px] hover:text-ink-200">
                 Technical Error Details ({error.name})
               </summary>
-              <div className="mt-2 font-mono text-[10px] space-y-1 overflow-x-auto p-1 text-rose-300">
+              <div className="mt-2 font-mono text-[10px] space-y-1 overflow-x-auto p-1 text-rose-700 dark:text-rose-300">
                 <p>{error.message}</p>
                 {errorInfo?.componentStack && (
                   <pre className="text-ink-500 whitespace-pre-wrap mt-1">

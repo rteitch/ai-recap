@@ -82,15 +82,15 @@ function tokenizeCodeLine(line: string, language: string): CodeToken[] {
 function renderCodeToken(token: CodeToken, idx: number) {
   switch (token.type) {
     case "keyword":
-      return <span key={idx} className="text-purple-400 font-semibold print:text-purple-700">{token.text}</span>;
+      return <span key={idx} className="text-purple-700 dark:text-purple-400 font-semibold print:text-purple-700">{token.text}</span>;
     case "string":
-      return <span key={idx} className="text-emerald-400 print:text-emerald-700">{token.text}</span>;
+      return <span key={idx} className="text-emerald-700 dark:text-emerald-400 print:text-emerald-700">{token.text}</span>;
     case "comment":
       return <span key={idx} className="text-ink-500 italic print:text-gray-500">{token.text}</span>;
     case "number":
-      return <span key={idx} className="text-amber-400 print:text-amber-700">{token.text}</span>;
+      return <span key={idx} className="text-amber-700 dark:text-amber-400 print:text-amber-700">{token.text}</span>;
     case "boolean":
-      return <span key={idx} className="text-cyan-400 print:text-cyan-700">{token.text}</span>;
+      return <span key={idx} className="text-cyan-700 dark:text-cyan-400 print:text-cyan-700">{token.text}</span>;
     default:
       return <span key={idx}>{token.text}</span>;
   }
@@ -122,10 +122,10 @@ function CodeBlockView({ language, code }: { language: string; code: string }) {
         >
           {copied ? (
             <>
-              <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-emerald-400">Copied</span>
+              <span className="text-emerald-600 dark:text-emerald-400">Copied</span>
             </>
           ) : (
             <>
@@ -198,7 +198,7 @@ function ImageBlock({ id, alt }: { id: number; alt: string }) {
 
   if (error) {
     return (
-      <div className="my-2 px-3 py-2 rounded border border-red-500/30 bg-red-500/10 text-red-400 text-xs">
+      <div className="my-2 px-3 py-2 rounded border border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-400 text-xs">
         Image not found (ID: {id})
       </div>
     );

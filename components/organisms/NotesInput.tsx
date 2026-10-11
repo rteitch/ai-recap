@@ -1506,19 +1506,19 @@ flowchart TD
         onChange={handleImageInputChange}
       />
 
-      {/* SINGLE UNIFIED WORKSTATION TOOLBAR */}
-      <div className="h-11 px-3 flex items-center justify-between border-b border-ink-800/80 bg-app-card text-xs select-none flex-shrink-0 gap-2">
+      {/* UNIFIED WORKSTATION TOOLBAR */}
+      <div className="h-10 px-3 flex items-center justify-between border-b border-app-border bg-app-card text-xs select-none flex-shrink-0 gap-2">
         {/* Left: View Mode Segmented Switcher & Tool Dropdowns */}
         <div className="flex items-center gap-1 sm:gap-1.5 min-w-0 overflow-x-auto scrollbar-none py-1 flex-1">
-          {/* Segmented View Mode (Inkdrop SVG Icon-Only Switcher) */}
-          <div className="inline-flex items-center rounded-lg bg-ink-900/90 p-0.5 border border-ink-700/60 flex-shrink-0">
+          {/* Segmented View Mode */}
+          <div className="inline-flex items-center rounded-md bg-app-sidebar/80 p-0.5 border border-app-border/60 flex-shrink-0">
             {/* Mode 1: Edit (Pen) */}
             <button
               type="button"
               onClick={() => setViewMode("edit")}
-              className={`w-7 h-7 flex items-center justify-center rounded-md transition-all ${
+              className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${
                 effectiveMode === "edit"
-                  ? "bg-ink-700 text-ink-50 shadow-xs border border-ink-600/40"
+                  ? "bg-app-card text-ink-50 shadow-2xs font-semibold"
                   : "text-ink-400 hover:text-ink-200 hover:bg-ink-800/40"
               }`}
               title="Zen Edit Mode (1-Pane) - Ctrl+P"
@@ -1534,13 +1534,13 @@ flowchart TD
               </svg>
             </button>
 
-            {/* Mode 2: Split (Editor + Preview) - Visible on tablet/desktop */}
+            {/* Mode 2: Split (Editor + Preview) */}
             <button
               type="button"
               onClick={() => setViewMode("split")}
-              className={`hidden sm:flex w-7 h-7 items-center justify-center rounded-md transition-all ${
+              className={`hidden sm:flex w-7 h-7 items-center justify-center rounded-md transition-colors ${
                 effectiveMode === "split"
-                  ? "bg-ink-700 text-ink-50 shadow-xs border border-ink-600/40"
+                  ? "bg-app-card text-ink-50 shadow-2xs font-semibold"
                   : "text-ink-400 hover:text-ink-200 hover:bg-ink-800/40"
               }`}
               title="Split View (Editor & KaTeX Preview) - Ctrl+P"
@@ -1564,9 +1564,9 @@ flowchart TD
             <button
               type="button"
               onClick={() => setViewMode("preview")}
-              className={`w-7 h-7 flex items-center justify-center rounded-md transition-all ${
+              className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${
                 effectiveMode === "preview"
-                  ? "bg-ink-700 text-ink-50 shadow-xs border border-ink-600/40"
+                  ? "bg-app-card text-ink-50 shadow-2xs font-semibold"
                   : "text-ink-400 hover:text-ink-200 hover:bg-ink-800/40"
               }`}
               title="Full KaTeX & Markdown Preview - Ctrl+P"
@@ -1587,13 +1587,15 @@ flowchart TD
             </button>
           </div>
 
-          {/* Undo & Redo History buttons */}
-          <div className="inline-flex items-center rounded-lg bg-ink-900/90 p-0.5 border border-ink-700/60 flex-shrink-0">
+          <div className="h-3.5 w-px bg-app-border hidden sm:block flex-shrink-0 mx-0.5" />
+
+          {/* History & Word Wrap */}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
             <button
               type="button"
               onClick={handleUndo}
               disabled={undoStack.length === 0}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
               title="Undo (Ctrl+Z)"
               aria-label="Undo"
             >
@@ -1605,25 +1607,21 @@ flowchart TD
               type="button"
               onClick={handleRedo}
               disabled={redoStack.length === 0}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
-              title="Redo (Ctrl+Y / Ctrl+Shift+Z)"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+              title="Redo (Ctrl+Y)"
               aria-label="Redo"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10H11a5 5 0 00-5 5v2M21 10l-5-5m5 5l-5 5" />
               </svg>
             </button>
-          </div>
-
-          {/* Word Wrap Toggle */}
-          <div className="inline-flex items-center rounded-lg bg-ink-900/90 p-0.5 border border-ink-700/60 flex-shrink-0">
             <button
               type="button"
               onClick={() => setWordWrap((w) => !w)}
-              className={`w-7 h-7 flex items-center justify-center rounded-md transition-all ${
+              className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${
                 wordWrap
-                  ? "bg-highlight/15 text-highlight border border-highlight/40"
-                  : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/60"
+                  ? "bg-highlight/15 text-highlight"
+                  : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/50"
               }`}
               title={wordWrap ? "Disable Word Wrap" : "Enable Word Wrap"}
               aria-label="Toggle Word Wrap"
@@ -1634,13 +1632,14 @@ flowchart TD
             </button>
           </div>
 
-          <div className="h-3.5 w-px bg-ink-800/80 hidden sm:block flex-shrink-0" />
+          <div className="h-3.5 w-px bg-app-border hidden sm:block flex-shrink-0 mx-0.5" />
 
-          <div className="inline-flex items-center rounded-lg bg-ink-900/90 p-0.5 border border-ink-700/60 flex-shrink-0">
+          {/* Formatting Tools */}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
             <button
               type="button"
               onClick={() => wrapSelection("**", "**")}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 transition-colors"
               title="Bold (Ctrl+B)"
               aria-label="Bold"
             >
@@ -1651,7 +1650,7 @@ flowchart TD
             <button
               type="button"
               onClick={() => wrapSelection("*", "*")}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 transition-colors"
               title="Italic (Ctrl+I)"
               aria-label="Italic"
             >
@@ -1662,7 +1661,7 @@ flowchart TD
             <button
               type="button"
               onClick={() => wrapSelection("`", "`")}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 transition-colors"
               title="Inline Code"
               aria-label="Inline Code"
             >
@@ -1685,7 +1684,7 @@ flowchart TD
                 const newPos = pos + prefix.length + 2;
                 setTimeout(() => { TA.focus(); TA.setSelectionRange(newPos, newPos); setCursorPosition(newPos); }, 0);
               }}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 transition-colors"
               title="Bullet List"
               aria-label="Bullet List"
             >
@@ -1710,7 +1709,7 @@ flowchart TD
                 const urlStart = pos + linkText.length + 3;
                 setTimeout(() => { TA.focus(); TA.setSelectionRange(urlStart, urlStart + 3); setCursorPosition(urlStart); }, 0);
               }}
-              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/60 transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-md text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 transition-colors"
               title="Insert Link"
               aria-label="Insert Link"
             >
@@ -1720,13 +1719,15 @@ flowchart TD
             </button>
           </div>
 
+          <div className="h-3.5 w-px bg-app-border hidden sm:block flex-shrink-0 mx-0.5" />
+
           {/* Group 4: Insert Tools */}
-          <div className="inline-flex items-center gap-1 flex-shrink-0">
+          <div className="flex items-center gap-0.5 flex-shrink-0">
             {/* Image Upload Button */}
             <button
               type="button"
               onClick={() => imageInputRef.current?.click()}
-              className="w-7 h-7 flex items-center justify-center rounded-md transition-colors border text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60 flex-shrink-0"
+              className="w-7 h-7 flex items-center justify-center rounded-md transition-colors text-ink-400 hover:text-ink-100 hover:bg-ink-800/50 flex-shrink-0"
               title="Upload image (PNG, JPG, GIF, WebP)"
               aria-label="Upload Image"
             >
@@ -1737,16 +1738,16 @@ flowchart TD
               </svg>
             </button>
 
-            {/* Note Templates Dropdown (Layout SVG Icon - DISTINCT from sample note!) */}
+            {/* Note Templates Dropdown */}
             <div className="relative flex-shrink-0">
               <button
                 ref={templateButtonRef}
                 type="button"
                 onClick={() => toggleMenu("template")}
-                className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border ${
+                className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${
                   activeMenu === "template"
-                    ? "bg-highlight/15 text-highlight border-highlight/40"
-                    : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
+                    ? "bg-highlight/15 text-highlight"
+                    : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/50"
                 }`}
                 title="Study Note Templates"
                 aria-label="Note Templates"
@@ -1801,16 +1802,16 @@ flowchart TD
               )}
             </div>
 
-            {/* Formula Autocomplete Dropdown (Math Symbol SVG Icon - DISTINCT from raw text \) */}
+            {/* Formula Autocomplete Dropdown */}
             <div className="relative flex-shrink-0">
               <button
                 ref={formulaButtonRef}
                 type="button"
                 onClick={() => toggleMenu("formula")}
-                className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border ${
+                className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${
                   activeMenu === "formula"
-                    ? "bg-highlight/15 text-highlight border-highlight/40"
-                    : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
+                    ? "bg-highlight/15 text-highlight"
+                    : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/50"
                 }`}
                 title="LaTeX Math Formulas (\)"
                 aria-label="LaTeX Math Formulas"
@@ -1909,12 +1910,12 @@ flowchart TD
                 ref={mermaidButtonRef}
                 type="button"
                 onClick={() => toggleMenu("mermaid")}
-                className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
+                className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors flex-shrink-0 ${
                   activeMenu === "mermaid"
-                    ? "bg-highlight/15 text-highlight border-highlight/40"
-                    : "text-ink-300 hover:text-highlight bg-ink-850 hover:bg-ink-800 border-ink-700/60"
+                    ? "bg-highlight/15 text-highlight"
+                    : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/50"
                 }`}
-                title="Mermaid Diagram Templates (Flowchart, Sequence, Mindmap, ERD, Class, Gantt, etc.)"
+                title="Mermaid Diagram Templates"
                 aria-label="Mermaid Diagram Templates"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2021,15 +2022,14 @@ flowchart TD
           <div className="h-3.5 w-px bg-ink-800/80 hidden sm:block flex-shrink-0" />
 
           {/* Group 5: Document Outline / TOC */}
-          <div className="inline-flex items-center gap-1 flex-shrink-0">
-            {/* Outline / TOC Toggle */}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
             <button
               type="button"
               onClick={() => setShowToc((v) => !v)}
-              className={`relative w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
+              className={`relative w-7 h-7 flex items-center justify-center rounded-md transition-colors flex-shrink-0 ${
                 showToc
-                  ? "bg-highlight/15 text-highlight border-highlight/40"
-                  : "text-ink-300 hover:text-ink-100 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
+                  ? "bg-highlight/15 text-highlight"
+                  : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/50"
               }`}
               title="Table of Contents"
             >
@@ -2053,29 +2053,29 @@ flowchart TD
             type="button"
             onClick={toggleSound}
             suppressHydrationWarning
-            className={`relative w-7 h-7 flex items-center justify-center rounded-md transition-all border flex-shrink-0 ${
+            className={`relative w-7 h-7 flex items-center justify-center rounded-md transition-colors flex-shrink-0 ${
               isSoundEnabled
-                ? "bg-highlight/15 text-highlight border-highlight/40"
-                : "text-ink-400 hover:text-ink-200 bg-ink-850 hover:bg-ink-800 border-ink-700/60"
+                ? "bg-highlight/15 text-highlight"
+                : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/50"
             }`}
-            title={isSoundEnabled ? "Cherry MX Black Sound Active (Click to Mute)" : "Enable Cherry MX Black Sound"}
+            title={isSoundEnabled ? "Keyboard sound on (Click to mute)" : "Enable keyboard sound"}
             aria-label="Keyboard Sound Switch"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7zM7 9h.01M11 9h.01M15 9h.01M7 12h.01M11 12h.01M15 12h.01M9 15h6" />
             </svg>
             {isSoundEnabled && (
-              <span className="absolute -bottom-0.5 w-1.5 h-1.5 rounded-full bg-highlight shadow-[0_0_6px_var(--highlight)]" />
+              <span className="absolute -bottom-0.5 w-1.5 h-1.5 rounded-full bg-highlight" />
             )}
           </button>
 
-          {/* AI Recap Action Button (Theme Highlight, Never Cut Off) */}
+          {/* AI Recap Action Button */}
           <button
             type="button"
             onClick={onSubmit}
             disabled={loading || charCount < 40}
-            className="h-7 px-2.5 rounded-md bg-highlight hover:bg-highlight-hover text-highlight-text font-bold text-xs transition-all flex items-center gap-1.5 shadow-xs disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation flex-shrink-0"
-            title="Generate AI Recap & Self-Test (Ctrl+Enter)"
+            className="h-7.5 px-3 rounded-md bg-highlight hover:bg-highlight-hover text-highlight-text font-bold text-xs transition-colors flex items-center gap-1.5 shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation flex-shrink-0"
+            title="Generate summary and active-recall test (Ctrl+Enter)"
           >
             <span className="flex items-center gap-1.5">
               {!loading && (
@@ -2092,18 +2092,18 @@ flowchart TD
             )}
           </button>
 
-          {/* Toggle Right Companion Panel — chat bubble icon */}
+          {/* Toggle Right Companion Panel */}
           {onToggleCompanion && (
             <button
               type="button"
               onClick={onToggleCompanion}
-              className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors border flex-shrink-0 ${
+              className={`w-7.5 h-7.5 flex items-center justify-center rounded-md transition-colors flex-shrink-0 ${
                 isCompanionOpen
-                  ? "bg-highlight/15 text-highlight border-highlight/40"
-                  : "text-ink-400 hover:text-ink-100 bg-ink-850 border-ink-700/60"
+                  ? "bg-highlight/15 text-highlight"
+                  : "text-ink-400 hover:text-ink-100 hover:bg-ink-800/50"
               }`}
-              title={isCompanionOpen ? "Collapse AI Companion Panel" : "Open AI Companion Panel"}
-              aria-label="Toggle AI Companion"
+              title={isCompanionOpen ? "Collapse Study Companion" : "Open Study Companion"}
+              aria-label="Toggle Study Companion"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -2116,8 +2116,8 @@ flowchart TD
             <button
               type="button"
               onClick={onSwitchToSimple}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold text-ink-300 hover:text-ink-50 hover:bg-ink-800 border border-ink-700/70 transition-colors shadow-2xs flex-shrink-0"
-              title="Switch to Simple Mode (Quick Capture & Focused Recap)"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 h-7.5 rounded-md text-xs font-medium text-ink-300 hover:text-ink-50 hover:bg-ink-800/60 border border-app-border transition-colors flex-shrink-0"
+              title="Switch to Simple Mode"
             >
               <svg className="w-3.5 h-3.5 text-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h10" />
@@ -2129,7 +2129,7 @@ flowchart TD
       </div>
 
       {/* SUB-HEADER / NOTE METADATA STRIP WITH NOTEBOOK, STUDY STATUS & TAGS */}
-      <div className="h-9 px-3 border-b border-ink-800/60 bg-app-card text-[11px] text-ink-500 flex items-center justify-between select-none flex-shrink-0 gap-2 overflow-hidden">
+      <div className="h-8 px-3 border-b border-app-border/50 bg-app-bg text-[11px] text-ink-400 flex items-center justify-between select-none flex-shrink-0 gap-2 overflow-hidden">
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 min-w-0 flex-1 flex-nowrap">
           {/* Notebook Dropdown */}
           {notebooks && notebooks.length > 0 && onMoveNotebook && (
@@ -2382,8 +2382,8 @@ flowchart TD
             <div className="flex-1 min-h-0 p-4 overflow-y-auto scrollbar-thin bg-app-surface/50 select-text">
               <div className="text-[10px] font-mono text-ink-400 uppercase tracking-wider mb-2 border-b border-ink-800/60 pb-1 flex items-center justify-between">
                 <span>Live KaTeX Preview</span>
-                <span className="text-emerald-400 flex items-center gap-1 font-sans text-[10px]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-sans text-[10px] font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
                   Live Render
                 </span>
               </div>

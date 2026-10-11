@@ -408,7 +408,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
                         e.stopPropagation();
                         setNoteToDelete(item);
                       }}
-                      className="p-1 rounded text-ink-400 opacity-80 sm:opacity-0 sm:group-hover:opacity-100 focus-within:opacity-100 hover:text-rose-400 hover:bg-ink-750 transition-all"
+                      className="p-1 rounded text-ink-400 opacity-80 sm:opacity-0 sm:group-hover:opacity-100 focus-within:opacity-100 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-ink-750 transition-all"
                       title="Delete note"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

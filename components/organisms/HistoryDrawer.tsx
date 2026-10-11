@@ -39,23 +39,23 @@ function getStatusBadge(status?: StudyStatus) {
     case "dikuasai":
       return {
         label: "Mastered",
-        cls: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+        cls: "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
       };
     case "perlu-diulang":
       return {
         label: "Needs Review",
-        cls: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30 font-medium",
+        cls: "bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30 font-medium",
       };
     case "sedang-dipelajari":
       return {
         label: "In Progress",
-        cls: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+        cls: "bg-sky-500/15 text-sky-800 dark:text-sky-300 border-sky-500/30",
       };
     case "belum-direview":
     default:
       return {
         label: "Not Reviewed",
-        cls: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+        cls: "bg-rose-500/15 text-rose-800 dark:text-rose-300 border-rose-500/30",
       };
   }
 }
@@ -272,7 +272,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 onClick={() => setActiveFilter("perlu-diulang")}
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap ${
                   activeFilter === "perlu-diulang"
-                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/40 font-medium"
+                    ? "bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-500/30 font-medium"
                     : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
                 }`}
               >
@@ -283,7 +283,7 @@ export const HistoryDrawer = memo(function HistoryDrawer({
                 onClick={() => setActiveFilter("dikuasai")}
                 className={`px-2 py-1 rounded transition-colors whitespace-nowrap ${
                   activeFilter === "dikuasai"
-                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-medium"
+                    ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 font-medium"
                     : "bg-ink-800 text-ink-400 hover:text-ink-200 border border-ink-700"
                 }`}
               >

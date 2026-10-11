@@ -54,7 +54,7 @@ export const ConfirmDialog = memo(function ConfirmDialog({
       >
         <div className="flex items-start gap-3">
           {variant === "danger" ? (
-            <div className="w-9 h-9 rounded-lg bg-rose-950/60 border border-rose-600/40 text-rose-400 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-600 dark:text-rose-400 flex items-center justify-center flex-shrink-0">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"

@@ -263,7 +263,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                 </label>
                 {hasLatex && (
                   <span
-                    className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 animate-fade-in"
+                    className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25 animate-fade-in"
                     title="KaTeX Math syntax detected ($ or $$)"
                   >
                     <span>∑</span> KaTeX Active
@@ -271,7 +271,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                 )}
                 {hasMermaid && (
                   <span
-                    className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 animate-fade-in"
+                    className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-800 dark:text-cyan-300 border border-cyan-500/25 animate-fade-in"
                     title="Mermaid diagram code detected"
                   >
                     <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -500,9 +500,9 @@ export const SimpleModeView = memo(function SimpleModeView({
           {error && (
             <div
               role="alert"
-              className="flex items-start gap-3 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300"
+              className="flex items-start gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300"
             >
-              <svg className="w-4 h-4 mt-0.5 flex-shrink-0 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 mt-0.5 flex-shrink-0 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <span>{error}</span>
@@ -553,7 +553,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                       title="Copy summary"
                     >
                       {copiedSummary ? (
-                        <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                         </svg>
                       ) : (
@@ -621,14 +621,14 @@ export const SimpleModeView = memo(function SimpleModeView({
                                 {idx + 1}
                               </span>
                               {rating === "known" && (
-                                <span className="flex-shrink-0 text-emerald-400" title="Remembered">
+                                <span className="flex-shrink-0 text-emerald-600 dark:text-emerald-400" title="Remembered">
                                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                   </svg>
                                 </span>
                               )}
                               {rating === "learning" && (
-                                <span className="flex-shrink-0 text-amber-400" title="Review again">
+                                <span className="flex-shrink-0 text-amber-600 dark:text-amber-400" title="Review again">
                                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                   </svg>
@@ -660,7 +660,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                                   onClick={() => onRate(idx, "known")}
                                   className={`flex items-center gap-1 rounded px-2.5 py-1 text-xs transition-all active:scale-95 ${
                                     rating === "known"
-                                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold"
+                                      ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 font-semibold"
                                       : "bg-ink-800 text-ink-400 hover:text-ink-100 border border-app-border"
                                   }`}
                                 >
@@ -674,7 +674,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                                   onClick={() => onRate(idx, "learning")}
                                   className={`flex items-center gap-1 rounded px-2.5 py-1 text-xs transition-all active:scale-95 ${
                                     rating === "learning"
-                                      ? "bg-amber-500/15 text-amber-300 border border-amber-500/40 font-semibold"
+                                      ? "bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 font-semibold"
                                       : "bg-ink-800 text-ink-400 hover:text-ink-100 border border-app-border"
                                   }`}
                                 >
@@ -695,7 +695,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                   {Object.keys(ratings).length > 0 && (
                     <div className="rounded-xl border border-app-border bg-app-card px-4 py-3 flex items-center justify-between text-sm">
                       <span className="text-ink-400">
-                        <span className="text-emerald-400 font-bold">
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">
                           {Object.values(ratings).filter((r) => r === "known").length}
                         </span>
                         <span className="text-ink-500"> / {result.quiz.length} remembered</span>
@@ -714,7 +714,7 @@ export const SimpleModeView = memo(function SimpleModeView({
 
               {/* Subtle footer promo to workstation */}
               <div className="text-center pt-2 pb-4">
-                <p className="text-[11px] text-ink-600">
+                <p className="text-[11px] text-ink-500">
                   Want flashcard mode, retention scoring, note history & markdown editor?{" "}
                   <button
                     type="button"
@@ -732,7 +732,7 @@ export const SimpleModeView = memo(function SimpleModeView({
 
       {/* Built with footer */}
       {!result && !loading && !error && (
-        <footer className="text-center py-4 text-[11px] text-ink-700 print:hidden">
+        <footer className="text-center py-4 text-[11px] text-ink-400 print:hidden">
           Built with Next.js, deployed on Tencent EdgeOne Makers.
         </footer>
       )}

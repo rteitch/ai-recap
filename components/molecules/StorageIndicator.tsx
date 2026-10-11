@@ -87,7 +87,7 @@ export const StorageIndicator = memo(function StorageIndicator() {
               <button
                 type="button"
                 onClick={handleClear}
-                className="mt-2 w-full text-[11px] text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded py-1 transition-colors"
+                className="mt-2 w-full text-[11px] text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-500/10 rounded py-1 transition-colors"
               >
                 Clear All Images
               </button>

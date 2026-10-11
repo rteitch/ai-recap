@@ -136,11 +136,11 @@ export const FlashcardDeck = memo(function FlashcardDeck({
                 onClick={() => onRate(activeCardIndex, "known")}
                 className={`rounded px-3 py-1.5 transition-all active:scale-95 touch-manipulation flex items-center gap-1.5 ${
                   ratings[activeCardIndex] === "known"
-                    ? "bg-emerald-500/20 text-emerald-300 font-medium border border-emerald-500/40"
+                    ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-medium border border-emerald-500/30"
                     : "bg-ink-900 text-ink-300 hover:text-ink-50 border border-ink-600"
                 }`}
               >
-                <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>Remembered</span>
@@ -168,13 +168,13 @@ export const FlashcardDeck = memo(function FlashcardDeck({
               <span
                 className={`text-[11px] font-semibold inline-flex items-center gap-1 ${
                   ratings[activeCardIndex] === "known"
-                    ? "text-emerald-400"
+                    ? "text-emerald-700 dark:text-emerald-300"
                     : "text-amber-800 dark:text-amber-300"
                 }`}
               >
                 {ratings[activeCardIndex] === "known" ? (
                   <>
-                    <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
                     <span>Remembered</span>

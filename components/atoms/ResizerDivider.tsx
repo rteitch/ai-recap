@@ -15,7 +15,7 @@ export const ResizerDivider = memo(function ResizerDivider({
   onDoubleClick,
   isActive = false,
   className = "",
-  title = "Tarik untuk mengubah ukuran kolom (Klik ganda untuk reset)",
+  title = "Drag to resize column (Double-click to reset)",
 }: ResizerDividerProps) {
   return (
     <div

@@ -120,10 +120,10 @@ export const RetentionScorecard = memo(function RetentionScorecard({
           <button
             type="button"
             onClick={() => onUpdateStatus("dikuasai")}
-            className="text-xs bg-emerald-400/15 hover:bg-emerald-400/25 text-emerald-300 border border-emerald-400/40 rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
+            className="text-xs bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 rounded px-2.5 py-1.5 transition-colors touch-manipulation inline-flex items-center gap-1.5 font-medium"
             title="Update note study status to Mastered"
           >
-            <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
             </svg>
             <span>Mark Mastered</span>

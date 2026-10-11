@@ -157,12 +157,12 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
   return (
     <aside
       style={{ width: width ? `${width}px` : undefined }}
-      className={`h-full flex flex-col bg-app-sidebar border-l border-ink-800/80 text-ink-100 flex-shrink-0 select-none transition-all duration-75 ${
+      className={`h-full flex flex-col bg-app-sidebar border-l border-app-border text-ink-100 flex-shrink-0 select-none transition-all duration-75 ${
         width ? "" : "w-full"
       }`}
     >
       {/* Pane Top Header */}
-      <div className="h-11 px-3.5 flex items-center justify-between border-b border-ink-800/80 bg-app-bg">
+      <div className="h-10 px-3.5 flex items-center justify-between border-b border-app-border bg-app-bg">
         <div className="flex items-center gap-2">
           <span className={`text-highlight ${loading ? "animate-spin" : ""}`}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,7 +170,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
             </svg>
           </span>
           <h2 className="font-semibold text-xs sm:text-sm text-ink-100 tracking-tight">
-            AI Study Companion
+            Study Companion
           </h2>
           {loading && (
             <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-highlight/15 text-ink-100 dark:text-highlight border border-highlight/30 animate-pulse flex items-center gap-1 font-medium">
@@ -196,7 +196,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
               type="button"
               onClick={onClose}
               className="p-1 rounded text-ink-400 hover:text-ink-100 hover:bg-ink-800 transition-colors"
-              title="Collapse Companion Panel"
+              title="Collapse Study Companion"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -210,8 +210,8 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
       <div className="flex-1 overflow-y-auto p-4 space-y-5 scrollbar-thin select-text">
         {/* Error Notification */}
         {error && (
-          <div className="rounded-lg border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-300 flex items-start gap-2.5">
-            <svg className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-700 dark:text-rose-300 flex items-start gap-2.5">
+            <svg className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             <div className="leading-relaxed">{error}</div>
@@ -324,8 +324,8 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
         {result && !loading && (
           <>
             {/* Core Summary Card */}
-            <div className="rounded-lg border border-ink-700/70 bg-ink-850/90 p-3.5 space-y-2 shadow-xs">
-              <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-ink-750">
+            <div className="rounded-xl border border-app-border bg-app-card p-4 space-y-2.5 shadow-2xs">
+              <div className="flex items-center justify-between gap-2 pb-2 border-b border-app-border/70">
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-semibold uppercase tracking-wider text-ink-300 font-mono">
                     Summary

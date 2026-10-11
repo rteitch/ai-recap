@@ -99,7 +99,7 @@ function MenuItem({ label, onClick, shortcut, disabled, icon, badge, danger }: M
       disabled={disabled}
       className={`w-full text-left flex items-center gap-2 px-3 py-1.5 rounded-md text-[12px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
         danger
-          ? "text-rose-400 hover:bg-rose-900/30"
+          ? "text-rose-600 dark:text-rose-400 hover:bg-rose-500/10"
           : "text-ink-200 hover:bg-ink-800 hover:text-ink-50"
       }`}
     >
@@ -341,7 +341,7 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
               <MenuSection label="Panels">
                 <CheckItem label="Sidebar" checked={isSidebarOpen} onClick={act(onToggleSidebar)} />
                 <CheckItem label="Table of Contents" checked={showToc} onClick={act(onToggleToc)} />
-                <CheckItem label="AI Companion" checked={isCompanionOpen} onClick={act(onToggleCompanion)} />
+                <CheckItem label="Study Companion" checked={isCompanionOpen} onClick={act(onToggleCompanion)} />
               </MenuSection>
               <MenuDivider />
               <CheckItem label="Keyboard Sound (MX Black)" checked={isSoundEnabled} onClick={act(onToggleSound)} />
@@ -361,7 +361,7 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
               />
               <MenuDivider />
               <MenuItem
-                label={isCompanionOpen ? "Hide AI Companion" : "Show AI Companion"}
+                label={isCompanionOpen ? "Hide Study Companion" : "Show Study Companion"}
                 onClick={act(onToggleCompanion)}
                 icon={<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>}
               />

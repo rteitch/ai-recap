@@ -31,9 +31,17 @@ Built with **Next.js 16 (App Router, Turbopack)**, **KaTeX Engine**, and deploye
   - **Inline Results**: Instant AI summary card, expandable self-test questions with self-grading (*Remembered* / *Review again*), and 1-click transition to Workstation.
 - **Mode 2: Workstation Mode (`NotesInput.tsx` + 4-Column IDE)**:
   - Complete 4-column academic IDE: Navigation sidebar, notes library, markdown editor, and Study Companion pane.
-  - Quick 1-click `[⚡ Simple Mode]` toggle button in the editor toolbar and desktop MenuBar.
+  - **Streamlined Editor Surface**: Single cohesive editor toolbar eliminating stacked toolbar clutter, nested pill containers, and noisy borders.
+  - **Natural Document Context Strip**: Calm metadata strip for notebook routing, study status tracking, and tag management.
+  - Quick 1-click `Simple Mode` toggle button in the editor toolbar and desktop MenuBar.
 
-### 🖋️ 2. Inkdrop-Grade Editor with Live KaTeX Split-View & Zen Mode
+### 🛡️ 2. Production Safety & Runaway Cost Protection
+- **Fail-Fast Circuit Breaker**: Immediate classification of upstream AI errors. Unrecoverable statuses (`401`, `400`, `429`) abort immediately with zero retry loops.
+- **Client Concurrency Mutex**: `AbortController` cancellation prevents duplicate concurrent requests from stacking up.
+- **Secure IP Rate Limiting**: Multi-tier client IP resolution prevents spoofed `X-Forwarded-For` abuse.
+- **Zero-Downtime Kill Switch**: `AI_KILL_SWITCH=true` environmental guard allows immediate load shedding during runaway workload incidents.
+
+### 🖋️ 3. Inkdrop-Grade Editor with Live KaTeX Split-View & Zen Mode
 - **Three Viewing Modes**:
   - **Write (Zen 1-Pane)**: Clean, distraction-free single-column workspace for rapid note-taking and deep focus.
   - **Split (Side-by-Side)**: Interactive monospace editor on the left with instant, sub-5ms **Live KaTeX Preview** on the right. Formulas render in real-time as you type.
@@ -47,7 +55,7 @@ Built with **Next.js 16 (App Router, Turbopack)**, **KaTeX Engine**, and deploye
   - **Word Wrap Toggle**: Synchronized line-height measurement prevents gutter drift when word wrap is enabled.
   - **Line Numbers**: Lockstep-scrolling line numbers gutter in both Edit and Split views.
 
-### 🎨 3. 17 Curated Themes & Ergonomic Keycap Editions
+### 🎨 4. 17 Curated Themes & Ergonomic Keycap Editions
 - **12 Classic Developer Presets**:
   - *Inkdrop Classic*, *GitHub Light / Paper*, *GitHub Dark*, *Tokyo Night*, *Catppuccin Mocha*, *Solarized Light / Paper*, *Solarized Dark*, *Nord Arctic*, *Dracula*, *One Dark Pro*, *Monokai Pro*, *Gruvbox Dark*.
 - **4 Ergonomic Mechanical Keyboard Keycap Editions**:
@@ -57,7 +65,7 @@ Built with **Next.js 16 (App Router, Turbopack)**, **KaTeX Engine**, and deploye
   - **GMK Forest Slate**: Organic moss charcoal with calming botanical green accent (`#4A9E68`).
   - **GMK Sand Paper**: IBM Model M retro beige aesthetic with anti-glare warm paper reading comfort and industrial terracotta accent (`#C85312`).
 - **Contrast & Eye-Strain Protection**:
-  - Strictly audited for WCAG AA/AAA compliance across light and dark modes. Zero hardcoded dark-on-dark or yellow-on-white halation.
+  - Strictly audited for WCAG AA compliance across light and dark modes. Zero hardcoded dark-on-dark or washed-out text halation.
 - **Theme Search & Instant Filter**:
   - Filter by `All`, `Dark Schemes`, `Light Paper`, or `⌨️ Keycaps (4)` with real-time keyword search in the Appearance modal.
 

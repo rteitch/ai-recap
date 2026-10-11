@@ -159,7 +159,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
             onClick={() => handleFilterClick({ type: "all" })}
             className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md font-medium transition-colors ${
               isFilterActive({ type: "all" })
-                ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
+                ? "bg-ink-800 text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                 : "text-ink-200 hover:bg-ink-800/60 hover:text-ink-100"
             }`}
           >
@@ -315,7 +315,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                     key={nb.id}
                     className={`group w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors ${
                       active
-                        ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
+                        ? "bg-ink-800 text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                         : "text-ink-300 hover:bg-ink-800/60 hover:text-ink-100"
                     }`}
                   >
@@ -372,7 +372,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                                 e.stopPropagation();
                                 setDeletingNotebook(nb);
                               }}
-                              className="p-1 rounded text-ink-400 hover:text-rose-400 hover:bg-ink-800"
+                              className="p-1 rounded text-ink-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-ink-800"
                               title="Delete Notebook"
                             >
                               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -430,7 +430,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                     onClick={() => handleFilterClick({ type: "status", value: st.id })}
                     className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors ${
                       active
-                        ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
+                        ? "bg-ink-800 text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                         : "text-ink-300 hover:bg-ink-800/60 hover:text-ink-100"
                     }`}
                   >
@@ -559,7 +559,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                       onClick={() => handleFilterClick({ type: "tag", value: tag })}
                       className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors ${
                         active
-                          ? "bg-white/[0.08] text-ink-50 font-semibold border-l-2 border-highlight pl-2"
+                          ? "bg-ink-800 text-ink-50 font-semibold border-l-2 border-highlight pl-2"
                           : "text-ink-300 hover:bg-ink-800/60 hover:text-ink-100"
                       }`}
                     >
@@ -654,7 +654,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
         <button
           type="button"
           onClick={handleClearClick}
-          className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-ink-400 hover:text-rose-400 hover:bg-ink-800/60 transition-colors"
+          className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-ink-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-ink-800/60 transition-colors"
           title="Permanently delete all notes and history"
         >
           <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -662,7 +662,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
           </svg>
           <span className="truncate">Clear All History</span>
           {totalNotes > 0 && (
-            <span className="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-900/40 text-rose-400 border border-rose-800/60 flex-shrink-0">
+            <span className="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-500/30 flex-shrink-0">
               {totalNotes}
             </span>
           )}

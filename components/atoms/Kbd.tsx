@@ -16,7 +16,7 @@ export const Kbd = memo(function Kbd({
   const variantStyles = {
     default: "bg-ink-800 border-ink-600 text-ink-200",
     highlight: "bg-ink-800 border-ink-600 text-highlight",
-    emerald: "bg-ink-800 border-ink-600 text-emerald-300",
+    emerald: "bg-ink-800 border-ink-600 text-emerald-700 dark:text-emerald-300 font-semibold",
     amber: "bg-ink-800 border-ink-600 text-amber-600 dark:text-amber-400 font-semibold",
     yellow: "bg-ink-800 border-ink-600 text-highlight",
   }[variant];

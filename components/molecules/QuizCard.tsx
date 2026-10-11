@@ -47,7 +47,7 @@ export const QuizCard = memo(function QuizCard({
         <div className="flex items-center gap-2.5 flex-1 min-w-0">
           {rating === "known" && (
             <span
-              className="flex-shrink-0 inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-300"
+              className="flex-shrink-0 inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
               title="Remembered"
             >
               <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@ export const QuizCard = memo(function QuizCard({
                 title="Copy question and answer"
               >
                 {copied && (
-                  <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3 h-3 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
                 )}
@@ -127,11 +127,11 @@ export const QuizCard = memo(function QuizCard({
                 onClick={() => onRate(index, "known")}
                 className={`rounded px-2.5 py-1.5 transition-all active:scale-95 touch-manipulation flex items-center gap-1.5 ${
                   rating === "known"
-                    ? "bg-emerald-500/20 text-emerald-300 font-medium border border-emerald-500/40"
+                    ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-medium border border-emerald-500/40"
                     : "bg-ink-800 text-ink-300 hover:text-ink-50 border border-ink-600"
                 }`}
               >
-                <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>Remembered</span>

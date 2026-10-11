@@ -124,7 +124,7 @@ export const NoteTagBar = memo(function NoteTagBar({
                 e.stopPropagation();
                 onRemoveTag(tag);
               }}
-              className="text-ink-400 hover:text-rose-400 p-0.5 rounded transition-colors ml-0.5"
+              className="text-ink-400 hover:text-rose-600 dark:hover:text-rose-400 p-0.5 rounded transition-colors ml-0.5"
               title={`Remove tag #${tag}`}
               aria-label={`Remove tag #${tag}`}
             >

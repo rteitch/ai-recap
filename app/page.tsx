@@ -2111,8 +2111,8 @@ function updateStorage(
               type="button"
               onClick={() => setIsCompanionOpen(true)}
               className="xl:hidden flex-shrink-0 p-1.5 rounded-md bg-highlight/15 border border-highlight/40 text-highlight hover:bg-highlight/25 transition-colors"
-              title="Open AI Study Companion"
-              aria-label="Open AI Study Companion"
+              title="Open Study Companion"
+              aria-label="Open Study Companion"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />

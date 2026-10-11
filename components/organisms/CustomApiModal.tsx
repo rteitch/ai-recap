@@ -241,7 +241,7 @@ export const CustomApiModal = memo(function CustomApiModal({
         <div className="p-4 rounded-xl bg-ink-900/80 border border-ink-800 space-y-4">
           {provider === "default" ? (
             <div className="flex items-center gap-3 py-2">
-              <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
@@ -249,7 +249,7 @@ export const CustomApiModal = memo(function CustomApiModal({
               <div className="space-y-0.5">
                 <div className="text-xs font-semibold text-ink-100 flex items-center gap-2">
                   <span>Built-in Cloud AI is Active</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-mono">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-mono">
                     Online &bull; Ready
                   </span>
                 </div>
@@ -286,7 +286,7 @@ export const CustomApiModal = memo(function CustomApiModal({
                     API Key
                   </label>
                   {!currentPreset.requiresKey && (
-                    <span className="text-[10px] text-emerald-400 font-medium">
+                    <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-medium">
                       Not required for local models
                     </span>
                   )}
@@ -401,16 +401,16 @@ export const CustomApiModal = memo(function CustomApiModal({
               <div
                 className={`text-xs px-2.5 py-1 rounded-md border flex items-center gap-2 ${
                   testResult.success
-                    ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-300"
-                    : "bg-rose-950/40 border-rose-500/40 text-rose-300"
+                    ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-800 dark:text-emerald-300"
+                    : "bg-rose-500/10 border-rose-500/30 text-rose-800 dark:text-rose-300"
                 }`}
               >
                 {testResult.success ? (
-                  <svg className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : (
-                  <svg className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 )}
