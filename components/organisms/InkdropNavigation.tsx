@@ -131,7 +131,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
           <span className="font-serif font-bold text-sm text-ink-100 tracking-tight">
             AI Recap
           </span>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-ink-800/80 text-ink-400 border border-app-border/60">
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-ink-800/80 text-ink-400 border border-app-border">
             v2.1
           </span>
         </div>
@@ -236,7 +236,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                     }}
                     className="w-full bg-transparent text-xs text-ink-100 placeholder-ink-500 focus:outline-none"
                   />
-                  <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border/60 text-[10px]">
+                  <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border text-[10px]">
                     <button
                       type="button"
                       onClick={() => setIsAddingNotebook(false)}
@@ -285,7 +285,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                         }}
                         className="w-full bg-transparent text-xs text-ink-100 focus:outline-none"
                       />
-                      <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border/60 text-[10px]">
+                      <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border text-[10px]">
                         <button
                           type="button"
                           onClick={() => setEditingNotebookId(null)}
@@ -512,7 +512,7 @@ export const InkdropNavigation = memo(function InkdropNavigation({
                 }}
                 className="w-full bg-transparent text-xs text-ink-100 focus:outline-none"
               />
-              <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border/60 text-[10px]">
+              <div className="flex items-center justify-end gap-1.5 mt-1 pt-1 border-t border-app-border text-[10px]">
                 <button
                   type="button"
                   onClick={() => {

@@ -325,7 +325,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
           <>
             {/* Core Summary Card */}
             <div className="rounded-xl border border-app-border bg-app-card p-4 space-y-2.5 shadow-2xs">
-              <div className="flex items-center justify-between gap-2 pb-2 border-b border-app-border/70">
+              <div className="flex items-center justify-between gap-2 pb-2 border-b border-app-border">
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-semibold uppercase tracking-wider text-ink-300 font-mono">
                     Summary
@@ -418,7 +418,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                             onClick={() => setShowRegenMenu(false)}
                             onTouchStart={() => setShowRegenMenu(false)}
                           />
-                          <div className="absolute right-0 top-full mt-1 z-50 w-48 max-w-[calc(100vw-32px)] rounded-xl border border-app-border bg-app-surface/98 p-1.5 shadow-2xl backdrop-blur-md animate-fade-in text-xs space-y-0.5">
+                          <div className="absolute right-0 top-full mt-1 z-50 w-48 max-w-[calc(100vw-32px)] rounded-lg border border-app-border bg-app-surface p-1.5 shadow-xl animate-fade-in text-xs space-y-0.5">
                             <div className="px-2 py-1 text-[10px] font-mono text-highlight font-semibold border-b border-app-border mb-0.5">
                               Question Count
                             </div>
@@ -462,7 +462,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                       onClick={() => onChangeQuizViewMode("list")}
                       className={`px-2 py-0.5 rounded transition-all ${
                         quizViewMode === "list"
-                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-app-border/60"
+                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-app-border"
                           : "text-ink-400 hover:text-ink-200"
                       }`}
                     >
@@ -473,7 +473,7 @@ export const StudyCompanionPane = memo(function StudyCompanionPane({
                       onClick={() => onChangeQuizViewMode("card")}
                       className={`px-2 py-0.5 rounded transition-all ${
                         quizViewMode === "card"
-                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-app-border/60"
+                          ? "bg-ink-700 text-ink-100 font-semibold shadow-xs border border-app-border"
                           : "text-ink-400 hover:text-ink-200"
                       }`}
                     >

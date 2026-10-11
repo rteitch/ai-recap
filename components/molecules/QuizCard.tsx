@@ -104,7 +104,7 @@ export const QuizCard = memo(function QuizCard({
           <div className="text-sm leading-relaxed text-ink-200">
             <FormattedText text={item.answer} />
           </div>
-          <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-app-border/60 pt-2.5 text-xs no-print">
+          <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-app-border pt-2.5 text-xs no-print">
             <div className="flex items-center gap-2">
               <span className="text-ink-400">Did you recall this?</span>
               <button

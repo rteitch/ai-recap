@@ -1511,7 +1511,7 @@ flowchart TD
         {/* Left: View Mode Segmented Switcher & Tool Dropdowns */}
         <div className="flex items-center gap-1 sm:gap-1.5 min-w-0 overflow-x-auto scrollbar-none py-1 flex-1">
           {/* Segmented View Mode */}
-          <div className="inline-flex items-center rounded-md bg-app-sidebar/80 p-0.5 border border-app-border/60 flex-shrink-0">
+          <div className="inline-flex items-center rounded-md bg-app-sidebar p-0.5 border border-app-border flex-shrink-0">
             {/* Mode 1: Edit (Pen) */}
             <button
               type="button"
@@ -1769,7 +1769,7 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-72 max-w-[calc(100vw-24px)] rounded-xl border border-app-border bg-app-surface/98 p-2 shadow-2xl backdrop-blur-md animate-fade-in space-y-1"
+                    className="fixed z-50 w-72 max-w-[calc(100vw-24px)] rounded-lg border border-app-border bg-app-surface p-2 shadow-xl animate-fade-in space-y-1"
                   >
                     <div className="px-2 py-1 text-[11px] font-semibold text-highlight border-b border-app-border mb-1 flex items-center justify-between">
                       <span>Study Note Templates</span>
@@ -1833,7 +1833,7 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-80 sm:w-96 max-w-[calc(100vw-24px)] max-h-[75vh] overflow-y-auto rounded-xl border border-app-border bg-app-surface/98 p-3 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
+                    className="fixed z-50 w-80 sm:w-96 max-w-[calc(100vw-24px)] max-h-[75vh] overflow-y-auto rounded-lg border border-app-border bg-app-surface p-3 shadow-xl animate-fade-in space-y-2"
                   >
                     <div className="flex items-center justify-between pb-1.5 border-b border-app-border">
                       <span className="text-xs font-semibold text-ink-100 flex items-center gap-1.5">
@@ -1871,7 +1871,7 @@ flowchart TD
                           className={`flex-shrink-0 px-2 py-0.5 rounded text-[10px] transition-colors ${
                             selectedCategory === tab.id
                               ? "bg-highlight text-highlight-text font-bold"
-                              : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border/40"
+                              : "bg-app-card text-ink-400 hover:text-ink-200 border border-app-border"
                           }`}
                         >
                           {tab.label}
@@ -1935,7 +1935,7 @@ flowchart TD
                       top: `${menuPos.top}px`,
                       left: `${menuPos.left}px`,
                     }}
-                    className="fixed z-50 w-96 max-w-[calc(100vw-24px)] rounded-xl border border-app-border bg-app-surface/98 p-2.5 shadow-2xl backdrop-blur-md animate-fade-in space-y-2"
+                    className="fixed z-50 w-96 max-w-[calc(100vw-24px)] rounded-lg border border-app-border bg-app-surface p-2.5 shadow-xl animate-fade-in space-y-2"
                   >
                     <div className="flex items-center justify-between pb-1.5 border-b border-app-border">
                       <div className="flex items-center gap-1.5">
@@ -2129,7 +2129,7 @@ flowchart TD
       </div>
 
       {/* SUB-HEADER / NOTE METADATA STRIP WITH NOTEBOOK, STUDY STATUS & TAGS */}
-      <div className="h-8 px-3 border-b border-app-border/50 bg-app-bg text-[11px] text-ink-400 flex items-center justify-between select-none flex-shrink-0 gap-2 overflow-hidden">
+      <div className="h-8 px-3 border-b border-app-border bg-app-bg text-[11px] text-ink-400 flex items-center justify-between select-none flex-shrink-0 gap-2 overflow-hidden">
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 min-w-0 flex-1 flex-nowrap">
           {/* Notebook Dropdown */}
           {notebooks && notebooks.length > 0 && onMoveNotebook && (
@@ -2297,7 +2297,7 @@ flowchart TD
                 onWheel={(e) => {
                   if (activeTextareaRef.current) activeTextareaRef.current.scrollTop += e.deltaY;
                 }}
-                className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-app-border/40 overflow-hidden flex-shrink-0"
+                className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-app-border overflow-hidden flex-shrink-0"
                 style={{
                   paddingTop: "16px",
                   paddingBottom: "16px",
@@ -2380,7 +2380,7 @@ flowchart TD
 
             {/* Right: Live KaTeX Preview */}
             <div className="flex-1 min-h-0 p-4 overflow-y-auto scrollbar-thin bg-app-surface/50 select-text">
-              <div className="text-[10px] font-mono text-ink-400 uppercase tracking-wider mb-2 border-b border-app-border/60 pb-1 flex items-center justify-between">
+              <div className="text-[10px] font-mono text-ink-400 uppercase tracking-wider mb-2 border-b border-app-border pb-1 flex items-center justify-between">
                 <span>Live KaTeX Preview</span>
                 <span className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-sans text-[10px] font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
@@ -2404,7 +2404,7 @@ flowchart TD
               onWheel={(e) => {
                 if (activeTextareaRef.current) activeTextareaRef.current.scrollTop += e.deltaY;
               }}
-              className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-app-border/40 overflow-hidden flex-shrink-0"
+              className="hidden sm:block w-11 select-none text-right font-mono text-xs bg-app-card border-r border-app-border overflow-hidden flex-shrink-0"
               style={{
                 paddingTop: "16px",
                 paddingBottom: "16px",
@@ -2576,7 +2576,7 @@ flowchart TD
             {/* Template description & snippet preview */}
             <div className="p-3 rounded-xl bg-app-card border border-app-border text-xs space-y-2">
               <p className="text-ink-300 font-medium">{pendingTemplate.description}</p>
-              <div className="text-[11px] font-mono text-ink-400 line-clamp-3 bg-app-bg/80 p-2 rounded-lg border border-app-border/60">
+              <div className="text-[11px] font-mono text-ink-400 line-clamp-3 bg-app-bg/80 p-2 rounded-lg border border-app-border">
                 {pendingTemplate.content.slice(0, 180)}...
               </div>
             </div>

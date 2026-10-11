@@ -125,7 +125,7 @@ export const SimpleModeView = memo(function SimpleModeView({
   return (
     <div className="min-h-screen bg-app-bg text-ink-100 flex flex-col print:bg-white print:text-black">
       {/* Top bar: logo left, actions right */}
-      <header className="sticky top-0 z-30 flex items-center justify-between px-4 sm:px-6 h-12 border-b border-app-border bg-app-sidebar/80 backdrop-blur-md flex-shrink-0 print:hidden">
+      <header className="sticky top-0 z-30 flex items-center justify-between px-4 sm:px-6 h-12 border-b border-app-border bg-app-sidebar flex-shrink-0 print:hidden">
         <div className="flex items-center gap-2.5">
           <Image
             src="/android-chrome-192x192.png"
@@ -330,7 +330,7 @@ export const SimpleModeView = memo(function SimpleModeView({
             {/* Input / Preview Area */}
             {inputView === "preview" ? (
               <div className="w-full rounded-xl border border-app-border bg-app-card px-5 py-4 text-sm leading-relaxed text-ink-100 min-h-[220px] max-h-[500px] overflow-y-auto space-y-2 animate-fade-in">
-                <div className="flex items-center justify-between pb-2 border-b border-app-border/60 text-xs text-ink-400 font-mono">
+                <div className="flex items-center justify-between pb-2 border-b border-app-border text-xs text-ink-400 font-mono">
                   <span className="flex items-center gap-1.5 text-highlight font-semibold">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -374,7 +374,7 @@ export const SimpleModeView = memo(function SimpleModeView({
             {/* Live Split Preview Box — Automatically updates as user types */}
             {inputView === "split" && (
               <div className="rounded-xl border border-app-border bg-app-card/80 p-4 space-y-2 animate-fade-in">
-                <div className="flex items-center justify-between text-xs text-ink-400 font-mono pb-2 border-b border-app-border/60">
+                <div className="flex items-center justify-between text-xs text-ink-400 font-mono pb-2 border-b border-app-border">
                   <span className="flex items-center gap-1.5 text-highlight font-semibold">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -466,7 +466,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                   type="button"
                   onClick={onRecap}
                   disabled={loading || notes.trim().length < 40}
-                  className="flex items-center gap-2 px-5 py-2 rounded-xl bg-highlight text-highlight-text font-semibold text-sm shadow transition-all active:scale-95 hover:bg-highlight-hover disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex-shrink-0"
+                  className="flex items-center gap-2 px-5 py-2 rounded-lg bg-highlight text-highlight-text font-semibold text-sm shadow transition-all active:scale-95 hover:bg-highlight-hover disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex-shrink-0"
                   title={loading ? "Generating…" : "Ctrl+Enter to recap"}
                 >
                   {loading ? (
@@ -601,7 +601,7 @@ export const SimpleModeView = memo(function SimpleModeView({
                       </button>
                     )}
                   </div>
-                  <ul className="rounded-xl border border-app-border bg-app-card overflow-hidden divide-y divide-app-border/70 shadow-2xs">
+                  <ul className="rounded-xl border border-app-border bg-app-card overflow-hidden divide-y divide-app-border shadow-2xs">
                     {result.quiz.map((item, idx) => {
                       const isOpen = openIndices.includes(idx);
                       const rating = ratings[idx];
@@ -649,11 +649,11 @@ export const SimpleModeView = memo(function SimpleModeView({
                           </button>
 
                           {isOpen && (
-                            <div className="border-t border-app-border/70 px-4 py-3 bg-app-bg/40 space-y-3">
+                            <div className="border-t border-app-border px-4 py-3 bg-app-bg/40 space-y-3">
                               <div className="text-sm leading-relaxed text-ink-200">
                                 <FormattedText text={item.answer} />
                               </div>
-                              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-app-border/50">
+                              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-app-border">
                                 <span className="text-[11px] text-ink-500">Did you recall this?</span>
                                 <button
                                   type="button"

@@ -259,7 +259,7 @@ export const InkdropNoteList = memo(function InkdropNoteList({
       </div>
 
       {/* Note Items List */}
-      <div className="flex-1 overflow-y-auto divide-y divide-app-border/40 scrollbar-thin">
+      <div className="flex-1 overflow-y-auto divide-y divide-app-border scrollbar-thin">
         {sortedAndFiltered.length === 0 ? (
           <div className="p-6 text-center text-xs text-ink-400 space-y-2">
             <svg className="w-8 h-8 text-ink-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,14 +282,14 @@ export const InkdropNoteList = memo(function InkdropNoteList({
           noteGroups.map((group) => (
             <div key={group.label} className="relative">
               {/* Group Sticky Header */}
-              <div className="sticky top-0 z-10 px-3 py-1 bg-app-card/95 backdrop-blur-xs border-y border-app-border text-[10px] font-semibold uppercase tracking-wider text-ink-400 flex items-center justify-between">
+              <div className="sticky top-0 z-10 px-3 py-1 bg-app-card border-y border-app-border text-[10px] font-semibold uppercase tracking-wider text-ink-400 flex items-center justify-between">
                 <span>{group.label}</span>
                 <span className="font-mono text-[9px] opacity-70 bg-ink-800 px-1 py-0.2 rounded">
                   {group.items.length}
                 </span>
               </div>
 
-              <div className="divide-y divide-app-border/40">
+              <div className="divide-y divide-app-border">
                 {group.items.map((item) => {
                   const isActive = item.id === activeNoteId;
                   const title = item.title || extractTitle(item.notes, item.preview);

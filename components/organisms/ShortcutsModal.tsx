@@ -102,33 +102,33 @@ export const ShortcutsModal = memo(function ShortcutsModal({
               <span>Workstation &amp; Navigation</span>
             </div>
             <div className="space-y-1.5 flex-1">
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Command Palette</span>
                 <Kbd>Ctrl + K</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Quick Switch Note / View</span>
                 <Kbd>Ctrl + P</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Zoom In / Out</span>
                 <div className="flex gap-1">
                   <Kbd>Ctrl + =</Kbd>
                   <Kbd>Ctrl + -</Kbd>
                 </div>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Reset Zoom</span>
                 <Kbd>Ctrl + 0</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Undo / Redo</span>
                 <div className="flex gap-1">
                   <Kbd>Ctrl + Z</Kbd>
                   <Kbd>Ctrl + Y</Kbd>
                 </div>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Close Modal / Speech</span>
                 <Kbd>Esc</Kbd>
               </div>
@@ -148,18 +148,18 @@ export const ShortcutsModal = memo(function ShortcutsModal({
               <span>Editor &amp; Markdown</span>
             </div>
             <div className="space-y-1.5 flex-1">
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Bold / Italic</span>
                 <div className="flex gap-1">
                   <Kbd>Ctrl + B</Kbd>
                   <Kbd>Ctrl + I</Kbd>
                 </div>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Strikethrough</span>
                 <Kbd>Ctrl + Shift + X</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Heading 1 / 2 / 3</span>
                 <div className="flex gap-1">
                   <Kbd>Ctrl + 1</Kbd>
@@ -167,37 +167,37 @@ export const ShortcutsModal = memo(function ShortcutsModal({
                   <Kbd>3</Kbd>
                 </div>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Lists (Bullet / Number)</span>
                 <div className="flex gap-1">
                   <Kbd>Ctrl+Shift+8</Kbd>
                   <Kbd>7</Kbd>
                 </div>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Code Block</span>
                 <Kbd>Ctrl + Shift + `</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Blockquote</span>
                 <Kbd>Ctrl + Shift + .</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Insert Link</span>
                 <Kbd>Ctrl + Shift + L</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Horizontal Rule</span>
                 <Kbd>Ctrl + Shift + -</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Find / Replace</span>
                 <div className="flex gap-1">
                   <Kbd>Ctrl + F</Kbd>
                   <Kbd>Ctrl + H</Kbd>
                 </div>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Move Line Up / Down</span>
                 <div className="flex gap-1">
                   <Kbd>Alt + ↑</Kbd>
@@ -223,19 +223,19 @@ export const ShortcutsModal = memo(function ShortcutsModal({
               <span>Active Recall &amp; Study</span>
             </div>
             <div className="space-y-1.5 flex-1">
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Generate Study Recap</span>
                 <Kbd variant="highlight">Ctrl + Enter</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Flip Card / Reveal</span>
                 <Kbd>Space / Enter</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Next / Previous Card</span>
                 <Kbd>← / →</Kbd>
               </div>
-              <div className="flex items-center justify-between py-1 border-b border-app-border/40">
+              <div className="flex items-center justify-between py-1 border-b border-app-border">
                 <span className="text-ink-300">Mark as Mastered</span>
                 <div className="flex gap-1">
                   <Kbd variant="emerald">1</Kbd>

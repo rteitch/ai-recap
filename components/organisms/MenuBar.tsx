@@ -222,7 +222,7 @@ export const MenuBar = memo(function MenuBar(props: MenuBarProps) {
     { id: "settings", label: "Settings" },
   ];
 
-  const dp = "absolute top-full left-0 mt-0.5 min-w-[210px] w-max max-w-[290px] z-[200] bg-app-surface border border-app-border rounded-xl shadow-2xl p-1.5 space-y-px animate-fade-in backdrop-blur-md";
+  const dp = "absolute top-full left-0 mt-0.5 min-w-[210px] w-max max-w-[290px] z-[200] bg-app-surface border border-app-border rounded-lg shadow-lg p-1.5 space-y-px animate-fade-in";
 
   return (
     <div

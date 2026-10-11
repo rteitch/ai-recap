@@ -126,7 +126,7 @@ export const FlashcardDeck = memo(function FlashcardDeck({
         {/* Rating / Prompt on flipped card */}
         {isCardFlipped ? (
           <div
-            className="mt-6 pt-4 border-t border-app-border/60 flex flex-wrap items-center justify-between gap-2.5 no-print"
+            className="mt-6 pt-4 border-t border-app-border flex flex-wrap items-center justify-between gap-2.5 no-print"
             onClick={(e) => e.stopPropagation()}
           >
             <span className="text-xs text-ink-400">Did you recall this?</span>
